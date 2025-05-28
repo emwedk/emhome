@@ -24,6 +24,13 @@
   set_fact:
     zigbee_device_path: "{{ zigbee_device.stdout }}"
 
+- name: Add Zigbee2MQTT Helm repo
+  command: >
+    helm repo add bjw-s https://bjw-s-labs.github.io/helm-charts
+  args:
+    creates: ~/.config/helm/repositories.yaml
+
+
 - name: Upgrade Zigbee2MQTT Helm release with detected USB path
   community.kubernetes.helm:
     name: zigbee2mqtt

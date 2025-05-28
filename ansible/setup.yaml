@@ -1,5 +1,6 @@
 - name: Set up DIY Smarthub Cluster
   hosts: localhost
+  become: yes
   connection: local
   gather_facts: yes
   roles:
