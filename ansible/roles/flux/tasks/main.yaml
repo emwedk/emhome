@@ -26,6 +26,7 @@
     path: /tmp/flux-bin
     state: directory
     mode: '0755'
+    remote_src: yes
 
 - name: Extract Flux binary
   when: "'Flux version' not in flux_check.stdout"
@@ -41,16 +42,18 @@
     src: "/tmp/flux-bin/flux"
     dest: "/usr/local/bin/flux"
     mode: '0755'
+    remote_src: yes
 
 - name: Cleanup temp Flux files
   when: "'Flux version' not in flux_check.stdout"
   file:
     path: "{{ item }}"
     state: absent
+    remote_src: yes
   loop:
     - "/tmp/flux.tar.gz"
     - "/tmp/flux-bin"
-    
+
 - name: Set Zigbee device path fact
   set_fact:
     zigbee_device_path: "{{ zigbee_device.stdout }}"
