@@ -12,3 +12,5 @@ spec:
     name: smarthub-repo
   targetNamespace: smarthub
   timeout: 2m
+  patches:
+    - path: flux-arm64-kustomization-patch.yaml
