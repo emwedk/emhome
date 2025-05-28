@@ -47,7 +47,6 @@
   file:
     path: "{{ item }}"
     state: absent
-    remote_src: yes
   loop:
     - "/tmp/flux.tar.gz"
     - "/tmp/flux-bin"
