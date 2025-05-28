@@ -51,8 +51,15 @@
     - "/tmp/flux.tar.gz"
     - "/tmp/flux-bin"
 
+- name: Check if Flux is already installed
+  command: kubectl get deployment helm-controller -n flux-system
+  register: flux_installed
+  ignore_errors: yes
+  changed_when: false
+
 - name: Install Flux components into the Kubernetes cluster
   command: flux install
+  when: flux_installed.rc != 0
   register: flux_install
   changed_when: "'installing components' in flux_install.stdout"
   failed_when: false
