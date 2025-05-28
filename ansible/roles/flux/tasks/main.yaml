@@ -26,7 +26,6 @@
     path: /tmp/flux-bin
     state: directory
     mode: '0755'
-    remote_src: yes
 
 - name: Extract Flux binary
   when: "'Flux version' not in flux_check.stdout"
