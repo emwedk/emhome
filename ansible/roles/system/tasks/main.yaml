@@ -23,8 +23,3 @@
     name: docker
     enabled: true
     state: started
-
-- name: Install Python Kubernetes client
-  pip:
-    name: kubernetes
-    executable: pip3
