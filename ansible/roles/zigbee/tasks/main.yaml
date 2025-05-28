@@ -10,10 +10,9 @@
   copy:
     src: /etc/rancher/k3s/k3s.yaml
     dest: "/root/.kube/config"
-    mode: '0600'
+    mode: '0755'
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_gid }}"
-  when: ansible_user_id != 'root'
 
 - name: Find Zigbee USB device path
   shell: |
