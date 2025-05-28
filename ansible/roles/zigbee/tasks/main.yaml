@@ -26,7 +26,7 @@
     zigbee_device_path: "{{ zigbee_device.stdout }}"
 
 - name: Upgrade Zigbee2MQTT Helm release with detected USB path
-  community.core.helm:
+  community.kubernetes.helm:
     name: zigbee2mqtt
     chart_ref: koenkk/zigbee2mqtt
     release_namespace: smarthub
