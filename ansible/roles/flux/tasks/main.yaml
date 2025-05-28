@@ -33,7 +33,6 @@
     src: "/tmp/flux.tar.gz"
     dest: "/tmp/flux-bin"
     remote_src: yes
-    extra_opts: [--strip-components=1]
 
 - name: Install Flux to /usr/local/bin
   when: "'Flux version' not in flux_check.stdout"
