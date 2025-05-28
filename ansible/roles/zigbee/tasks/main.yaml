@@ -1,0 +1,45 @@
+- name: Ensure ~/.kube directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.kube"
+    state: directory
+    mode: '0755'
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid }}"
+
+- name: Copy kubeconfig from k3s default to ~/.kube/config
+  copy:
+    src: /etc/rancher/k3s/k3s.yaml
+    dest: "{{ ansible_env.HOME }}/.kube/config"
+    mode: '0600'
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid }}"
+  when: ansible_user_id != 'root'
+
+- name: Find Zigbee USB device path
+  shell: |
+    ls -l /dev/serial/by-id/ | grep 'SMLIGHT_SLZB-07Mg24' | awk '{print $NF}' | sed 's#^#/dev/serial/by-id/#'
+  register: zigbee_device
+  changed_when: false
+
+- name: Set Zigbee device path fact
+  set_fact:
+    zigbee_device_path: "{{ zigbee_device.stdout }}"
+
+- name: Upgrade Zigbee2MQTT Helm release with detected USB path
+  community.kubernetes.helm:
+    name: zigbee2mqtt
+    chart_ref: koenkk/zigbee2mqtt
+    release_namespace: smarthub
+    create_namespace: false
+    update_repo_cache: yes
+    kubeconfig: "{{ ansible_env.HOME }}/.kube/config"
+    values:
+      data:
+        configuration.yaml: |
+          homeassistant: true
+          permit_join: true
+          mqtt:
+            base_topic: zigbee2mqtt
+            server: mqtt://mosquitto:1883
+          serial:
+            port: "{{ zigbee_device_path }}"

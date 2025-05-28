@@ -1,0 +1,15 @@
+auth:
+  enabled: false
+persistence:
+  accessMode: ReadWriteOnce
+  enabled: true
+  mountPath: /mosquitto/data
+  size: 1Gi
+service:
+  nodePorts:
+    auth:
+      enabled: false
+    mqtt: 31883
+    persistence:
+      enabled: true
+  type: NodePort

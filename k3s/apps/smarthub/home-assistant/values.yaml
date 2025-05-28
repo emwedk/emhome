@@ -1,0 +1,23 @@
+controller:
+  strategy: Recreate
+hostNetwork: true
+ingress:
+  className: nginx
+  enabled: true
+  hosts:
+  - host: ha.local
+    paths:
+    - path: /
+      pathType: Prefix
+  tls:
+  - hosts:
+    - ha.local
+    secretName: home-assistant-tls
+mqtt:
+  enabled: true
+  server: mqtt://mosquitto:1883
+persistence:
+  config:
+    accessMode: ReadWriteOnce
+    enabled: true
+    size: 1Gi

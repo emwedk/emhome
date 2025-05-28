@@ -1,0 +1,17 @@
+adminPassword: admin
+adminUser: admin
+ingress:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  enabled: true
+  hosts:
+  - host: grafana.local
+    paths:
+    - path: /
+      pathType: Prefix
+  tls: []
+persistence:
+  enabled: false
+service:
+  port: 80
+  type: ClusterIP
