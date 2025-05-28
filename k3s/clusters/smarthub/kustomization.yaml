@@ -5,11 +5,10 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./clusters/smarthub
+  path: ./k3s/clusters/smarthub
   prune: true
   sourceRef:
     kind: GitRepository
     name: smarthub-repo
   targetNamespace: smarthub
-  - ../../apps/smarthub/zigbee2mqtt
   timeout: 2m
