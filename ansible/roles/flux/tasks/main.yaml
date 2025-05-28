@@ -21,6 +21,12 @@
     url: "https://github.com/fluxcd/flux2/releases/download/v{{ flux_version }}/flux_{{ flux_version }}_linux_{{ flux_arch }}.tar.gz"
     dest: "/tmp/flux.tar.gz"
 
+- name: Ensure /tmp/flux-bin exists
+  file:
+    path: /tmp/flux-bin
+    state: directory
+    mode: '0755'
+
 - name: Extract Flux binary
   when: "'Flux version' not in flux_check.stdout"
   unarchive:
@@ -43,6 +49,8 @@
     state: absent
   loop:
     - "/tmp/flux.tar.gz"
+    - "/tmp/flux-bin"
+    
 - name: Set Zigbee device path fact
   set_fact:
     zigbee_device_path: "{{ zigbee_device.stdout }}"
