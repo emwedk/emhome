@@ -6,4 +6,5 @@
     - system
     - k3s
     - flux
+    - helm
     - zigbee
