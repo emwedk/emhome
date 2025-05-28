@@ -5,6 +5,8 @@
   loop:
     - curl
     - git
+    - tar
+    - unzip
 
 - name: Install Docker
   apk:
