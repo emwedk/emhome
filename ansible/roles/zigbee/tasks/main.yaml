@@ -1,6 +1,6 @@
 - name: Ensure ~/.kube directory exists
   file:
-    path: "{{ ansible_env.HOME }}/.kube"
+    path: "/root/.kube"
     state: directory
     mode: '0755'
     owner: "{{ ansible_user_id }}"
@@ -9,7 +9,7 @@
 - name: Copy kubeconfig from k3s default to ~/.kube/config
   copy:
     src: /etc/rancher/k3s/k3s.yaml
-    dest: "{{ ansible_env.HOME }}/.kube/config"
+    dest: "/root/.kube/config"
     mode: '0600'
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_gid }}"
@@ -32,7 +32,7 @@
     release_namespace: smarthub
     create_namespace: false
     update_repo_cache: yes
-    kubeconfig: "{{ ansible_env.HOME }}/.kube/config"
+    kubeconfig: "/root/.kube/config"
     values:
       data:
         configuration.yaml: |
