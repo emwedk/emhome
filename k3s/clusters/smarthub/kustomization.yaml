@@ -1,11 +1,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: smarthub
+  name: flux-system
   namespace: flux-system
 spec:
-  interval: 5m
-  path: ./apps/smarthub
+  interval: 10m
+  path: ./clusters/smarthub
   prune: true
   sourceRef:
     kind: GitRepository

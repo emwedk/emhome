@@ -51,8 +51,20 @@
     - "/tmp/flux.tar.gz"
     - "/tmp/flux-bin"
 
-- name: Install Flux components into the Kubernetes cluster (ignore readiness failure)
+- name: Install Flux components into the Kubernetes cluster
   command: flux install
   register: flux_install
   changed_when: "'installing components' in flux_install.stdout"
   failed_when: false
+
+- name: Apply Flux GitRepository definition
+  kubernetes.core.k8s:
+    state: present
+    namespace: flux-system
+    src: "{{ playbook_dir }}/../k3s/clusters/smarthub/gitrepository.yaml"
+
+- name: Apply Flux Kustomization definition
+  kubernetes.core.k8s:
+    state: present
+    namespace: flux-system
+    src: "{{ playbook_dir }}/../k3s/clusters/smarthub/kustomization.yaml"

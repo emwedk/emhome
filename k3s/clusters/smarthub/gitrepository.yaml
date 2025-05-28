@@ -5,6 +5,6 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1m
-  url: https://github.com/your-username/smarthub-k8s.git
+  url: https://github.com/emwedk/emhome.git
   ref:
     branch: main
