@@ -6,4 +6,4 @@ data:
       base_topic: zigbee2mqtt
       server: mqtt://mosquitto:1883
     serial:
-      port: {{ zigbee_device_path }}
+      port: usb-SMLIGHT_SMLIGHT_SLZB-07Mg24_fa8db40321adef11b54b924ba8793231-if00-port0

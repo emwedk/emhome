@@ -51,3 +51,8 @@
     - "/tmp/flux.tar.gz"
     - "/tmp/flux-bin"
 
+- name: Install Flux components into the Kubernetes cluster
+  command: flux install
+  register: flux_install
+  changed_when: "'installing components' in flux_install.stdout"
+  failed_when: flux_install.rc != 0
