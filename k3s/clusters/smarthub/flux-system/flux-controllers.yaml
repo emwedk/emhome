@@ -1,0 +1,32 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: flux-controllers
+  namespace: flux-system
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: flux2
+      version: 2.11.1
+      sourceRef:
+        kind: HelmRepository
+        name: fluxcd
+        namespace: flux-system
+  values:
+    helmController:
+      image:
+        repository: ghcr.io/fluxcd/helm-controller
+        tag: v0.38.0
+    kustomizeController:
+      image:
+        repository: ghcr.io/fluxcd/kustomize-controller
+        tag: v1.2.0
+    notificationController:
+      image:
+        repository: ghcr.io/fluxcd/notification-controller
+        tag: v1.1.0
+    sourceController:
+      image:
+        repository: ghcr.io/fluxcd/source-controller
+        tag: v1.2.0
