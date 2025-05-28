@@ -51,8 +51,3 @@
     - "/tmp/flux.tar.gz"
     - "/tmp/flux-bin"
 
-- name: Set Zigbee device path fact
-  set_fact:
-    zigbee_device_path: "{{ zigbee_device.stdout }}"
-
-
