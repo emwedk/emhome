@@ -9,5 +9,5 @@ user:
 smarthome:
   network: smarthome
   host_adapter: "/dev/serial/by-id/usb-SMLIGHT_SMLIGHT_SLZB-07Mg24_fa8db40321adef11b54b924ba8793231-if00-port0"
-  guest_adapter: "/dev/ttyACM0"
+  guest_adapter: "/dev/ttyUSB0"
   
