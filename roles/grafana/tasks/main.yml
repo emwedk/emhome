@@ -3,8 +3,8 @@
   file:
     path: "{{ dir.data }}/grafana"
     state: directory
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
+    owner: "472"
+    group: "472"
     mode: '0755'
 
 - name: Run Grafana container
