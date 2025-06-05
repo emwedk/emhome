@@ -38,7 +38,7 @@
     env:
       TZ: "{{ tz }}"
     devices:
-      - "{{ smarthome.guest_adapter }}:{{ smarthome.guest_adapter }}"
+      - "{{ smarthome.host_adapter }}:{{ smarthome.host_adapter }}"
       # Uncomment and adjust if Bluetooth device is present
       # - "/dev/ttyS0:/dev/ttyS0"
     state: started

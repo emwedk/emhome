@@ -46,6 +46,6 @@
       - "{{ zigbee2mqtt.dir }}:/app/data"
       - "{{ zigbee2mqtt.logdir }}/:/app/data/log"
     devices:
-      - "{{ smarthome.guest_adapter }}:{{ smarthome.guest_adapter }}"
+      - "{{ smarthome.host_adapter }}:{{ smarthome.host_adapter }}"
     env:
       TZ: "{{ tz }}"
