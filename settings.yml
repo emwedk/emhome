@@ -1,5 +1,5 @@
 ---
-TZ: Europe/Copenhagen
+tz: Europe/Copenhagen
 dir:
   data: "/opt"
   log: "/var/log"
