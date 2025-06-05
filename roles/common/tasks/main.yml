@@ -12,6 +12,7 @@
     name:
       - python3
       - python3-dev
+      - py3-requests
       - py3-pip
       - npm
       - git
