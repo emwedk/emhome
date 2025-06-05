@@ -60,7 +60,7 @@
 - name: Creating Mosquitto account and password
   community.docker.docker_container_exec:
     container: mosquitto
-    command: "mosquitto_passwd -b -c {{ mosquitto.dir }}/config/mosquitto.passwd {{ user.name }} {{ user.pass }}"
+    command: "mosquitto_passwd -b -c /mosquitto/config/mosquitto.passwd {{ user.name }} {{ user.pass }}"
 
 - name: Install Zigbee2MQTT if adapter is present
   import_tasks: "subtasks/mqtt_check.yml"
