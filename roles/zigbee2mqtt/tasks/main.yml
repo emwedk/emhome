@@ -34,6 +34,7 @@
     name: "{{ zigbee2mqtt.id }}"
     image: "koenkk/zigbee2mqtt:{{ zigbee2mqtt.version }}"
     state: "started"
+    restart: true
     restart_policy: "unless-stopped"
     groups:
       - "dialout"

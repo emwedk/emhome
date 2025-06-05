@@ -35,9 +35,12 @@
     name: traefik
     image: traefik:v3.4
     state: started
+    restart: true
     restart_policy: unless-stopped
     command:
+      - "--api.dashboard=true"
       - "--api.insecure=true"
+      - "--accesslog=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.file.filename=/dynamic.yml"
@@ -47,6 +50,8 @@
       - "80:80"
       - "443:443"
       - "8080:8080"
+    extra_hosts: 
+      - host.docker.internal:172.17.0.1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "{{ dir.data }}/traefik/dynamic.yml:/dynamic.yml"

@@ -37,6 +37,7 @@
   community.docker.docker_container:
     name: mosquitto
     image: eclipse-mosquitto:latest
+    restart: true
     restart_policy: unless-stopped
     ports:
       - "{{ mosquitto.port }}:1883"
