@@ -1,0 +1,20 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+http:
+  server_port: 8123
+  server_host: 0.0.0.0
+
+logger:
+  default: info
+
+homeassistant:
+  customize: !include customize.yaml
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

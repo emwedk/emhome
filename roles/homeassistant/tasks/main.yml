@@ -12,6 +12,14 @@
     name: "{{ homeassistant.network }}"
     state: "present"
 
+- name: Deploy Home Assistant configuration file
+  template:
+    src: configuration.yaml.j2
+    dest: "{{ homeassistant.dir }}/configuration.yaml"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0644"
+
 - name: Run Home Assistant container
   community.docker.docker_container:
     name: homeassistant
@@ -25,7 +33,7 @@
     env:
       TZ: "{{ tz }}"
     devices:
-      - "{{ smarthome.host_adapter }}:{{ smarthome.host_adapter }}"
+      - "{{ smarthome.guest_adapter }}:{{ smarthome.guest_adapter }}"
       # Uncomment and adjust if Bluetooth device is present
       # - "/dev/ttyS0:/dev/ttyS0"
     state: started
