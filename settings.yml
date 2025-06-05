@@ -1,5 +1,5 @@
 ---
-TZ: {{ tz }}
+TZ: "{{ tz }}"
 dir:
   data: "/opt"
   log: "/var/log"

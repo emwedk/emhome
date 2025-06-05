@@ -20,6 +20,6 @@
       - /var/run/docker.sock:/var/run/docker.sock
       - "{{ dir.data }}/portainer:/data"
     env:
-      TZ: {{ tz }}
+      TZ: "{{ tz }}"
     user: "{{ user.name }}"
     state: started

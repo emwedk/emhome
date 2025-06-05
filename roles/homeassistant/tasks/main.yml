@@ -25,7 +25,7 @@
       - "{{ dir.data }}/homeassistant:/config"
       - /run/dbus:/run/dbus:ro
     env:
-      TZ: {{ tz }}
+      TZ: "{{ tz }}"
     devices:
       - "{{ smarthome.host_adapter }}:{{ smarthome.guest_adapter }}"
       # Uncomment and adjust if Bluetooth device is present

@@ -50,7 +50,7 @@
       - "{{ mosquitto.dir }}/data:/mosquitto/data"
       - "{{ dir.log }}/mosquitto:/mosquitto/log"
     env:
-      TZ: {{ tz }}
+      TZ: "{{ tz }}"
     user: "{{ user.name }}"
     state: started
 

@@ -48,4 +48,4 @@
     devices:
       - "{{ smarthome.host_adapter }}:{{ smarthome.guest_adapter }}"
     env:
-      TZ: {{ tz }}
+      TZ: "{{ tz }}"

@@ -17,6 +17,6 @@
     volumes:
       - "{{ dir.data }}/grafana:/var/lib/grafana"
     env:
-      TZ: {{ tz }}
+      TZ: "{{ tz }}"
     user: "{{ user.name }}"
     state: started

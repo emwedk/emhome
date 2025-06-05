@@ -45,4 +45,4 @@
       - /var/run/docker.sock:/var/run/docker.sock
       - "{{ dir.data }}/traefik/dynamic.yml:/dynamic.yml"
     env:
-      TZ: {{ tz }}
+      TZ: "{{ tz }}"
