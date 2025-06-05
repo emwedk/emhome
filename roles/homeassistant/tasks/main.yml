@@ -22,7 +22,7 @@
     ports:
       - "{{ homeassistant.port }}:8123"
     volumes:
-      - "{{ dir.data }}/homeassistant:/config"
+      - "{{ homeassistant.dir }}:/config"
       - /run/dbus:/run/dbus:ro
     env:
       TZ: "{{ tz }}"

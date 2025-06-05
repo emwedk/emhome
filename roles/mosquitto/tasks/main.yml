@@ -41,6 +41,14 @@
       TZ: "{{ tz }}"
     state: started
 
+- name: Wait for Mosquitto container to be running
+  community.docker.docker_container_info:
+    name: mosquitto
+  register: mosquitto_info
+  until: mosquitto_info.container.State.Status == "running"
+  retries: 10
+  delay: 3
+
 - name: Creating Mosquitto account and password
   community.docker.docker_container_exec:
     container: mosquitto
