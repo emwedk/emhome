@@ -1,6 +1,7 @@
 ---
 - hosts: localhost
   become: true
+  become_method: doas
   vars_files:
     - ['settings.yml']
   roles:
