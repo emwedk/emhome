@@ -23,7 +23,15 @@
     dest: "{{ mosquitto.dir }}/config/mosquitto.conf"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0644"
+    mode: "0755"
+
+- name: Deploy Mosquitto passwd file
+  template:
+    src: mosquitto.passwd.j2
+    dest: "{{ mosquitto.dir }}/config/mosquitto.passwd"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0755"
 
 - name: Run Mosquitto container
   community.docker.docker_container:
