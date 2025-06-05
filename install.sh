@@ -13,4 +13,4 @@ else
 fi
 
 # Run the playbook
-sudo ansible-playbook -i inventory playbook.yml "$@"
+ansible-playbook -i inventory playbook.yml "$@"
