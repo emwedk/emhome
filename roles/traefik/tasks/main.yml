@@ -26,7 +26,7 @@
 - name: Run Traefik container
   community.docker.docker_container:
     name: traefik
-    image: traefik:v3.40
+    image: traefik:v3.4
     state: started
     restart_policy: unless-stopped
     user: "{{ user.name }}"
