@@ -35,7 +35,6 @@
     image: "koenkk/zigbee2mqtt:{{ zigbee2mqtt.version }}"
     state: "started"
     restart_policy: "unless-stopped"
-    user: "{{ user.name }}"
     groups:
       - "dialout"
     networks:
