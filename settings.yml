@@ -1,5 +1,5 @@
 ---
-TZ: "{{ tz }}"
+TZ: Europe/Copenhagen
 dir:
   data: "/opt"
   log: "/var/log"
