@@ -7,7 +7,7 @@ zigbee2mqtt:
   network: "{{ smarthome.network }}"
   port: 8124
   secret:
-    server: mqtt://localhost:1883
+    server: mqtt://mosquitto:1883
     user: "{{ user.name }}"
     password: "{{ user.pass }}"
     client_id: "zigbee2mqtt-{{ user.name }}"
