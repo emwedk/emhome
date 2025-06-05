@@ -1,22 +1,20 @@
 ---
 - name: Stop mosquitto
-  service:
+  docker_container:
     name: mosquitto
     state: stopped
 
 - name: Start mosquitto
-  service:
+  docker_container:
     name: mosquitto
-    enabled: yes
     state: started
 
 - name: Restart mosquitto
-  service:
+  docker_container:
     name: mosquitto
-    enabled: yes
     state: restarted
 
 - name: Reload mosquitto
-  service:
+  docker_container:
     name: mosquitto
     state: reloaded

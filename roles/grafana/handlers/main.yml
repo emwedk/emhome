@@ -1,22 +1,20 @@
 ---
 - name: Stop grafana
-  service:
+  docker_container:
     name: grafana
     state: stopped
 
 - name: Start grafana
-  service:
+  docker_container:
     name: grafana
-    enabled: yes
     state: started
 
 - name: Restart grafana
-  service:
+  docker_container:
     name: grafana
-    enabled: yes
     state: restarted
 
 - name: Reload grafana
-  service:
+  docker_container:
     name: grafana
     state: reloaded
