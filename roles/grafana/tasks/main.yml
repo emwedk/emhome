@@ -1,0 +1,22 @@
+---
+- name: Create role directories
+  file:
+    path: "{{ dir.data }}/grafana"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0755'
+
+- name: Run Grafana container
+  community.docker.docker_container:
+    name: grafana
+    image: grafana/grafana:latest
+    restart_policy: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - "{{ dir.data }}/grafana:/var/lib/grafana"
+    env:
+      TZ: {{ tz }}
+    user: "{{ user.name }}"
+    state: started

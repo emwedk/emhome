@@ -1,0 +1,22 @@
+---
+- name: Stop portainer
+  service:
+    name: portainer
+    state: stopped
+
+- name: Start portainer
+  service:
+    name: portainer
+    enabled: yes
+    state: started
+
+- name: Restart portainer
+  service:
+    name: portainer
+    enabled: yes
+    state: restarted
+
+- name: Reload portainer
+  service:
+    name: portainer
+    state: reloaded

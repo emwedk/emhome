@@ -1,0 +1,22 @@
+---
+- name: Stop homeassistant
+  service:
+    name: homeassistant
+    state: stopped
+
+- name: Start homeassistant
+  service:
+    name: homeassistant
+    enabled: yes
+    state: started
+
+- name: Restart homeassistant
+  service:
+    name: homeassistant
+    enabled: yes
+    state: restarted
+
+- name: Reload homeassistant
+  service:
+    name: homeassistant
+    state: reloaded

@@ -1,0 +1,40 @@
+http:
+  routers:
+    portainer:
+      rule: "Host(`portainer.local`)"
+      service: portainer
+      entryPoints:
+        - web
+    homeassistant:
+      rule: "Host(`homeassistant.local`)"
+      service: homeassistant
+      entryPoints:
+        - web
+    zigbee2mqtt:
+      rule: "Host(`zigbee2mqtt.local`)"
+      service: zigbee2mqtt
+      entryPoints:
+        - web
+    grafana:
+      rule: "Host(`grafana.local`)"
+      service: grafana
+      entryPoints:
+        - web
+
+  services:
+    portainer:
+      loadBalancer:
+        servers:
+          - url: "http://portainer:9000"
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: "http://homeassistant:8123"
+    zigbee2mqtt:
+      loadBalancer:
+        servers:
+          - url: "http://zigbee2mqtt:8124"
+    grafana:
+      loadBalancer:
+        servers:
+          - url: "http://grafana:3000"

@@ -1,0 +1,19 @@
+---
+- name: Install Docker and Docker Compose
+  package:
+    name:
+      - docker
+      - docker-compose
+    state: present
+
+- name: Ensure Docker service is started and enabled (OpenRC)
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Ensure emhome user is in docker group
+  user:
+    name: "{{ user.name }}"
+    groups: docker
+    append: yes

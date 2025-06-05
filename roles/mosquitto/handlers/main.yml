@@ -1,0 +1,22 @@
+---
+- name: Stop mosquitto
+  service:
+    name: mosquitto
+    state: stopped
+
+- name: Start mosquitto
+  service:
+    name: mosquitto
+    enabled: yes
+    state: started
+
+- name: Restart mosquitto
+  service:
+    name: mosquitto
+    enabled: yes
+    state: restarted
+
+- name: Reload mosquitto
+  service:
+    name: mosquitto
+    state: reloaded

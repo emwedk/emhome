@@ -1,0 +1,7 @@
+---
+grafana:
+  id: grafana
+  dir: "{{ dir.data }}/grafana"
+  logdir: "{{ dir.log }}/grafana"
+  network: "{{ smarthome.network }}"
+  port: 8124

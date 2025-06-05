@@ -1,0 +1,34 @@
+- name: Create role directories
+  file:
+    path: "{{ homeassistant.dir }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0755'
+
+- name: "Ensure network exists ({{ homeassistant.network }})"
+  when: homeassistant.network != "host"
+  community.docker.docker_network:
+    name: "{{ homeassistant.network }}"
+    state: "present"
+
+- name: Run Home Assistant container
+  community.docker.docker_container:
+    name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    restart_policy: unless-stopped
+    privileged: true
+    network_mode: host
+    ports:
+      - "{{ homeassistant.port }}:8123"
+    volumes:
+      - "{{ dir.data }}/homeassistant:/config"
+      - /run/dbus:/run/dbus:ro
+    env:
+      TZ: {{ tz }}
+    devices:
+      - "{{ smarthome.host_adapter }}:{{ smarthome.guest_adapter }}"
+      # Uncomment and adjust if Bluetooth device is present
+      # - "/dev/ttyS0:/dev/ttyS0"
+    user: "{{ user.name }}"
+    state: started

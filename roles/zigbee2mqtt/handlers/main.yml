@@ -1,0 +1,22 @@
+---
+- name: Stop zigbee2mqtt
+  service:
+    name: zigbee2mqtt
+    state: stopped
+
+- name: Start zigbee2mqtt
+  service:
+    name: zigbee2mqtt
+    enabled: yes
+    state: started
+
+- name: Restart zigbee2mqtt
+  service:
+    name: zigbee2mqtt
+    enabled: yes
+    state: restarted
+
+- name: Reload zigbee2mqtt
+  service:
+    name: zigbee2mqtt
+    state: reloaded

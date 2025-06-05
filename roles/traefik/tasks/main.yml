@@ -1,0 +1,48 @@
+- name: "Create role directories"
+  file:
+    path: "{{ dir.data }}/traefik"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0755'
+
+- name: Copy Traefik config
+  template:
+    src: dynamic.yml.j2
+    dest: "{{ dir.data }}/traefik/dynamic.yml"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0644'
+
+- name: Set acme.json permissions
+  become: true
+  file:
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    path: "{{ dir.data }}/traefik/acme.json"
+    state: touch
+    mode: 600
+
+- name: Run Traefik container
+  community.docker.docker_container:
+    name: traefik
+    image: traefik:v3.40
+    state: started
+    restart_policy: unless-stopped
+    user: "{{ user.name }}"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.file.filename=/dynamic.yml"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - "{{ dir.data }}/traefik/dynamic.yml:/dynamic.yml"
+    env:
+      TZ: {{ tz }}

@@ -1,0 +1,22 @@
+---
+- name: Stop traefik
+  service:
+    name: traefik
+    state: stopped
+
+- name: Start traefik
+  service:
+    name: traefik
+    enabled: yes
+    state: started
+
+- name: Restart traefik
+  service:
+    name: traefik
+    enabled: yes
+    state: restarted
+
+- name: Reload traefik
+  service:
+    name: traefik
+    state: reloaded

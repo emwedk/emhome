@@ -1,0 +1,51 @@
+---
+- name: "Create role directories"
+  file:
+    path: "{{ zigbee2mqtt.dir }}"
+    state: "directory"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0755"
+
+- name: Deploy Zigbee2MQTT secret file
+  template:
+    src: secret.yaml.j2
+    dest: "{{ zigbee2mqtt.dir }}/secret.yaml"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0644"
+
+- name: Deploy Zigbee2MQTT configuration file
+  template:
+    src: configuration.yaml.j2
+    dest: "{{ zigbee2mqtt.dir }}/configuration.yaml"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0644"
+
+- name: "Ensure network exists ({{ zigbee2mqtt.network }})"
+  when: zigbee2mqtt.network != "host"
+  community.docker.docker_network:
+    name: "{{ zigbee2mqtt.network }}"
+    state: "present"
+
+- name: "Run Zigbee2MQTT container"
+  community.docker.docker_container:
+    name: "{{ zigbee2mqtt.id }}"
+    image: "koenkk/zigbee2mqtt:{{ zigbee2mqtt.version }}"
+    state: "started"
+    restart_policy: "unless-stopped"
+    user: "{{ user.name }}"
+    groups:
+      - "dialout"
+    networks:
+      - name: "{{ zigbee2mqtt.network }}"
+    ports:
+      - "{{ zigbee2mqtt.port }}:8080"
+    volumes:
+      - "{{ zigbee2mqtt.dir }}:/app/data"
+      - "{{ zigbee2mqtt.logdir }}/:/app/data/log"
+    devices:
+      - "{{ smarthome.host_adapter }}:{{ smarthome.guest_adapter }}"
+    env:
+      TZ: {{ tz }}

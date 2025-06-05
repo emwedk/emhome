@@ -1,0 +1,45 @@
+---
+zigbee2mqtt:
+  version: latest
+  id: zigbee2mqtt
+  dir: "{{ dir.data }}/zigbee2mqtt"
+  logdir: "{{ dir.log }}/zigbee2mqtt"
+  network: "{{ smarthome.network }}"
+  port: 8124
+  secret:
+    server: mqtt://localhost:1883
+    user: "{{ user.name }}"
+    password: "{{ user.pass }}"
+    client_id: "zigbee2mqtt-{{ user.name }}"
+
+  config: 
+    homeassistant: true
+    frontend: 
+      enabled: true
+      package: zigbee2mqtt-windfront
+    mqtt:
+      base_topic: zigbee2mqtt
+      server: '!secret.yaml server'
+      user: '!secret.yaml user'
+      password: '!secret.yaml password'
+      client_id: '!secret.yaml client_id'
+      reject_unauthorized: false
+      include_device_information: true
+      keepalive: 60
+      version: 4
+      force_disable_retain: false
+      maximum_packet_size: 1048576
+    advanced:
+      channel: 15
+      log_level: info
+      log_namespaced_levels:
+        z2m:mqtt: warning
+      log_directory: data/log/%TIMESTAMP%
+      log_file: zigbee2mqtt_%TIMESTAMP%.log
+      log_symlink_current: true
+    ota:
+       update_check_interval: 10000
+       disable_automatic_update_check: true
+    serial:
+      adapter: ember
+      port: "{{ smarthome.guest_adapter }}"

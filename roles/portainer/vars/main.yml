@@ -1,0 +1,6 @@
+---
+portainer:
+  id: portainer
+  dir: "{{ dir.data }}/portainer"
+  logdir: "{{ dir.log }}/portainer"
+  network: "{{ smarthome.network }}"

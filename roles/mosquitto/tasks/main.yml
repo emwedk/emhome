@@ -1,0 +1,55 @@
+---
+- name: Create role directories
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0755'
+  loop:
+    - "{{ mosquitto.dir }}/config"
+    - "{{ mosquitto.dir }}/data"
+    - "{{ dir.log }}/mosquitto/"
+
+- name: "Ensure network exists ({{ mosquitto.network }})"
+  when: mosquitto.network != "host"
+  community.docker.docker_network:
+    name: "{{ mosquitto.network }}"
+    state: "present"
+
+- name: Deploy Mosquitto configuration file
+  template:
+    src: mosquitto.conf.j2
+    dest: "{{ mosquitto.dir }}/config/mosquitto.conf"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0644"
+
+- name: Deploy Mosquitto password file with user and password
+  community.general.mosquitto_passwd:
+    path: "{{ mosquitto.dir }}/config/mosquitto.passwd"
+    user: "{{ user.name }}"
+    password: "{{ user.pass }}"
+    state: present
+    encrypt: true
+    hash: pbkdf2
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0640'
+
+- name: Run Mosquitto container
+  community.docker.docker_container:
+    name: mosquitto
+    image: eclipse-mosquitto:latest
+    restart_policy: unless-stopped
+    ports:
+      - "{{ mosquitto.port }}:1883"
+      - "9001:9001"
+    volumes:
+      - "{{ mosquitto.dir }}/config:/mosquitto/config"
+      - "{{ mosquitto.dir }}/data:/mosquitto/data"
+      - "{{ dir.log }}/mosquitto:/mosquitto/log"
+    env:
+      TZ: {{ tz }}
+    user: "{{ user.name }}"
+    state: started

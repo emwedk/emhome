@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  become: true
+  vars_files:
+    - ['settings.yml']
+  roles:
+    - role: common
+    - role: docker
+    - role: traefik
+    - role: portainer
+    - role: grafana
+    - role: homeassistant
+    - role: mosquitto
+    # - role: zigbee2mqtt

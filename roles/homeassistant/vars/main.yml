@@ -1,0 +1,7 @@
+---
+homeassistant:
+  id: homeassistant
+  dir: "{{ dir.data }}/homeassistant"
+  logdir: "{{ dir.log }}/homeassistant"
+  network: "{{ smarthome.network }}"
+  port: 8123
