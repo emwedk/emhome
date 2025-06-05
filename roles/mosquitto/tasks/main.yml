@@ -62,7 +62,7 @@
   community.docker.docker_container_exec:
     container: mosquitto
     command: "mosquitto_passwd -b -c /mosquitto/config/mosquitto.passwd {{ user.name }} {{ user.pass }}"
-  notify: Restart Mosquitto
+  notify: Restart mosquitto
 
 
 - name: Install Zigbee2MQTT if adapter is present
