@@ -1,5 +1,7 @@
 ---
 - name: Allow current user to escalate with doas without password
+  become: true
+  become_method: doas
   ansible.builtin.copy:
     dest: "/etc/doas.d/20-{{ user.name }}.conf"
     content: "permit nopass {{ user.name }} as root\n"
@@ -8,6 +10,8 @@
     mode: '0755'
 
 - name: Ensure dependency packages are installed
+  become: true
+  become_method: doas
   package:
     name:
       - python3
@@ -24,12 +28,16 @@
     state: present
 
 - name: Create common groups
+  become: true
+  become_method: doas
   group: "name={{ item }} state=present"
   with_items:
     - docker
     - "{{ user.name }}"
 
 - name: "Create user '{{ user.name }}'"
+  become: true
+  become_method: doas
   user:
     name: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -37,6 +45,8 @@
     append: yes
 
 - name: "Ensure directory for container installations exists with proper permissions"
+  become: true
+  become_method: doas
   file:
     path: "{{ dir.data }}"
     state: directory
@@ -45,6 +55,8 @@
     mode: '0755'
 
 - name: Check for Bluetooth device (optional)
+  become: true
+  become_method: doas
   shell: "hciconfig | grep -q hci0"
   register: bt_check
   ignore_errors: true
