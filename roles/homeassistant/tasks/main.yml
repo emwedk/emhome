@@ -30,5 +30,4 @@
       - "{{ smarthome.host_adapter }}:{{ smarthome.guest_adapter }}"
       # Uncomment and adjust if Bluetooth device is present
       # - "/dev/ttyS0:/dev/ttyS0"
-    user: "{{ user.name }}"
     state: started

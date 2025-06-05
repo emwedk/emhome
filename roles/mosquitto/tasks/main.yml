@@ -39,7 +39,6 @@
       - "{{ dir.log }}/mosquitto:/mosquitto/log"
     env:
       TZ: "{{ tz }}"
-    user: "{{ user.name }}"
     state: started
 
 - name: Creating Mosquitto account and password

@@ -18,5 +18,4 @@
       - "{{ dir.data }}/grafana:/var/lib/grafana"
     env:
       TZ: "{{ tz }}"
-    user: "{{ user.name }}"
     state: started
