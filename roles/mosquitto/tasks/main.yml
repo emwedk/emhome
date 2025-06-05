@@ -39,6 +39,8 @@
     image: eclipse-mosquitto:latest
     restart: true
     restart_policy: unless-stopped
+    networks:
+      - name: "{{ mosquitto.network }}"
     ports:
       - "{{ mosquitto.port }}:1883"
       - "9001:9001"
