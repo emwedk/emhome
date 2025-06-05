@@ -42,4 +42,4 @@ zigbee2mqtt:
        disable_automatic_update_check: true
     serial:
       adapter: ember
-      port: "{{ smarthome.guest_adapter }}"
+      port: "{{ smarthome.host_adapter }}"
