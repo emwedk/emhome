@@ -51,7 +51,7 @@
       - "443:443"
       - "8080:8080"
     etc_hosts:
-      - host.docker.internal: 172.17.0.1
+      host.docker.internal: 172.17.0.1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "{{ dir.data }}/traefik/dynamic.yml:/dynamic.yml"
