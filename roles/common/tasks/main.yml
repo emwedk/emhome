@@ -30,20 +30,6 @@
     group: "{{ user.name }}"
     mode: '0755'
 
-- name: Check for Zigbee USB device
-  stat:
-    path: "{{ smarthome.host_adapter }}"
-  register: adapter_check
-  when:
-    - smarthome.host_adapter is defined
-    - smarthome.host_adapter | length > 0
-
-- name: Include zigbee2mqtt role if Zigbee USB device is present and variable is set
-  include_role:
-    name: zigbee2mqtt
-  when:
-    - adapter_check.stat.exists | default(false)
-
 - name: Check for Bluetooth device (optional)
   shell: "hciconfig | grep -q hci0"
   register: bt_check

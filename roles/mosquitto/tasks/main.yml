@@ -53,3 +53,6 @@
       TZ: {{ tz }}
     user: "{{ user.name }}"
     state: started
+
+- name: Install Zigbee2MQTT if adapter is present
+  import_tasks: "subtasks/mqtt_check.yml"
