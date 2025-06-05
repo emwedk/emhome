@@ -43,3 +43,4 @@ zigbee2mqtt:
     serial:
       adapter: ember
       port: "{{ smarthome.guest_adapter }}"
+      rtscts: true
