@@ -1,4 +1,12 @@
 ---
+- name: Allow current user to escalate with doas without password
+  ansible.builtin.copy:
+    dest: "/etc/doas.d/20-{{ user.name }}.conf"
+    content: "permit nopass {{ user.name }} as root\n"
+    owner: root
+    group: root
+    mode: '0755'
+
 - name: Ensure dependency packages are installed
   package:
     name:
