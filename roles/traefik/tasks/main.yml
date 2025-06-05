@@ -8,6 +8,14 @@
 
 - name: Copy Traefik config
   template:
+    src: traefik.yml.j2
+    dest: "{{ dir.data }}/traefik/traefik.yml"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0644'
+
+- name: Copy Traefik dynamic config
+  template:
     src: dynamic.yml.j2
     dest: "{{ dir.data }}/traefik/dynamic.yml"
     owner: "{{ user.name }}"

@@ -2,6 +2,15 @@
 default_config:
 
 http:
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 192.168.1.0/24 # Local LAN Subnet
+    - 172.18.0.0/24 # Docker Subnet
+    - 127.0.0.1
+    - ::1
+    - fe80::/64
   server_port: 8123
   server_host: 0.0.0.0
 
