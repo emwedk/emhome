@@ -15,7 +15,6 @@
     mode: '0644'
 
 - name: Set acme.json permissions
-  become: true
   file:
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -29,7 +28,6 @@
     image: traefik:v3.4
     state: started
     restart_policy: unless-stopped
-    user: "{{ user.name }}"
     command:
       - "--api.insecure=true"
       - "--providers.docker=true"
