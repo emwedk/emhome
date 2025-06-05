@@ -2,6 +2,7 @@
 - hosts: localhost
   become: true
   become_method: doas
+  become_user: emhome
   vars_files:
     - ['settings.yml']
   roles:

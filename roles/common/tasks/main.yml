@@ -15,10 +15,17 @@
       - unzip
     state: present
 
-- name: Ensure user is in docker, dialout, and bluetooth groups
+- name: Create common groups
+  group: "name={{ item }} state=present"
+  with_items:
+    - docker
+    - "{{ user.name }}"
+
+- name: "Create user '{{ user.name }}'"
   user:
     name: "{{ user.name }}"
-    groups: docker,dialout,bluetooth
+    group: "{{ user.name }}"
+    groups: "{{ user.name }},sudo,doas,docker,dialout,bluetooth"
     append: yes
 
 - name: "Ensure directory for container installations exists with proper permissions"
