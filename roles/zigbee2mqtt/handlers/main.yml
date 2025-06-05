@@ -12,9 +12,5 @@
 - name: Restart zigbee2mqtt
   docker_container:
     name: zigbee2mqtt
-    state: restarted
-
-- name: Reload zigbee2mqtt
-  docker_container:
-    name: zigbee2mqtt
-    state: reloaded
+    state: started
+    restart: true

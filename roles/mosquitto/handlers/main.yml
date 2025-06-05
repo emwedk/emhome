@@ -12,9 +12,5 @@
 - name: Restart mosquitto
   docker_container:
     name: mosquitto
-    state: restarted
-
-- name: Reload mosquitto
-  docker_container:
-    name: mosquitto
-    state: reloaded
+    state: started
+    restart: true

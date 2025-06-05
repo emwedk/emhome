@@ -12,9 +12,5 @@
 - name: Restart homeassistant
   docker_container:
     name: homeassistant
-    state: restarted
-
-- name: Reload homeassistant
-  docker_container:
-    name: homeassistant
-    state: reloaded
+    state: started
+    restart: true

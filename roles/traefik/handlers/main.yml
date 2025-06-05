@@ -12,9 +12,5 @@
 - name: Restart traefik
   docker_container:
     name: traefik
-    state: restarted
-
-- name: Reload traefik
-  docker_container:
-    name: traefik
-    state: reloaded
+    state: started
+    restart: true

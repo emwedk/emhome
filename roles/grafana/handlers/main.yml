@@ -12,9 +12,5 @@
 - name: Restart grafana
   docker_container:
     name: grafana
-    state: restarted
-
-- name: Reload grafana
-  docker_container:
-    name: grafana
-    state: reloaded
+    state: started
+    restart: true

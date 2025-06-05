@@ -12,9 +12,5 @@
 - name: Restart portainer
   docker_container:
     name: portainer
-    state: restarted
-
-- name: Reload portainer
-  docker_container:
-    name: portainer
-    state: reloaded
+    state: started
+    restart: true
