@@ -28,8 +28,6 @@
     restart_policy: unless-stopped
     privileged: true
     network_mode: host
-    networks:
-      - name: "{{ homeassistant.network }}"
     expose:
       - 8123
     ports:
