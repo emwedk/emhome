@@ -33,7 +33,7 @@
   user:
     name: "{{ user.name }}"
     group: "{{ user.name }}"
-    groups: "{{ user.name }},sudo,doas,docker,dialout,bluetooth"
+    groups: "{{ user.name }},sudo,docker,dialout,bluetooth"
     append: yes
 
 - name: "Ensure directory for container installations exists with proper permissions"
