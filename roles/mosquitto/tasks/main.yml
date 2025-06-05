@@ -25,18 +25,6 @@
     group: "{{ user.name }}"
     mode: "0644"
 
-- name: Deploy Mosquitto password file with user and password
-  community.general.mosquitto_passwd:
-    path: "{{ mosquitto.dir }}/config/mosquitto.passwd"
-    user: "{{ user.name }}"
-    password: "{{ user.pass }}"
-    state: present
-    encrypt: true
-    hash: pbkdf2
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: '0640'
-
 - name: Run Mosquitto container
   community.docker.docker_container:
     name: mosquitto
@@ -53,6 +41,11 @@
       TZ: "{{ tz }}"
     user: "{{ user.name }}"
     state: started
+
+- name: Creating Mosquitto account and password
+  community.docker.docker_container_exec:
+    container: mosquitto
+    command: "mosquitto_passwd -b -c /config/mosquitto.passwd {{ user.name }} {{ user.pass }}"
 
 - name: Install Zigbee2MQTT if adapter is present
   import_tasks: "subtasks/mqtt_check.yml"
