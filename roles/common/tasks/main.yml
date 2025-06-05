@@ -27,6 +27,9 @@
   group: "name={{ item }} state=present"
   with_items:
     - docker
+    - sudo
+    - dialout
+    - bluetooth
     - "{{ user.name }}"
 
 - name: "Create user '{{ user.name }}'"
