@@ -3,11 +3,11 @@ default_config:
 
 http:
   ip_ban_enabled: true
-  login_attempts_threshold: 5
+  login_attempts_threshold: 12
   use_x_forwarded_for: true
   trusted_proxies:
     - 192.168.0.180
-    - 192.168.1.0/24 # Local LAN Subnet
+    - 192.168.0.0/255 # Local LAN Subnet
     - 172.18.0.0/24 # Docker Subnet
     - 172.17.0.0/24
     - 127.0.0.1
