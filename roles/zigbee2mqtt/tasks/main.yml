@@ -53,7 +53,7 @@
       TZ: $TZ
     labels:
       traefik.enable: "true"
-      traefik.docker.network: "{{ zigbee2mqtt.network }}"
+      # traefik.docker.network: "{{ zigbee2mqtt.network }}"
       traefik.http.routers.zigbee2mqtt.entrypoints: "web"
       traefik.http.routers.zigbee2mqtt.service: "zigbee2mqtt"
       traefik.http.routers.zigbee2mqtt.rule: "Host(`zigbee2mqtt.local`)"

@@ -59,9 +59,9 @@
     # dns_servers:
     #   - 8.8.8.8
     #   - 1.1.1.1
-    networks:
-      - name: "proxy"
-      - name: "{{ homeassistant.network }}"
+    # networks:
+    #   - name: "proxy"
+    #   - name: "{{ homeassistant.network }}"
     volumes:
       - /run/dbus:/run/dbus:ro
       # - /etc/resolv.conf:/etc/resolv.conf

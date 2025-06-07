@@ -64,8 +64,8 @@
       - "--providers.file.watch=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-    networks:
-      - name: proxy
+    # networks:
+    #   - name: proxy
     ports:
       - "80:80"
       - "8080:8080"

@@ -55,7 +55,7 @@
       TZ: $TZ
     labels:
       traefik.enable: "true"
-      traefik.docker.network: "{{ mosquitto.network }}"
+      # traefik.docker.network: "{{ mosquitto.network }}"
       traefik.http.routers.mosquitto.entrypoints: "web"
       traefik.http.routers.mosquitto.service: "mosquitto"
       traefik.http.routers.mosquitto.rule: "Host(`mosquitto.local`)"
