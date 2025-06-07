@@ -47,12 +47,6 @@
     name: "{{ homeassistant.network }}"
     state: "present"
 
-- name: Remove any Homeassistant containers
-  community.docker.docker_container:
-    name: homeassistant
-    state: absent
-  ignore_errors: true
-
 - name: Run Home Assistant container
   community.docker.docker_container:
     name: homeassistant
