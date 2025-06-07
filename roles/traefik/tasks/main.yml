@@ -24,7 +24,7 @@
 
 - name: "Create acme directory"
   file:
-    path: "{{ dir.data }}/traefik/acme"
+    path: "{{ dir.data }}/acme"
     state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -32,7 +32,7 @@
 
 - name: Set acme.json permissions
   copy:
-    dest: "{{ dir.data }}/traefik/acme/acme.json"
+    dest: "{{ dir.data }}/acme/acme.json"
     content: ""
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -53,7 +53,7 @@
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
-      - "--providers.file.filename=/etc/traefik/dynamic.yml"
+      - "--providers.file.filename=/dynamic.yml"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
     ports:
@@ -64,6 +64,6 @@
       host.docker.internal: 172.17.0.1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - "{{ dir.data }}/traefik:/etc/traefik"
+      - "{{ dir.data }}/traefik:/"
     env:
       TZ: "{{ tz }}"
