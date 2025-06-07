@@ -7,7 +7,7 @@ http:
       entryPoints:
         - web
     homeassistant:
-      rule: "Host(`homeassistant.local`) || Host(`127.0.0.1`) || Host(`192.168.0.180`)"
+      rule: "Host(`homeassistant.local`) || Host(`localhost`) || Host(`192.168.0.180`)"
       service: homeassistant
       entryPoints:
         - web
