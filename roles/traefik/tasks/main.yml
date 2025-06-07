@@ -43,7 +43,6 @@
   community.docker.docker_network:
     name: "proxy"
     state: "present"
-    driver: bridge
 
 - name: Run Traefik container
   become: true
@@ -85,6 +84,7 @@
         traefik.http.routers.traefik.service: "api@internal"
 
     volumes:
+      - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock
       # - "{{ dir.data }}/traefik/traefik.yml:/etc/traefik/traefik.yml"
       - "{{ dir.data }}/traefik/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
