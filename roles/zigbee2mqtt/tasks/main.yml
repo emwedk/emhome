@@ -41,7 +41,7 @@
     networks:
       - name: "{{ zigbee2mqtt.network }}"
     ports:
-      - "{{ zigbee2mqtt.port }}:8080"
+      - "{{ zigbee2mqtt.port }}:8081"
     volumes:
       - "{{ zigbee2mqtt.dir }}:/app/data"
       - "{{ zigbee2mqtt.logdir }}/:/app/data/log"

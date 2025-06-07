@@ -38,6 +38,7 @@
     state: started
     restart: true
     restart_policy: unless-stopped
+    network_mode: host
     command:
       - "--api.dashboard=true"
       - "--api.insecure=true"

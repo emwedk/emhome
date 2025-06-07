@@ -16,7 +16,7 @@ zigbee2mqtt:
     homeassistant: true
     frontend: 
       enabled: true
-      port: 8080
+      port: 8081
       package: zigbee2mqtt-windfront
     mqtt:
       base_topic: zigbee2mqtt
