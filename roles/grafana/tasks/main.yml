@@ -25,9 +25,9 @@
       TZ: $TZ
     state: started
     labels:
-      traefik.enable: true
-      traefik.docker.network: proxy
-      traefik.http.routers.grafana.entrypoints: web
-      traefik.http.routers.traefik.service: grafana
-      traefik.http.routers.grafana.rule: Host(`grafana.local`)
-      traefik.http.services.grafana.loadbalancer.server.port: 3000
+      traefik.enable: "true"
+      traefik.docker.network: "proxy"
+      traefik.http.routers.grafana.entrypoints: "web"
+      traefik.http.routers.traefik.service: "grafana"
+      traefik.http.routers.grafana.rule: "Host(`grafana.local`)"
+      traefik.http.services.grafana.loadbalancer.server.port: "3000"
