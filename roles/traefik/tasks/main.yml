@@ -43,6 +43,7 @@
   community.docker.docker_network:
     name: "proxy"
     state: "present"
+    driver: bridge
 
 - name: Run Traefik container
   become: true
