@@ -64,6 +64,7 @@
       - name: "{{ homeassistant.network }}"
     volumes:
       - /run/dbus:/run/dbus:ro
+      - /etc/resolv.conf:/etc/resolv.conf
       # - /etc/localtime:/etc/localtime:ro
       - "{{ homeassistant.dir }}:/config"
     env:
