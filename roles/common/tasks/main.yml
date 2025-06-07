@@ -23,6 +23,7 @@
       - tar
       - unzip
       - iptables
+      - iptables-save
     state: present
 
 - name: Create common groups
