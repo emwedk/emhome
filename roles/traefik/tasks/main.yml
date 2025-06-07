@@ -6,6 +6,14 @@
     group: "{{ user.name }}"
     mode: '0755'
 
+- name: "Create role directories"
+  file:
+    path: "{{ dir.data }}/traefik/letsencrypt"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0755'
+
 - name: Copy Traefik config
   template:
     src: traefik.yml.j2
