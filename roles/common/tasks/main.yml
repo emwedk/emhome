@@ -23,7 +23,6 @@
       - tar
       - unzip
       - iptables
-      - iptables-save
     state: present
 
 - name: Create common groups
@@ -107,3 +106,9 @@
   command: iptables-save > /etc/iptables/rules.v4
   args:
     creates: /etc/iptables/rules.v4
+
+# - name: Enable iptables service to load rules at boot (Alpine)
+#   become: true
+#   shell: rc-update add iptables default
+#   args:
+#     creates: /etc/init.d/iptables
