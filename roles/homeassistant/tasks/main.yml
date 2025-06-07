@@ -82,7 +82,7 @@
     labels:
       traefik.enable: "true"
       traefik.docker.network: "proxy"
-      traefik.http.routers.traefik.entrypoints: "web"
-      traefik.http.routers.traefik.service: "homeassistant"
-      traefik.http.routers.traefik.rule: "Host(`192.168.0.180`)"
-      traefik.http.services.traefik.loadbalancer.server.port: "{{ homeassistant.port }}"
+      traefik.http.routers.homeassistant.entrypoints: "web"
+      traefik.http.routers.homeassistant.service: "traefik"
+      traefik.http.routers.homeassistant.rule: "Host(`192.168.0.180`)"
+      traefik.http.services.homeassistant.loadbalancer.server.port: "{{ homeassistant.port }}"
