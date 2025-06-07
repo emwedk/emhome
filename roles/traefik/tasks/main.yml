@@ -68,7 +68,9 @@
       - name: proxy
       - name: "{{ smarthome.network }}"
     ports:
+      - "80:80"
       - "8080:8080"
+      - "443:443"
     etc_hosts:
       # host.docker.internal: host-gateway
       host.docker.internal: 172.17.0.1
