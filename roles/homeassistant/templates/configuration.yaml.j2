@@ -1,7 +1,3 @@
-#################################################################
-## Home Assistant Core
-#################################################################
-
 homeassistant:
   customize: !include customize.yaml
   internal_url: "http://localhost:8123"
@@ -14,6 +10,7 @@ http:
   login_attempts_threshold: 12
   use_x_forwarded_for: true
   trusted_proxies:
+    - localhost
     - 127.0.0.1
     - ::1
     - 172.18.0.0/24 # Docker Subnet
@@ -28,15 +25,6 @@ logger:
 frontend:
   themes: !include_dir_merge_named themes
 
-#################################################################
-## Components
-#################################################################
-
-
-
-#################################################################
-## Includes
-#################################################################
 
 automation: !include automations.yaml
 group: !include groups.yaml

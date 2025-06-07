@@ -7,7 +7,7 @@ http:
       entryPoints:
         - web
     homeassistant:
-      rule: "PathPrefix(`/`)"
+      rule: "Host(`homeassistant.local`) || Host(`192.168.0.180`)"
       service: homeassistant
       entryPoints:
         - web
