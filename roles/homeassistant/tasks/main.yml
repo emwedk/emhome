@@ -23,7 +23,7 @@
 - name: Run Home Assistant container
   community.docker.docker_container:
     name: homeassistant
-    image: ghcr.io/home-assistant/home-assistant:stable
+    image: ghcr.io/home-assistant/home-assistant:latest
     restart: true
     restart_policy: unless-stopped
     privileged: true
@@ -33,10 +33,15 @@
     ports:
       - "8123:8123"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - "{{ homeassistant.dir }}:/config"
       - /run/dbus:/run/dbus:ro
     env:
       TZ: "{{ tz }}"
+    capabilities:
+      - NET_ADMIN
+      - NET_BIND_SERVICE
+      - SYS_ADMIN
     devices:
       - "{{ smarthome.host_adapter }}:{{ smarthome.host_adapter }}"
       # Uncomment and adjust if Bluetooth device is present

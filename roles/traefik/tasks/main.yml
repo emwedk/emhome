@@ -22,38 +22,47 @@
     group: "{{ user.name }}"
     mode: '0644'
 
+- name: "Create acme directory"
+  file:
+    path: "{{ dir.data }}/traefik/acme"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0755'
+
 - name: Set acme.json permissions
   file:
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    path: "{{ dir.data }}/traefik/acme.json"
+    path: "{{ dir.data }}/traefik/acme/acme.json"
     state: touch
-    mode: 600
+    mode: '0644'
 
 - name: Run Traefik container
   community.docker.docker_container:
     name: traefik
-    image: traefik:v3.4
+    image: traefik:latest
     state: started
     restart: true
     restart_policy: unless-stopped
+    network_mode: "host"
     command:
       - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--accesslog=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--providers.file.filename=/dynamic.yml"
+      - "--providers.file.filename=/traefik/dynamic.yml"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
-    etc_hosts:
-      host.docker.internal: 172.17.0.1
+    # ports:
+    #   - "80:80"
+    #   - "443:443"
+    #   - "8080:8080"
+    # etc_hosts:
+    #   host.docker.internal: 172.17.0.1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - "{{ dir.data }}/traefik/dynamic.yml:/dynamic.yml"
+      - "{{ dir.data }}/traefik/:/etc/traefik"
     env:
       TZ: "{{ tz }}"
