@@ -56,7 +56,6 @@
       - "--entrypoints.websecure.address=:443"
     networks:
       - name: "{{ traefik.network }}"
-      - name: "host"
     ports:
       - "80:80"
       - "443:443"
