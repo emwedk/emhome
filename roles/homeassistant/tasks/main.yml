@@ -56,11 +56,6 @@
     restart_policy: unless-stopped
     privileged: true
     # network_mode: host
-    network_mode: bridge
-    # expose:
-    #   - "{{ homeassistant.port }}"
-    # ports:
-    #   - "{{ homeassistant.port }}:8123"
     networks:
       - name: "proxy"
       - name: "{{ homeassistant.network }}"
@@ -84,7 +79,6 @@
       traefik.enable: "true"
       traefik.docker.network: "proxy"
       traefik.http.routers.homeassistant.entrypoints: "web"
-      # traefik.http.routers.homeassistant.service: "homeassistant"
+      traefik.http.routers.homeassistant.service: "homeassistant"
       traefik.http.routers.homeassistant.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
-      traefik.http.services.homeassistant.loadbalancer.server.port: "8123"
-      # traefik.http.services.homeassistant.loadbalancer.server.port: "{{ homeassistant.port }}"
+      traefik.http.services.homeassistant.loadbalancer.server.port: "{{ homeassistant.port }}"
