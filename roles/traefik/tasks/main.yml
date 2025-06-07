@@ -23,12 +23,13 @@
     mode: '0755'
 
 - name: Set acme.json permissions
-  file:
+  copy:
+    dest: "{{ dir.data }}/traefik/acme/acme.json"
+    content: ""
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    path: "{{ dir.data }}/traefik/acme/acme.json"
-    state: touch
-    mode: '0644'
+    mode: "0644"
+    force: no
 
 - name: Run Traefik container
   community.docker.docker_container:

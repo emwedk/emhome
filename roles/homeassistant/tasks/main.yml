@@ -6,12 +6,6 @@
     group: "{{ user.name }}"
     mode: '0755'
 
-- name: "Ensure network exists ({{ homeassistant.network }})"
-  when: homeassistant.network != "host"
-  community.docker.docker_network:
-    name: "{{ homeassistant.network }}"
-    state: "present"
-
 - name: Deploy Home Assistant configuration file
   template:
     src: configuration.yaml.j2
@@ -19,6 +13,40 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0644"
+
+- name: Ensure Home Assistant include folders exist
+  file:
+    path: "{{ homeassistant.dir }}/{{ item }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0755'
+  loop:
+    - automations
+    - themes
+
+- name: Ensure Home Assistant include files exist
+  copy:
+    dest: "{{ homeassistant.dir }}/{{ item }}"
+    content: ""
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0644"
+    force: no
+  loop:
+    - automations.yaml
+    - customize.yaml
+    - groups.yaml
+    - scripts.yaml
+    - scenes.yaml
+    - template.yaml
+    
+
+- name: "Ensure network exists ({{ homeassistant.network }})"
+  when: homeassistant.network != "host"
+  community.docker.docker_network:
+    name: "{{ homeassistant.network }}"
+    state: "present"
 
 - name: Run Home Assistant container
   community.docker.docker_container:
@@ -33,10 +61,15 @@
     ports:
       - "8123:8123"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - "{{ homeassistant.dir }}:/config"
       - /run/dbus:/run/dbus:ro
     env:
       TZ: "{{ tz }}"
+    capabilities:
+      - NET_ADMIN
+      - NET_BIND_SERVICE
+      - SYS_ADMIN
     devices:
       - "{{ smarthome.host_adapter }}:{{ smarthome.host_adapter }}"
       # Uncomment and adjust if Bluetooth device is present
