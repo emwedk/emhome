@@ -31,6 +31,13 @@
     mode: "0600"
     force: no
 
+# Optional: Ensure no other Traefik container is running (idempotency)
+- name: Remove any Traefik containers
+  community.docker.docker_container:
+    name: traefik
+    state: absent
+  ignore_errors: true
+
 - name: Run Traefik container
   community.docker.docker_container:
     name: traefik
