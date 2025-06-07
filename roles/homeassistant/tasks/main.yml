@@ -84,5 +84,5 @@
       traefik.docker.network: "proxy"
       traefik.http.routers.homeassistant.entrypoints: "web"
       traefik.http.routers.homeassistant.service: "homeassistant"
-      traefik.http.routers.homeassistant.rule: "Host(`192.168.0.180`)"
+      traefik.http.routers.homeassistant.rule: "PathPrefix(`/`)"
       traefik.http.services.homeassistant.loadbalancer.server.port: "{{ homeassistant.port }}"
