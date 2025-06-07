@@ -57,7 +57,7 @@
       traefik.enable: "true"
       traefik.docker.network: "{{ mosquitto.network }}"
       traefik.http.routers.mosquitto.entrypoints: "web"
-      traefik.http.routers.traefik.service: "mosquitto"
+      traefik.http.routers.mosquitto.service: "mosquitto"
       traefik.http.routers.mosquitto.rule: "Host(`mosquitto.local`)"
       traefik.http.services.mosquitto.loadbalancer.server.port: "{{ mosquitto.port }}"
 

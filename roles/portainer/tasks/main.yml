@@ -31,6 +31,6 @@
       traefik.enable: "true"
       traefik.docker.network: "proxy"
       traefik.http.routers.portainer.entrypoints: "web"
-      traefik.http.routers.traefik.service: "portainer"
+      traefik.http.routers.portainer.service: "portainer"
       traefik.http.routers.portainer.rule: "Host(`portainer.local`)"
       traefik.http.services.portainer.loadbalancer.server.port: "9000"
