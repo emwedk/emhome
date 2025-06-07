@@ -69,4 +69,3 @@
 
 - name: Install Zigbee2MQTT if adapter is present
   import_tasks: "subtasks/mqtt_check.yml"
-  notify: Restart mosquitto

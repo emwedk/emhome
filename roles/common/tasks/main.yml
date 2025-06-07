@@ -56,19 +56,3 @@
   debug:
     msg: "Bluetooth device not found. Bluetooth features will be unavailable."
   when: bt_check.rc != 0
-
-- name: Check if .passwd file exists in the base directory
-  stat:
-    path: "/home/{{ user.name }}/.passwd"
-  register: passwd_file
-
-- name: Read .passwd file if it exists and is not empty
-  slurp:
-    src: "/home/{{ user.name }}/.passwd"
-  register: passwd_content
-  when: passwd_file.stat.exists and passwd_file.stat.size > 0
-
-- name: Set user.pass to contents of .passwd if file exists and is not empty
-  set_fact:
-    user: "{{ user | combine({'pass': (passwd_content.content | b64decode | trim)}) }}"
-  when: passwd_file.stat.exists and passwd_file.stat.size > 0
