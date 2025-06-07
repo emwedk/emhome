@@ -10,11 +10,14 @@ http:
   login_attempts_threshold: 12
   use_x_forwarded_for: true
   trusted_proxies:
-    - localhost
+    - 192.168.0.180
+    - 192.168.0.0/24
+    - 0.0.0.0
     - 127.0.0.1
     - ::1
     - 172.18.0.0/24 # Docker Subnet
     - 172.17.0.0/24
+    - fe80::/64
   server_port: 8123
   server_host: 0.0.0.0
 
