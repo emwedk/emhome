@@ -28,7 +28,7 @@
     content: ""
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0644"
+    mode: "0600"
     force: no
 
 - name: Run Traefik container
@@ -49,10 +49,10 @@
       - "--providers.file.filename=/etc/traefik/dynamic.yml"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
+    # ports:
+    #   - "80:80"
+    #   - "443:443"
+    #   - "8080:8080"
     etc_hosts:
       host.docker.internal: 172.17.0.1
     volumes:

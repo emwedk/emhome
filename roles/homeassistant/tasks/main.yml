@@ -61,9 +61,9 @@
     ports:
       - "8123:8123"
     volumes:
+      - /run/dbus:/run/dbus:ro
       - /etc/localtime:/etc/localtime:ro
       - "{{ homeassistant.dir }}:/config"
-      - /run/dbus:/run/dbus:ro
     env:
       TZ: "{{ tz }}"
     capabilities:
