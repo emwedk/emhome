@@ -24,7 +24,7 @@
 
 - name: "Create acme directory"
   file:
-    path: "{{ dir.data }}/acme"
+    path: "{{ dir.data }}/traefik/acme"
     state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -32,7 +32,7 @@
 
 - name: Set acme.json permissions
   copy:
-    dest: "{{ dir.data }}/acme/acme.json"
+    dest: "{{ dir.data }}/traefik/acme/acme.json"
     content: ""
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
