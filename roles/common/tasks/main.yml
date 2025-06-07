@@ -101,14 +101,12 @@
     state: present
     comment: "Allow Traefik dashboard or alternate HTTP traffic"
 
-- name: Save iptables rules (persist across reboots)
-  become: true
-  command: iptables-save > /etc/iptables/rules.v4
+- name: Save iptables rules
+  shell: iptables-save > /etc/iptables/rules.v4
   args:
     creates: /etc/iptables/rules.v4
 
 # - name: Enable iptables service to load rules at boot (Alpine)
-#   become: true
 #   shell: rc-update add iptables default
 #   args:
 #     creates: /etc/init.d/iptables
