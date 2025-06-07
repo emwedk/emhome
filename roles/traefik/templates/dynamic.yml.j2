@@ -7,7 +7,7 @@ http:
       entryPoints:
         - web
     homeassistant:
-      rule: "Host(`homeassistant.local`) || Host(`localhost`)"
+      rule: "Host(`homeassistant.local`) || Host(`localhost`)  || Host(`192.168.0.180`)"
       service: homeassistant
       entryPoints:
         - web
@@ -32,7 +32,7 @@ http:
     homeassistant:
       loadBalancer:
         servers:
-          - url: "http://localhost:80"
+          - url: "http://localhost:8123"
     zigbee2mqtt:
       loadBalancer:
         servers:

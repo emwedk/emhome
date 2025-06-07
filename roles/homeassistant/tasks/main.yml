@@ -56,10 +56,10 @@
     restart_policy: unless-stopped
     privileged: true
     network_mode: host
-    # expose:
-    #   - 8123
-    # ports:
-    #   - "8123:8123"
+    expose:
+      - 8123
+    ports:
+      - "8123:8123"
     volumes:
       - /run/dbus:/run/dbus:ro
       # - /etc/localtime:/etc/localtime:ro

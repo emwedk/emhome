@@ -2,7 +2,7 @@
 default_config:
 
 homeassistant:
-  internal_url: "http://localhost:80"
+  internal_url: "http://localhost:8123"
 
 http:
   ip_ban_enabled: false
@@ -17,7 +17,7 @@ http:
     - 172.18.0.0/24 # Docker Subnet
     - 172.17.0.0/24
     - fe80::/64
-  server_port: 80
+  server_port: 8123
   server_host: 0.0.0.0
 
 logger:
