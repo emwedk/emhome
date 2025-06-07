@@ -33,6 +33,7 @@
 
 - name: Run Traefik container
   community.docker.docker_container:
+    become: true
     name: traefik
     image: traefik:v3.4
     state: started
