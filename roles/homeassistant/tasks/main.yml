@@ -58,8 +58,8 @@
     # network_mode: host
     expose:
       - "{{ homeassistant.port }}"
-    ports:
-      - "{{ homeassistant.port }}:8123"
+    # ports:
+    #   - "{{ homeassistant.port }}:8123"
     networks:
       - name: "proxy"
       - name: "{{ homeassistant.network }}"
