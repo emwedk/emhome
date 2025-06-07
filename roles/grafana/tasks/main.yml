@@ -15,6 +15,8 @@
     restart_policy: unless-stopped
     ports:
       - "3000:3000"
+    networks:
+      - name: "proxy"
     volumes:
       - "{{ dir.data }}/grafana:/var/lib/grafana"
     env:
@@ -22,3 +24,10 @@
       PGID: $PGID
       TZ: $TZ
     state: started
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.grafana.entrypoints=web"
+      - "traefik.http.routers.traefik.service=grafana"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.local`)"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"

@@ -51,14 +51,18 @@
   community.docker.docker_container:
     name: homeassistant
     image: ghcr.io/home-assistant/home-assistant:latest
+    state: started
     restart: true
     restart_policy: unless-stopped
     privileged: true
-    network_mode: host
+    # network_mode: host
     expose:
-      - 8123
+      - "{{ homeassistant.port }}"
     ports:
-      - "8123:8123"
+      - "{{ homeassistant.port }}:8123"
+    networks:
+      - name: "proxy"
+      - name: "{{ homeassistant.network }}"
     volumes:
       - /run/dbus:/run/dbus:ro
       # - /etc/localtime:/etc/localtime:ro
@@ -75,4 +79,10 @@
     #   - "{{ smarthome.host_adapter }}:{{ smarthome.host_adapter }}"
       # Uncomment and adjust if Bluetooth device is present
       # - "/dev/ttyS0:/dev/ttyS0"
-    state: started
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.homeassistant.entrypoints=web"
+      - "traefik.http.routers.traefik.service=homeassistant"
+      - "traefik.http.routers.homeassistant.rule=Host(`homeassistant.local`)"
+      - "traefik.http.services.homeassistant.loadbalancer.server.port={{ homeassistant.port }}"

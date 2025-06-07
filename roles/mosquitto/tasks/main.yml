@@ -37,6 +37,7 @@
   community.docker.docker_container:
     name: mosquitto
     image: eclipse-mosquitto:latest
+    state: started
     restart: true
     restart_policy: unless-stopped
     networks:
@@ -52,7 +53,13 @@
       PUID: $PUID
       PGID: $PGID
       TZ: $TZ
-    state: started
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ mosquitto.network }}"
+      - "traefik.http.routers.mosquitto.entrypoints=web"
+      - "traefik.http.routers.traefik.service=mosquitto"
+      - "traefik.http.routers.mosquitto.rule=Host(`mosquitto.local`)"
+      - "traefik.http.services.mosquitto.loadbalancer.server.port={{ mosquitto.port }}"
 
 - name: Wait for Mosquitto container to be running
   community.docker.docker_container_info:

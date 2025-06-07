@@ -41,7 +41,7 @@
     networks:
       - name: "{{ zigbee2mqtt.network }}"
     ports:
-      - "{{ zigbee2mqtt.port }}:8081"
+      - "{{ zigbee2mqtt.port }}:8080"
     volumes:
       - "{{ zigbee2mqtt.dir }}:/app/data"
       - "{{ zigbee2mqtt.logdir }}/:/app/data/log"
@@ -51,3 +51,10 @@
       PUID: $PUID
       PGID: $PGID
       TZ: $TZ
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ zigbee2mqtt.network }}"
+      - "traefik.http.routers.zigbee2mqtt.entrypoints=web"
+      - "traefik.http.routers.traefik.service=zigbee2mqtt"
+      - "traefik.http.routers.zigbee2mqtt.rule=Host(`zigbee2mqtt.local`)"
+      - "traefik.http.services.zigbee2mqtt.loadbalancer.server.port={{ zigbee2mqtt.port }}"
