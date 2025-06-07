@@ -6,14 +6,6 @@
     group: "{{ user.name }}"
     mode: '0755'
 
-- name: Copy Traefik config
-  template:
-    src: traefik.yml.j2
-    dest: "{{ dir.data }}/traefik/traefik.yml"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: '0644'
-
 - name: Copy Traefik dynamic config
   template:
     src: dynamic.yml.j2
@@ -52,15 +44,16 @@
       - "--accesslog=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.file.filename=/etc/traefik/dynamic.yml"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-    # ports:
-    #   - "80:80"
-    #   - "443:443"
-    #   - "8080:8080"
-    # etc_hosts:
-    #   host.docker.internal: 172.17.0.1
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    etc_hosts:
+      host.docker.internal: 172.17.0.1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "{{ dir.data }}/traefik:/etc/traefik"
