@@ -66,7 +66,6 @@
       - "--entrypoints.websecure.address=:443"
     networks:
       - name: proxy
-      - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
       - "8080:8080"
