@@ -16,7 +16,7 @@
 
 - name: Copy Traefik dynamic config
   template:
-    src: dynamic.yml.j2
+    src: traefik_dynamic.yml.j2
     dest: "{{ dir.data }}/traefik/traefik_dynamic.yml"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
