@@ -22,7 +22,7 @@
     group: "{{ user.name }}"
     mode: '0755'
   loop:
-    - automations
+    # - automations
     - themes
 
 - name: Ensure Home Assistant include files exist
