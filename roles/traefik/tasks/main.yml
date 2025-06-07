@@ -44,7 +44,6 @@
     state: started
     restart: true
     restart_policy: unless-stopped
-    network_mode: "host"
     command:
       - "--api.dashboard=true"
       - "--api.insecure=true"
@@ -55,12 +54,15 @@
       - "--providers.file.filename=/etc/traefik/dynamic.yml"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-    # ports:
-    #   - "80:80"
-    #   - "443:443"
-    #   - "8080:8080"
-    # etc_hosts:
-    #   host.docker.internal: 172.17.0.1
+    networks:
+      - name: "{{ traefik.network }}"
+      - name: "host"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    etc_hosts:
+      host.docker.internal: 172.17.0.1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "{{ dir.data }}/traefik:/etc/traefik"
