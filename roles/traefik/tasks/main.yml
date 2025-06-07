@@ -63,6 +63,6 @@
     #   host.docker.internal: 172.17.0.1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - "{{ dir.data }}/traefik/:/etc/traefik"
+      - "{{ dir.data }}/traefik:/etc/traefik"
     env:
       TZ: "{{ tz }}"
