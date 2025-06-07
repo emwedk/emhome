@@ -46,6 +46,7 @@
     restart_policy: unless-stopped
     network_mode: "host"
     command:
+      - "--log.level=DEBUG"
       - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--accesslog=true"
