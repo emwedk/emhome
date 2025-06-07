@@ -56,8 +56,8 @@
     restart_policy: unless-stopped
     privileged: true
     # network_mode: host
-    expose:
-      - "{{ homeassistant.port }}"
+    # expose:
+    #   - "{{ homeassistant.port }}"
     # ports:
     #   - "{{ homeassistant.port }}:8123"
     networks:
