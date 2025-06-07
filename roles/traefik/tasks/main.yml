@@ -51,10 +51,11 @@
       - "--entrypoints.websecure.address=:443"
     ports:
       - "80:80"
-      - "443:443"
       - "8080:8080"
+      - "443:443"
     etc_hosts:
-      host.docker.internal: 172.17.0.1
+      - "host.docker.internal:host-gateway"
+      # host.docker.internal: 172.17.0.1
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       # - "{{ dir.data }}/traefik/traefik.yml:/traefik.yml"
@@ -62,4 +63,6 @@
       # - "{{ dir.data }}/traefik/acme.json:/acme.json"
       
     env:
-      TZ: "{{ tz }}"
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ

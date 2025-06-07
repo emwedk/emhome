@@ -48,4 +48,6 @@
     devices:
       - "{{ smarthome.host_adapter }}:{{ smarthome.host_adapter }}"
     env:
-      TZ: "{{ tz }}"
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ

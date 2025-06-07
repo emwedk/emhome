@@ -18,5 +18,7 @@
     volumes:
       - "{{ dir.data }}/grafana:/var/lib/grafana"
     env:
-      TZ: "{{ tz }}"
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
     state: started

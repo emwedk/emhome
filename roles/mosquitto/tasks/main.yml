@@ -49,7 +49,9 @@
       - "{{ mosquitto.dir }}/data:/mosquitto/data"
       - "{{ dir.log }}/mosquitto:/mosquitto/log"
     env:
-      TZ: "{{ tz }}"
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
     state: started
 
 - name: Wait for Mosquitto container to be running
