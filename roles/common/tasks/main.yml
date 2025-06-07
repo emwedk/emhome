@@ -23,6 +23,7 @@
       - tar
       - unzip
       - ufw
+      - avahi
     state: present
 
 - name: Create common groups
