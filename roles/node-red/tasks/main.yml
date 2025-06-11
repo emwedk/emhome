@@ -31,9 +31,7 @@
     labels:
       traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"
-      traefik.http.routers.node-red.entrypoints: "websecure"
+      traefik.http.routers.node-red.entrypoints: "web"
       traefik.http.routers.node-red.service: "{{ service.name }}"
       traefik.http.routers.node-red.rule: "Host(`{{ service.name }}.local`)"
-      traefik.http.routers.node-red.tls: "true"
-      traefik.http.routers.node-red.tls.certresolver: "letsencrypt"
       traefik.http.services.node-red.loadbalancer.server.port: "{{ service.port }}"

@@ -27,9 +27,7 @@
     labels:
       traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"
-      traefik.http.routers.esphome.entrypoints: "websecure"
+      traefik.http.routers.esphome.entrypoints: "web"
       traefik.http.routers.esphome.service: "{{ service.name }}"
       traefik.http.routers.esphome.rule: "Host(`{{ service.name }}.local`)"
-      traefik.http.routers.esphome.tls: "true"
-      traefik.http.routers.esphome.tls.certresolver: "letsencrypt"
       traefik.http.services.esphome.loadbalancer.server.port: "{{ service.port }}"

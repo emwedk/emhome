@@ -40,11 +40,9 @@
         labels:
           traefik.enable: "true"
           # traefik.docker.network: "{{ smarthome.network }}"
-          traefik.http.routers.duckdns.entrypoints: "websecure"
+          traefik.http.routers.duckdns.entrypoints: "web"
           traefik.http.routers.duckdns.service: "{{ service.name }}"
           traefik.http.routers.duckdns.rule: "Host(`{{ service.name }}.local`)"
-          traefik.http.routers.duckdns.tls: "true"
-          traefik.http.routers.duckdns.tls.certresolver: "letsencrypt"
           traefik.http.services.duckdns.loadbalancer.server.port: "{{ service.port }}"
   when:
     - duckdns.token is defined
