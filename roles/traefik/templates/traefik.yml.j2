@@ -1,33 +1,15 @@
 ---
 api:
   dashboard: true
-  insecure: true
 
-accesslog: true
+entryPoints:
+  http:
+    address: ":80"
 
 providers:
   docker:
-    exposedbydefault: false
-    network: proxy
-  avahi:
-    refreshInterval: 10s
-    domain: local
-
-entryPoints:
-  web:
-    address: ":80"
-    http:
-      redirections:
-        entryPoint:
-          to: websecure
-          scheme: https
-  websecure:
-    address: ":443"
-
-certificatesResolvers:
-  letsencrypt:
-    acme:
-      email: {{ letsencrypt.email }}
-      storage: /etc/traefik/letsencrypt/acme.json
-      keyType: "RSA4096"
-      tlschallenge: true
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+  file:
+    filename: /etc/traefik
+    watch: true
