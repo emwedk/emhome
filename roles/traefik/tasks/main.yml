@@ -75,9 +75,6 @@
       - "443:443"
     etc_hosts:
       host.docker.internal: host-gateway
-    dns:
-      - 1.1.1.1
-      - 8.8.8.8
     labels:
         APP: "{{ service.name }}"
         traefik.enable: "true"
