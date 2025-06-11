@@ -16,7 +16,7 @@ providers:
     refreshInterval: 10s
     domain: local
 
-entrypoints:
+entryPoints:
   web:
     address: ":80"
     http:
@@ -27,9 +27,10 @@ entrypoints:
   websecure:
     address: ":443"
 
-certificatesresolvers:
+certificatesResolvers:
   letsencrypt:
     acme:
       email: {{ letsencrypt.email }}
       storage: /etc/traefik/letsencrypt/acme.json
+      keyType: "RSA4096"
       tlschallenge: true
