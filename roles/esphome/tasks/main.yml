@@ -19,7 +19,6 @@
     ports:
       - "{{ service.port }}:6052"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
