@@ -55,12 +55,12 @@
     labels:
       traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"
-      "{{ 'traefik.http.routers.' ~ service.name ~ '.entrypoints' }}": "websecure"
-      "{{ 'traefik.http.routers.' ~ service.name ~ '.service' }}": "{{ service.name }}"
-      "{{ 'traefik.http.routers.' ~ service.name ~ '.rule' }}": "Host(`{{ service.name }}.local`)"
-      "{{ 'traefik.http.routers.' ~ service.name ~ '.tls' }}": "true"
-      "{{ 'traefik.http.routers.' ~ service.name ~ '.tls.certresolver' }}": "letsencrypt"
-      "{{ 'traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port' }}": "{{ service.port }}"
+      traefik.http.routers.mosquitto.entrypoints: "websecure"
+      traefik.http.routers.mosquitto.service: "{{ service.name }}"
+      traefik.http.routers.mosquitto.rule: "Host(`{{ service.name }}.local`)"
+      traefik.http.routers.mosquitto.tls: "true"
+      traefik.http.routers.mosquitto.tls.certresolver: "letsencrypt"
+      traefik.http.services.mosquitto.loadbalancer.server.port: "{{ service.port }}"
 
 - name: Wait for Mosquitto container to be running
   community.docker.docker_container_info:
