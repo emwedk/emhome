@@ -56,7 +56,7 @@
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.network=proxy"
-      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      # - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
       - "--providers.file.watch=true"
       - "--entrypoints.web.address=:80"
@@ -73,6 +73,7 @@
     labels:
         APP: "{{ service.name }}"
         traefik.enable: "true"
+        traefik.docker.network: "proxy"
         traefik.http.routers.traefik.entrypoints: "web"
         traefik.http.routers.traefik.rule: "Host(`{{ service.name }}.local`)"
         traefik.http.routers.traefik.middlewares: "user-auth@file"
@@ -85,7 +86,7 @@
       - /var/run/docker.sock:/var/run/docker.sock
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
       - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
-      - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
+      # - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
     env:
       TZ: "{{ tz }}"
       PUID: "1000"
