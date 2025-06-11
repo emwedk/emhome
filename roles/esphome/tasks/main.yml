@@ -23,7 +23,7 @@
     env:
       TZ: "{{ tz }}"
       PUID: "1000"
-      PGID: "1000" 
+      PGID: "1000"
     labels:
       traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"
