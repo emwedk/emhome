@@ -9,14 +9,14 @@
     - "{{ service.dir }}"
     - "{{ service.dir }}/letsencrypt"
 
-- name: Copy Traefik config
-  template:
-    src: traefik.yml.j2
-    dest: "{{ service.dir }}/traefik.yml"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: '0644'
-    force: no
+# - name: Copy Traefik config
+#   template:
+#     src: traefik.yml.j2
+#     dest: "{{ service.dir }}/traefik.yml"
+#     owner: "{{ user.name }}"
+#     group: "{{ user.name }}"
+#     mode: '0644'
+#     force: no
 
 # - name: Copy Traefik dynamic config
 #   template:
@@ -88,7 +88,7 @@
       - /etc/timezone:/etc/timezone:ro
       - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock
-      - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
+      # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
       # - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
       - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
     env:
