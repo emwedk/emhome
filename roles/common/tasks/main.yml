@@ -1,11 +1,12 @@
 ---
 - name: Allow current user to escalate with doas without password
-  ansible.builtin.copy:
+  copy:
     dest: "/etc/doas.d/20-{{ user.name }}.conf"
     content: "permit nopass {{ user.name }} as root\n"
     owner: root
     group: root
     mode: '0755'
+    force: no
 
 - name: Ensure dependency packages are installed
   package:
@@ -23,7 +24,27 @@
       - tar
       - unzip
       - ufw
+      - tzdata
     state: present
+
+- name: Check if Avahi (mDNS) service is installed
+  stat:
+    path: /usr/sbin/avahi-daemon
+  register: avahi_installed
+
+- name: Install Avahi daemon if not present
+  package:
+    name: avahi-daemon
+    state: present
+  when: not avahi_installed.stat.exists
+
+- name: Ensure Avahi (mDNS) service is enabled and started
+  service:
+    name: avahi-daemon
+    state: started
+    enabled: yes
+  when: avahi_installed.stat.exists or (avahi_installed is defined and not avahi_installed.stat.exists)
+
 
 - name: Create common groups
   group: "name={{ item }} state=present"
@@ -33,22 +54,18 @@
     - bluetooth
     - "{{ user.name }}"
 
-- name: Allow traffic from Docker bridge subnet 172.18.0.0/16 via UFW
-  ansible.builtin.ufw:
-    rule: allow
-    from_ip: 172.18.0.0/16
-
-- name: Allow traffic from Docker bridge subnet 172.17.0.0/16 via UFW
-  ansible.builtin.ufw:
-    rule: allow
-    from_ip: 172.17.0.0/16
-
 - name: "Create user '{{ user.name }}'"
   user:
     name: "{{ user.name }}"
     group: "{{ user.name }}"
     groups: "{{ user.name }},docker,dialout,bluetooth"
     append: yes
+
+- name: "Ensure network exists ({{ smarthome.network }})"
+  when: smarthome.network != "host"
+  community.docker.docker_network:
+    name: "{{ smarthome.network }}"
+    state: "present"
 
 - name: "Ensure directory for container installations exists with proper permissions"
   file:
@@ -83,3 +100,21 @@
   set_fact:
     user: "{{ user | combine({'pass': (passwd_content.content | b64decode | trim)}) }}"
   when: passwd_file.stat.exists and passwd_file.stat.size > 0
+
+- name: Check if secrets.yml file exists in the base directory
+  stat:
+    path: "/home/{{ user.name }}/.passwd"
+  register: secrets_file
+
+- name: Load secrets from user secrets.yml if it exists
+  include_vars:
+    file: "/home/{{ user.name }}/secrets.yml"
+    name: user_secrets
+  ignore_errors: yes
+  when: secrets_file.stat.exists and secrets_file.stat.size > 0
+
+- name: Set secrets as top-level variables if loaded
+  set_fact:
+    "{{ item.key }}": "{{ item.value }}"
+  loop: "{{ user_secrets | dict2items }}"
+  when: user_secrets is defined

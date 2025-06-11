@@ -13,4 +13,6 @@
     - role: grafana
     - role: homeassistant
     - role: mosquitto
-    # - role: zigbee2mqtt
+    - role: duckdns
+    - role: esphome
+    - role: node-red

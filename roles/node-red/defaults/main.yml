@@ -1,0 +1,7 @@
+---
+service:
+  name: node-red
+  dir: "{{ dir.data }}/node-red"
+  image: nodered/node-red
+  version: latest
+  port: 1880

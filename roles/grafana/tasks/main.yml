@@ -1,7 +1,7 @@
 ---
-- name: Create role directories
+- name: "Create directories for: {{ service.name }}"
   file:
-    path: "{{ dir.data }}/grafana"
+    path: "{{ service.dir }}"
     state: directory
     owner: "472"
     group: "472"
@@ -9,25 +9,30 @@
 
 - name: Run Grafana container
   community.docker.docker_container:
-    name: grafana
-    image: grafana/grafana:latest
+    name: "{{ service.name }}"
+    image: "{{ service.image }}:{{ service.version }}"
     restart: true
     restart_policy: unless-stopped
     ports:
-      - "3000:3000"
+      - "{{ service.port }}:3000"
     networks:
       - name: "proxy"
+      - name: "{{ smarthome.network }}"
     volumes:
-      - "{{ dir.data }}/grafana:/var/lib/grafana"
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - "{{ service.dir }}:/var/lib/grafana"
     env:
-      PUID: $PUID
-      PGID: $PGID
-      TZ: $TZ
+      TZ: "{{ tz }}"
+      PUID: "1000"
+      PGID: "1000"
     state: started
     labels:
       traefik.enable: "true"
       traefik.docker.network: "proxy"
-      traefik.http.routers.grafana.entrypoints: "web"
-      traefik.http.routers.grafana.service: "grafana"
-      traefik.http.routers.grafana.rule: "Host(`grafana.local`)"
-      traefik.http.services.grafana.loadbalancer.server.port: "3000"
+      traefik.http.routers.<service.name>.entrypoints: "websecure"
+      traefik.http.routers.<service.name>.service: "{{ service.name }}"
+      traefik.http.routers.<service.name>.rule: "Host(`{{ service.name }}.local`)"
+      traefik.http.routers.<service.name>.tls: "true"
+      traefik.http.routers.<service.name>.tls.certresolver: "letsencrypt"
+      traefik.http.services.<service.name>.loadbalancer.server.port: "{{ service.port }}"
