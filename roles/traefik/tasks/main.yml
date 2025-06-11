@@ -33,7 +33,7 @@
     content: ""
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0644"
+    mode: "0600"
     force: no
 
 - name: "Ensure network exists (proxy)"

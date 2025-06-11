@@ -73,7 +73,7 @@
       traefik.docker.network: "proxy"
       traefik.http.routers.homeassistant.entrypoints: "websecure"
       traefik.http.routers.homeassistant.service: "{{ service.name }}"
-      traefik.http.routers.homeassistant.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
+      traefik.http.routers.homeassistant.rule: "Host(`192.168.0.180`) && PathPrefix(`/`) || Host(`emwe.duckdns.org`)"
       traefik.http.routers.homeassistant.tls: "true"
       traefik.http.routers.homeassistant.tls.certresolver: "letsencrypt"
       traefik.http.services.homeassistant.loadbalancer.server.port: "{{ service.port }}"
