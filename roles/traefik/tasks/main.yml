@@ -119,6 +119,10 @@
     name: "{{ service.name }}"
   register: traefik_container_info
 
+
+- debug:
+    var: traefik_container_info
+
 - name: Set Traefik IP address on proxy network
   set_fact:
     traefik_ip: "{{ traefik_container_info.containers[0].NetworkSettings.Networks.proxy.IPAddress }}"
