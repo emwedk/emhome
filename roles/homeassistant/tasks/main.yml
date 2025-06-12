@@ -76,7 +76,7 @@
       traefik.docker.network: "proxy"
       # traefik.http.routers.homeassistant.service: "{{ service.name }}"
       # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
-      traefik.http.routers.homeassistant-local.rule: "Host(`{{ ansible_default_ipv4.address }}`)"
+      traefik.http.routers.homeassistant-local.rule: "Host(`{{ ansible_default_ipv4.address }}`) && PathPrefix(`/`)"
       traefik.http.routers.homeassistant-local.entrypoints: "web"
       traefik.http.routers.homeassistant-local.service: "homeassistant"
 
