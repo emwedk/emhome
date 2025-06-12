@@ -62,7 +62,7 @@
       - /etc/timezone:/etc/timezone:ro
       # - /etc/resolv.conf:/etc/resolv.conf
       - /run/dbus:/run/dbus:ro
-      - "{{ service.dir }}:/config"
+      - "{{ service.dir }}:/config" 
     env:
       TZ: "{{ tz }}"
       # PUID: "1000"
