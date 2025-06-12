@@ -8,9 +8,7 @@ secrets.yml contains
 ```bash
 duckdns:
   token: <duckdns_doken>
-  subdomains:
-    - <domain1.duckdns.org>
-    - <domain2.duckdns.org>
+  domain: <domain1.duckdns.org>
 letsencrypt:
   email: <your_letsencrypt_email>
 ```

@@ -156,7 +156,7 @@
 
 - name: Check if secrets.yml file exists in the base directory
   stat:
-    path: "{{ user.path }}/.passwd"
+    path: "{{ user.path }}/secrets.yml"
   register: secrets_file
 
 - name: Load secrets from user secrets.yml if it exists
