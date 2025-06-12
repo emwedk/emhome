@@ -82,9 +82,9 @@
         # traefik.docker.network: "proxy"
         traefik.http.routers.api.rule: "Host(`{{ service.name }}.local`)"
         traefik.http.routers.api.service: "api@internal"
-        # traefik.http.routers.api.entrypoints: "web"
-        traefik.http.routers.api.entrypoints: "websecure"
-        traefik.http.routers.api.tls.certresolver: "le"
+        traefik.http.routers.api.entrypoints: "web"
+        # traefik.http.routers.api.entrypoints: "websecure"
+        # traefik.http.routers.api.tls.certresolver: "le"
         # traefik.http.routers.traefik.middlewares: "user-auth@file"
 
     volumes:
