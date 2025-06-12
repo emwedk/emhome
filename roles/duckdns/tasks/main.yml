@@ -34,8 +34,8 @@
           # - "{{ service.dir }}:/config"
         env:
           TZ: "{{ tz }}"
-          PUID: "1000"
-          PGID: "1000"
+          # PUID: "1000"
+          # PGID: "1000"
           SUBDOMAINS: "{{ duckdns.subdomains | join(',') }}"
           TOKEN: "{{ duckdns.token }}"
         labels:
