@@ -26,8 +26,8 @@
         network_mode: host
         # networks:
         #   - name: "{{ smarthome.network }}"
-        ports:
-          - "{{ service.port }}:8053"
+        # ports:
+        #   - "{{ service.port }}:8053"
         volumes:
           - /etc/localtime:/etc/localtime:ro
           - /etc/timezone:/etc/timezone:ro
