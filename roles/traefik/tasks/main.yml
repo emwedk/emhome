@@ -52,9 +52,9 @@
     # dns_servers:
     #   - 8.8.8.8
     #   - 1.1.1.1
-    networks:
-      - name: proxy
-      - name: "{{ smarthome.network }}"
+    # networks:
+    #   - name: proxy
+    #   - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
       - "{{ service.port }}:8080"
@@ -85,8 +85,8 @@
       # - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       # - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      # - /etc/localtime:/etc/localtime:ro
+      # - /etc/timezone:/etc/timezone:ro
       - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - /var/log:/var/log
@@ -95,6 +95,8 @@
       # - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
     env:
       TZ: "{{ tz }}"
+      PUID: $PUID
+      PGID: $PGID
       # PUID: "1000"
       # PGID: "1000"
     labels:
