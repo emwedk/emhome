@@ -12,7 +12,7 @@
     - role: duckdns
     - role: portainer
     - role: grafana
+    - role: homeassistant
     - role: mosquitto
     - role: esphome
     - role: node-red
-    - role: homeassistant
