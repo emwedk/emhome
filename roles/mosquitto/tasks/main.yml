@@ -9,7 +9,7 @@
   loop:
     - "{{ service.dir }}/config"
     - "{{ service.dir }}/data"
-    - "{{ service.logdir }}/mosquitto/"
+    - "{{ service.logdir }}"
 
 - name: Deploy Mosquitto configuration file
   template:

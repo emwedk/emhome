@@ -14,8 +14,6 @@
     state: "started"
     restart: true
     restart_policy: "unless-stopped"
-    groups:
-      - "dialout"
     networks:
       - name: "{{ smarthome.network }}"
     ports:

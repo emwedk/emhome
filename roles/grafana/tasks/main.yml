@@ -29,7 +29,7 @@
     state: started
     labels:
       traefik.enable: "true"
-      traefik.docker.network: "proxy"
+      # traefik.docker.network: "proxy"
       traefik.http.routers.grafana.entrypoints: "web"
       traefik.http.routers.grafana.service: "{{ service.name }}"
       traefik.http.routers.grafana.rule: "Host(`{{ service.name }}.local`)"
