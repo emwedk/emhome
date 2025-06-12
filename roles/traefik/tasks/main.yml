@@ -9,23 +9,23 @@
     - "{{ service.dir }}"
     - "{{ service.dir }}/letsencrypt"
 
-- name: Copy Traefik config
-  template:
-    src: traefik.yml.j2
-    dest: "{{ service.dir }}/traefik.yml"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: '0644'
-    force: no
+# - name: Copy Traefik config
+#   template:
+#     src: traefik.yml.j2
+#     dest: "{{ service.dir }}/traefik.yml"
+#     owner: "{{ user.name }}"
+#     group: "{{ user.name }}"
+#     mode: '0644'
+#     force: no
 
-- name: Copy Traefik dynamic config
-  template:
-    src: traefik_dynamic.yml.j2
-    dest: "{{ service.dir }}/traefik_dynamic.yml"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: '0644'
-    force: no
+# - name: Copy Traefik dynamic config
+#   template:
+#     src: traefik_dynamic.yml.j2
+#     dest: "{{ service.dir }}/traefik_dynamic.yml"
+#     owner: "{{ user.name }}"
+#     group: "{{ user.name }}"
+#     mode: '0644'
+#     force: no
 
 - name: Create Let's Encrypt resolver file
   copy:
