@@ -82,5 +82,5 @@
 
       traefik.http.routers.homeassistant-le.rule: "Host(`emwe.duckdns.org`)"
       traefik.http.routers.homeassistant-le.entrypoints: "websecure"
-      traefik.http.routers.ha.tls.certresolver: "le"
+      traefik.http.routers.homeassistant-le.tls.certresolver: "le"
       traefik.http.services.homeassistant-le.loadbalancer.server.port: "{{ service.port }}"
