@@ -11,8 +11,8 @@
     - role: traefik
     - role: portainer
     - role: grafana
-    - role: homeassistant
     - role: mosquitto
     - role: duckdns
     - role: esphome
     - role: node-red
+    - role: homeassistant
