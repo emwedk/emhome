@@ -15,6 +15,7 @@
     restart: true
     restart_policy: "unless-stopped"
     networks:
+      - name: "proxy"
       - name: "{{ smarthome.network }}"
     ports:
       - "{{ service.port }}:6052"
