@@ -15,7 +15,7 @@
     restart: true
     restart_policy: "unless-stopped"
     networks:
-      - name: "proxy"
+      # - name: "proxy"
       - name: "{{ smarthome.network }}"
     ports:
       - "{{ service.port }}:6052"
@@ -27,7 +27,7 @@
       PGID: "{{ user.pgid }}"
     labels:
       traefik.enable: "true"
-      traefik.docker.network: "proxy"
+      # traefik.docker.network: "proxy"
       traefik.http.routers.esphome.entrypoints: "web"
       traefik.http.routers.esphome.service: "{{ service.name }}"
       traefik.http.routers.esphome.rule: "Host(`{{ service.name }}.local`)"

@@ -37,7 +37,7 @@
     restart: true
     restart_policy: unless-stopped
     networks:
-      - name: "proxy"
+      # - name: "proxy"
       - name: "{{ smarthome.network }}"
     ports:
       - "{{ service.port }}:1883"
@@ -55,7 +55,7 @@
       PGID: "{{ user.pgid }}"
     labels:
       traefik.enable: "true"
-      traefik.docker.network: "proxy"
+      # traefik.docker.network: "proxy"
       traefik.http.routers.mosquitto.entrypoints: "web"
       traefik.http.routers.mosquitto.service: "{{ service.name }}"
       traefik.http.routers.mosquitto.rule: "Host(`{{ service.name }}.local`)"

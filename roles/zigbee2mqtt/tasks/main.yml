@@ -37,7 +37,7 @@
     groups:
       - "dialout"
     networks:
-      - name: "proxy"
+      # - name: "proxy"
       - name: "{{ smarthome.network }}"
     ports:
       - "{{ service.port }}:8080"
@@ -54,7 +54,7 @@
       PGID: "{{ user.pgid }}"
     labels:
       traefik.enable: "true"
-      traefik.docker.network: "proxy"
+      # traefik.docker.network: "proxy"
       traefik.http.routers.zigbee2mqtt.entrypoints: "web"
       traefik.http.routers.zigbee2mqtt.service: "{{ service.name }}"
       traefik.http.routers.zigbee2mqtt.rule: "Host(`{{ service.name }}.local`)"

@@ -67,8 +67,6 @@
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
-      # PUID: "1000"
-      # PGID: "1000"
     capabilities:
       - NET_ADMIN
       - NET_BIND_SERVICE
@@ -82,41 +80,10 @@
       traefik.docker.network: "proxy"
       # traefik.http.routers.homeassistant.service: "{{ service.name }}"
       # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
-
-      traefik.http.routers.ha-router.rule: "Host(`{{ ansible_default_ipv4.address }}`) && PathPrefix(`/`)"
-      traefik.http.routers.ha-router.entrypoints: "websecure"
-      traefik.http.routers.ha-router.service: "ha-service"
-      traefik.http.routers.ha-router.tls: "true"
-      traefik.http.routers.ha-router.middlewares: "default-headers,https-redirect"
-
-      # Service
-      traefik.http.services.ha-service.loadbalancer.server.port: "8123"
-
-      # Middleware: https redirect
-      traefik.http.middlewares.https-redirect.redirectscheme.scheme: "https"
-      traefik.http.middlewares.https-redirect.redirectscheme.permanent: "true"
-
-      # Middleware: default security headers
-      traefik.http.middlewares.default-headers.headers.framedeny: "true"
-      traefik.http.middlewares.default-headers.headers.sslredirect: "true"
-      traefik.http.middlewares.default-headers.headers.browserxssfilter: "true"
-      traefik.http.middlewares.default-headers.headers.contenttypenosniff: "true"
-      traefik.http.middlewares.default-headers.headers.forcestsheader: "true"
-      traefik.http.middlewares.default-headers.headers.stsincludesubdomains: "true"
-      traefik.http.middlewares.default-headers.headers.stspreload: "true"
-      traefik.http.middlewares.default-headers.headers.stsseconds: "15552000"
-      traefik.http.middlewares.default-headers.headers.customframeoptionsvalue: "SAMEORIGIN"
-      traefik.http.middlewares.default-headers.headers.customrequestheaders.X-Forwarded-Proto: "https"
-
-      # Middleware: default whitelist
-      traefik.http.middlewares.default-whitelist.ipwhitelist.sourcerange: "10.0.0.0/8,192.168.0.0/16,172.16.0.0/12"
-
-      # Middleware: secured chain
-      traefik.http.middlewares.secured.chain.middlewares: "default-headers"
-
-      # traefik.http.routers.homeassistant.entrypoints: "web"
-      # traefik.http.routers.homeassistant.service: "homeassistant"
-      # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`) && PathPrefix(`/`)"
+      traefik.http.routers.homeassistant.entrypoints: "web"
+      traefik.http.routers.homeassistant.service: "homeassistant"
+      # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`)"
+      traefik.http.routers.homeassistant.rule: "Host(`{{ service.name }}.local`)"
 
       # traefik.http.routers.homeassistant-le.entrypoints: "websecure"
       # traefik.http.routers.homeassistant-le.service: "homeassistant"
