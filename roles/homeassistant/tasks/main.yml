@@ -23,7 +23,7 @@
     group: "{{ user.name }}"
     mode: '0755'
   loop:
-    # - automations
+    - automations
     - themes
 
 - name: Ensure Home Assistant include files exist
@@ -58,13 +58,15 @@
     #   - name: "proxy"
     #   - name: "{{ smarthome.network }}"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      # - /etc/localtime:/etc/localtime:ro
+      # - /etc/timezone:/etc/timezone:ro
       # - /etc/resolv.conf:/etc/resolv.conf
       - /run/dbus:/run/dbus:ro
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
+      PUID: $PUID
+      PGID: $PGID
       # PUID: "1000"
       # PGID: "1000"
     capabilities:
