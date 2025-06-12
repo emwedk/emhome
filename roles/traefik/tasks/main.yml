@@ -67,6 +67,9 @@
       - "--api.insecure=true"
       - "--accesslog=true"
       - "--log.level=INFO"
+    dns_servers:
+      - 8.8.8.8
+      - 1.1.1.1
     networks:
       # - name: proxy
       - name: "{{ smarthome.network }}"
@@ -76,9 +79,7 @@
       - "443:443"
     etc_hosts:
       host.docker.internal: host-gateway
-    dns_servers:
-      - 8.8.8.8
-      - 1.1.1.1
+    
     labels:
         # APP: "{{ service.name }}"
         traefik.enable: "true"
@@ -93,7 +94,7 @@
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      # - /etc/resolv.conf:/etc/resolv.conf
+      - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
       # - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
