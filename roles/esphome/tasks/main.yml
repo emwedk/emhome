@@ -23,8 +23,8 @@
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
-      # PUID: "1000"
-      # PGID: "1000"
+      PUID: "{{ user.puid }}"
+      PGID: "{{ user.pgid }}"
     labels:
       traefik.enable: "true"
       traefik.docker.network: "proxy"

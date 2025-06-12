@@ -65,8 +65,8 @@
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
-      PUID: $PUID
-      PGID: $PGID
+      PUID: "{{ user.puid }}"
+      PGID: "{{ user.pgid }}"
       # PUID: "1000"
       # PGID: "1000"
     capabilities:

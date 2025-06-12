@@ -93,8 +93,6 @@
     rule: allow
     from_ip: 172.16.0.0/16
 
-
-
 - name: "Ensure directory for container installations exists with proper permissions"
   file:
     path: "{{ dir.data }}"
@@ -113,6 +111,8 @@
     msg: "Bluetooth device not found. Bluetooth features will be unavailable."
   when: bt_check.rc != 0
 
+# Get Password from User Folder
+
 - name: Check if .passwd file exists in the base directory
   stat:
     path: "/home/{{ user.name }}/.passwd"
@@ -128,6 +128,8 @@
   set_fact:
     user: "{{ user | combine({'pass': (passwd_content.content | b64decode | trim)}) }}"
   when: passwd_file.stat.exists and passwd_file.stat.size > 0
+
+# Get Secrets from User Folder
 
 - name: Check if secrets.yml file exists in the base directory
   stat:
@@ -146,3 +148,23 @@
     "{{ item.key }}": "{{ item.value }}"
   loop: "{{ user_secrets | dict2items }}"
   when: user_secrets is defined
+
+# Get User info
+
+- name: Get user information
+  getent:
+    database: passwd
+    key: "{{ user.name }}"  # Replace with the actual username
+    split: ":"
+  register: user_info
+
+- name: Set PUID fact
+  set_fact:
+    user.puid: "{{ user_info.getent_passwd.{{ user.name }}.1 }}"
+- name: Set PGID fact
+  set_fact:
+    user.pgid: "{{ user_info.getent_passwd.{{ user.name }}.2 }}"
+
+- name: Debug PUID and PGID
+  ansible.builtin.debug:
+    msg: "PUID: {{ user_puid }}, PGID: {{ user_pgid }}"

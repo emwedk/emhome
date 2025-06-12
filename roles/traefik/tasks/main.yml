@@ -95,10 +95,8 @@
       # - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
     env:
       TZ: "{{ tz }}"
-      PUID: $PUID
-      PGID: $PGID
-      # PUID: "1000"
-      # PGID: "1000"
+      PUID: "{{ user.puid }}"
+      PGID: "{{ user.pgid }}"
     labels:
         APP: "{{ service.name }}"
         traefik.enable: "true"
