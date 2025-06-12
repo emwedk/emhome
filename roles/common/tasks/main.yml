@@ -132,7 +132,7 @@
 
 - name: Debug PUID and PGID
   ansible.builtin.debug:
-    msg: "PUID: {{ user_puid }}, PGID: {{ user_pgid }}"
+    msg: "PUID: {{ user.puid }}, PGID: {{ user.pgid }}, User Path: {{ user.path }}"
 
 # Get Password from User Folder
 
