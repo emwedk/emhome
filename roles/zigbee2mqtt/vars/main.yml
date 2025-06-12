@@ -13,7 +13,6 @@ zigbee2mqtt:
       enabled: true
       port: 8080
       package: zigbee2mqtt-windfront
-      url: "http://{{ ansible_default_ipv4.address }}:{{ service.port }}"
     mqtt:
       base_topic: zigbee2mqtt
       server: '!secret.yaml server'
