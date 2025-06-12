@@ -1,7 +1,0 @@
----
-service:
-  name: homeassistant
-  dir: "{{ dir.data }}/homeassistant"
-  image: ghcr.io/home-assistant/home-assistant
-  version: latest
-  port: 8123

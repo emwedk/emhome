@@ -1,1 +1,6 @@
 ---
+traefik:
+  id: traefik
+  dir: "{{ dir.data }}/traefik"
+  logdir: "{{ dir.log }}/traefik"
+  network: "{{ smarthome.network }}"

@@ -1,7 +1,7 @@
 ---
-- name: "Create directories for: {{ service.name }}"
+- name: "Create role directories"
   file:
-    path: "{{ service.dir }}"
+    path: "{{ zigbee2mqtt.dir }}"
     state: "directory"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -10,52 +10,51 @@
 - name: Deploy Zigbee2MQTT secret file
   template:
     src: secret.yaml.j2
-    dest: "{{ service.dir }}/secret.yaml"
+    dest: "{{ zigbee2mqtt.dir }}/secret.yaml"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0644"
-    force: no
 
 - name: Deploy Zigbee2MQTT configuration file
   template:
     src: configuration.yaml.j2
-    dest: "{{ service.dir }}/configuration.yaml"
+    dest: "{{ zigbee2mqtt.dir }}/configuration.yaml"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0644"
-    force: no
 
-
+- name: "Ensure network exists ({{ zigbee2mqtt.network }})"
+  when: zigbee2mqtt.network != "host"
+  community.docker.docker_network:
+    name: "{{ zigbee2mqtt.network }}"
+    state: "present"
 
 - name: "Run Zigbee2MQTT container"
   community.docker.docker_container:
-    name: "{{ service.name }}"
-    image: "{{ service.image }}:{{ service.version }}"
+    name: "{{ zigbee2mqtt.id }}"
+    image: "koenkk/zigbee2mqtt:{{ zigbee2mqtt.version }}"
     state: "started"
     restart: true
     restart_policy: "unless-stopped"
     groups:
       - "dialout"
     networks:
-      - name: "proxy"
-      - name: "{{ smarthome.network }}"
+      - name: "{{ zigbee2mqtt.network }}"
     ports:
-      - "{{ service.port }}:8080"
+      - "{{ zigbee2mqtt.port }}:8080"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - "{{ service.dir }}:/app/data"
-      - "{{ service.logdir }}:/app/data/log"
+      - "{{ zigbee2mqtt.dir }}:/app/data"
+      - "{{ zigbee2mqtt.logdir }}/:/app/data/log"
     devices:
-      - "{{ smarthome.zigbee_adapter }}:{{ smarthome.zigbee_adapter }}"
+      - "{{ smarthome.host_adapter }}:{{ smarthome.host_adapter }}"
     env:
-      TZ: "{{ tz }}"
-      # PUID: "1000"
-      # PGID: "1000"
+      PUID: $PUID
+      PGID: $PGID
+      TZ: $TZ
     labels:
       traefik.enable: "true"
-      traefik.docker.network: "proxy"
+      # traefik.docker.network: "{{ zigbee2mqtt.network }}"
       traefik.http.routers.zigbee2mqtt.entrypoints: "web"
-      traefik.http.routers.zigbee2mqtt.service: "{{ service.name }}"
-      traefik.http.routers.zigbee2mqtt.rule: "Host(`{{ service.name }}.local`)"
-      traefik.http.services.zigbee2mqtt.loadbalancer.server.port: "{{ service.port }}"
+      traefik.http.routers.zigbee2mqtt.service: "zigbee2mqtt"
+      traefik.http.routers.zigbee2mqtt.rule: "Host(`zigbee2mqtt.local`)"
+      traefik.http.services.zigbee2mqtt.loadbalancer.server.port: "{{ zigbee2mqtt.port }}"

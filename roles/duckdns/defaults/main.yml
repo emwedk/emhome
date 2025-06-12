@@ -1,7 +1,0 @@
----
-service:
-  name: duckdns
-  dir: "{{ dir.data }}/duckdns"
-  image: lscr.io/linuxserver/duckdns
-  version: latest
-  port: 8053
