@@ -50,6 +50,8 @@
       - "{{ smarthome.zigbee_adapter }}:{{ smarthome.zigbee_adapter }}"
     env:
       TZ: "{{ tz }}"
+      PUID: "{{ user.puid }}"
+      PGID: "{{ user.pgid }}"
     labels:
       traefik.enable: "true"
       # traefik.docker.network: "proxy"

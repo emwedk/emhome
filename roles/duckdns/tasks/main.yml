@@ -31,7 +31,7 @@
         volumes:
           - /etc/localtime:/etc/localtime:ro
           - /etc/timezone:/etc/timezone:ro
-          # - "{{ service.dir }}:/config"
+          - "{{ service.dir }}:/config"
         env:
           TZ: "{{ tz }}"
           PUID: "{{ user.puid }}"
@@ -40,7 +40,7 @@
           TOKEN: "{{ duckdns.token }}"
         labels:
           traefik.enable: "false"
-          # traefik.docker.network: "proxy"
+          traefik.docker.network: "proxy"
           traefik.http.routers.duckdns.entrypoints: "web"
           traefik.http.routers.duckdns.service: "{{ service.name }}"
           traefik.http.routers.duckdns.rule: "Host(`{{ service.name }}.local`)"
