@@ -61,8 +61,8 @@
       - "--providers.file.watch=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-    networks:
-      - name: proxy
+    # networks:
+    #   - name: proxy
       # - name: "{{ smarthome.network }}"
     ports:
       - "80:80"

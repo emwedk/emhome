@@ -51,9 +51,9 @@
     restart_policy: unless-stopped
     privileged: true
     network_mode: host
-    networks:
-      - name: "proxy"
-      - name: "{{ smarthome.network }}"
+    # networks:
+    #   - name: "proxy"
+    #   - name: "{{ smarthome.network }}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
