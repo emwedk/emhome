@@ -61,8 +61,8 @@
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
-      PUID: "1000"
-      PGID: "1000"
+      # PUID: "1000"
+      # PGID: "1000"
     capabilities:
       - NET_ADMIN
       - NET_BIND_SERVICE
@@ -76,13 +76,13 @@
       traefik.docker.network: "proxy"
       # traefik.http.routers.homeassistant.service: "{{ service.name }}"
       # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
-      traefik.http.routers.homeassistant-local.rule: "Host(`{{ ansible_default_ipv4.address }}`) && PathPrefix(`/`)"
       traefik.http.routers.homeassistant-local.entrypoints: "web"
       traefik.http.routers.homeassistant-local.service: "homeassistant"
+      traefik.http.routers.homeassistant-local.rule: "Host(`{{ ansible_default_ipv4.address }}`) && PathPrefix(`/`)"
 
-      traefik.http.routers.homeassistant-le.rule: "Host(`emwe.duckdns.org`)"
       traefik.http.routers.homeassistant-le.entrypoints: "websecure"
-      traefik.http.routers.homeassistant-le.tls.certresolver: "le"
       traefik.http.routers.homeassistant-le.service: "homeassistant"
+      traefik.http.routers.homeassistant-le.tls.certresolver: "le"
+      traefik.http.routers.homeassistant-le.rule: "Host(`emwe.duckdns.org`) && PathPrefix(`/`)"
 
       traefik.http.services.homeassistant.loadbalancer.server.port: "{{ service.port }}"

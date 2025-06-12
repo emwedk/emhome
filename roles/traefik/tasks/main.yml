@@ -52,8 +52,9 @@
     # dns_servers:
     #   - 8.8.8.8
     #   - 1.1.1.1
-    networks:
-      - name: proxy
+    # networks:
+    #   - name: proxy
+    #   - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
       - "{{ service.port }}:8080"
@@ -66,7 +67,7 @@
       - "--accesslog=true"
       - "--log.level=INFO"
       #- --log.filepath=/var/log/traefik.log
-      # - "--providers.docker=true"
+      - "--providers.docker=true"
       # - "--providers.docker.network=proxy"
       - "--providers.docker.exposedbydefault=false"
       # - "--providers.docker.endpoint=unix:///var/run/docker.sock"
@@ -78,13 +79,15 @@
       - "--entrypoints.websecure.http.tls.certresolver=le"
       - "--certificatesresolvers.le.acme.email={{ letsencrypt.email }}"
       - "--certificatesresolvers.le.acme.storage=/etc/traefik/letsencrypt/acme.json"
-      - "--certificatesresolvers.le.acme.tlschallenge=true"
+      - "--certificatesresolvers.le.acme.dnschallenge=true"
+      - "--certificatesresolvers.le.acme.dnschallenge.provider=duckdns"
+      # - "--certificatesresolvers.le.acme.tlschallenge=true"
       # - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       # - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      # - /etc/resolv.conf:/etc/resolv.conf
+      - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - /var/log:/var/log
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
@@ -92,10 +95,10 @@
       - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
     env:
       TZ: "{{ tz }}"
-      PUID: "1000"
-      PGID: "1000"
+      # PUID: "1000"
+      # PGID: "1000"
     labels:
-        # APP: "{{ service.name }}"
+        APP: "{{ service.name }}"
         traefik.enable: "true"
         traefik.docker.network: "proxy"
         traefik.http.routers.traefik.rule: "Host(`{{ service.name }}.local`)"
