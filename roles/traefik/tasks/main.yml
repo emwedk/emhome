@@ -49,9 +49,9 @@
     state: started
     restart: true
     restart_policy: unless-stopped
-    dns_servers:
-      - 8.8.8.8
-      - 1.1.1.1
+    # dns_servers:
+    #   - 8.8.8.8
+    #   - 1.1.1.1
     networks:
       - name: proxy
       - name: "{{ smarthome.network }}"
@@ -75,7 +75,7 @@
       # - "--providers.file.watch=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      # - "--entrypoints.web.asDefault=true"
+      - "--entrypoints.web.asDefault=true"
       # - "--entrypoints.websecure.http.tls.certresolver=le"
       # - "--certificatesresolvers.le.acme.email={{ letsencrypt.email }}"
       # - "--certificatesresolvers.le.acme.storage=/etc/traefik/letsencrypt/acme.json"
@@ -87,7 +87,7 @@
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - /etc/resolv.conf:/etc/resolv.conf
+      # - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - /var/log:/var/log
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
