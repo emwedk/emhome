@@ -15,6 +15,7 @@
       - python3-dev
       - py3-requests
       - py3-pip
+      - py3-passlib
       - npm
       - git
       - curl
