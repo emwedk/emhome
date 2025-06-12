@@ -158,6 +158,10 @@
     split: ":"
   register: user_info
 
+- name: Debug user_info
+  ansible.builtin.debug:
+    msg: "user_info: {{ user_info }}"
+
 - name: Set PUID fact
   set_fact:
     user.puid: "{{ user_info.getent_passwd[user.name][1] }}"
