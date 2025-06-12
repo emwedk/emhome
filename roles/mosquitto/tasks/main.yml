@@ -55,7 +55,7 @@
       PGID: "{{ user.pgid }}"
     labels:
       traefik.enable: "true"
-      # traefik.docker.network: "proxy"
+      traefik.docker.network: "{{ smarthome.network }}"
       traefik.http.routers.mosquitto.entrypoints: "web"
       traefik.http.routers.mosquitto.service: "{{ service.name }}"
       traefik.http.routers.mosquitto.rule: "Host(`{{ service.name }}.local`)"
