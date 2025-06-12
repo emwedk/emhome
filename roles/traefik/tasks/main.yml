@@ -93,7 +93,7 @@
       # - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
-      - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
+      # - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
       - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
     env:
       TZ: "{{ tz }}"
