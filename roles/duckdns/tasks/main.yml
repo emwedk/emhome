@@ -23,10 +23,11 @@
         state: "started"
         restart: true
         restart_policy: "unless-stopped"
-        networks:
-          - name: "{{ smarthome.network }}"
-        ports:
-          - "{{ service.port }}:8053"
+        network_mode: host
+        # networks:
+        #   - name: "{{ smarthome.network }}"
+        # ports:
+        #   - "{{ service.port }}:8053"
         volumes:
           - /etc/localtime:/etc/localtime:ro
           - /etc/timezone:/etc/timezone:ro
@@ -38,12 +39,12 @@
           SUBDOMAINS: "{{ duckdns.subdomains | join(',') }}"
           TOKEN: "{{ duckdns.token }}"
         labels:
-          traefik.enable: "true"
+          traefik.enable: "false"
           # traefik.docker.network: "{{ smarthome.network }}"
-          traefik.http.routers.duckdns.entrypoints: "web"
-          traefik.http.routers.duckdns.service: "{{ service.name }}"
-          traefik.http.routers.duckdns.rule: "Host(`{{ service.name }}.local`)"
-          traefik.http.services.duckdns.loadbalancer.server.port: "{{ service.port }}"
+          # traefik.http.routers.duckdns.entrypoints: "web"
+          # traefik.http.routers.duckdns.service: "{{ service.name }}"
+          # traefik.http.routers.duckdns.rule: "Host(`{{ service.name }}.local`)"
+          # traefik.http.services.duckdns.loadbalancer.server.port: "{{ service.port }}"
   when:
     - duckdns.token is defined
     - duckdns.token | length > 0
