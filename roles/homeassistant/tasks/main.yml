@@ -84,7 +84,7 @@
       # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
 
       traefik.http.routers.ha-router.rule: "Host(`{{ ansible_default_ipv4.address }}`) && PathPrefix(`/`)"
-      traefik.http.routers.ha-router.entrypoints: "https"
+      traefik.http.routers.ha-router.entrypoints: "websecure"
       traefik.http.routers.ha-router.service: "ha-service"
       traefik.http.routers.ha-router.tls: "true"
       traefik.http.routers.ha-router.middlewares: "default-headers,https-redirect"
