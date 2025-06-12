@@ -77,7 +77,7 @@
       # - "/dev/ttyS0:/dev/ttyS0"
     labels:
       traefik.enable: "true"
-      traefik.docker.network: "proxy"
+      traefik.docker.network: "{{ smarthome.network }}"
       # traefik.http.routers.homeassistant.service: "{{ service.name }}"
       # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
       traefik.http.routers.homeassistant.entrypoints: "web"

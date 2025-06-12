@@ -40,7 +40,7 @@
           TOKEN: "{{ duckdns.token }}"
         labels:
           traefik.enable: "false"
-          traefik.docker.network: "proxy"
+          traefik.docker.network: "{{ smarthome.network }}"
           traefik.http.routers.duckdns.entrypoints: "web"
           traefik.http.routers.duckdns.service: "{{ service.name }}"
           traefik.http.routers.duckdns.rule: "Host(`{{ service.name }}.local`)"
