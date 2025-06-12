@@ -1,0 +1,7 @@
+---
+service:
+  name: esphome
+  dir: "{{ dir.data }}/esphome"
+  image: ghcr.io/esphome/esphome
+  version: latest
+  port: 6052

@@ -1,0 +1,7 @@
+---
+service:
+  name: portainer
+  dir: "{{ dir.data }}/portainer"
+  image: portainer/portainer-ce
+  version: latest
+  port: 9000

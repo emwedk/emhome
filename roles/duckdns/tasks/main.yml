@@ -1,0 +1,50 @@
+---
+- name: "Check if DuckDNS variables are set"
+  assert:
+    that:
+      - duckdns.token is defined
+      - duckdns.token | length > 0
+    fail_msg: "DuckDNS configuration or token is missing. Skipping DuckDNS setup."
+    success_msg: "DuckDNS configuration and token found."
+
+- block:
+    - name: "Create directories for: {{ service.name }}"
+      file:
+        path: "{{ service.dir }}"
+        state: "directory"
+        owner: "{{ user.name }}"
+        group: "{{ user.name }}"
+        mode: "0755"
+
+    - name: "Run DuckDNS container"
+      community.docker.docker_container:
+        name: "{{ service.name }}"
+        image: "{{ service.image }}:{{ service.version }}"
+        state: "started"
+        restart: true
+        restart_policy: "unless-stopped"
+        network_mode: host
+        # networks:
+        #   - name: "{{ smarthome.network }}"
+        # ports:
+        #   - "{{ service.port }}:8053"
+        volumes:
+          - /etc/localtime:/etc/localtime:ro
+          - /etc/timezone:/etc/timezone:ro
+          # - "{{ service.dir }}:/config"
+        env:
+          TZ: "{{ tz }}"
+          # PUID: "1000"
+          # PGID: "1000"
+          SUBDOMAINS: "{{ duckdns.subdomains | join(',') }}"
+          TOKEN: "{{ duckdns.token }}"
+        labels:
+          traefik.enable: "false"
+          traefik.docker.network: "proxy"
+          # traefik.http.routers.duckdns.entrypoints: "web"
+          # traefik.http.routers.duckdns.service: "{{ service.name }}"
+          # traefik.http.routers.duckdns.rule: "Host(`{{ service.name }}.local`)"
+          # traefik.http.services.duckdns.loadbalancer.server.port: "{{ service.port }}"
+  when:
+    - duckdns.token is defined
+    - duckdns.token | length > 0

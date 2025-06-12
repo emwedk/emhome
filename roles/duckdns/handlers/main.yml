@@ -1,0 +1,16 @@
+---
+- name: Stop duckdns
+  docker_container:
+    name: duckdns
+    state: stopped
+
+- name: Start duckdns
+  docker_container:
+    name: duckdns
+    state: started
+
+- name: Restart duckdns
+  docker_container:
+    name: duckdns
+    state: started
+    restart: true
