@@ -52,9 +52,9 @@
     # dns_servers:
     #   - 8.8.8.8
     #   - 1.1.1.1
-    # networks:
-    #   - name: proxy
-    #   - name: "{{ smarthome.network }}"
+    networks:
+      - name: proxy
+      - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
       - "{{ service.port }}:8080"
@@ -68,14 +68,14 @@
       - "--log.level=INFO"
       #- --log.filepath=/var/log/traefik.log
       - "--providers.docker=true"
-      # - "--providers.docker.network=proxy"
+      - "--providers.docker.network=proxy"
       - "--providers.docker.exposedbydefault=false"
       # - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       # - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
       # - "--providers.file.watch=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      # - "--entrypoints.websecure.asDefault=true"
+      - "--entrypoints.websecure.asDefault=false"
       - "--entrypoints.websecure.http.tls.certresolver=le"
       - "--certificatesresolvers.le.acme.email={{ letsencrypt.email }}"
       - "--certificatesresolvers.le.acme.storage=/etc/traefik/letsencrypt/acme.json"
