@@ -130,10 +130,6 @@
   set_fact:
     user: "{{ user | combine({'path': user_info.ansible_facts.getent_passwd[user.name][4] }) }}"
 
-- name: Debug PUID and PGID
-  ansible.builtin.debug:
-    msg: "PUID: {{ user.puid }}, PGID: {{ user.pgid }}, User Path: {{ user.path }}"
-
 # Get Password from User Folder
 
 - name: Check if .passwd file exists in the base directory

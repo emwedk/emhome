@@ -111,31 +111,3 @@
       traefik.http.routers.api.service: "api@internal"
       traefik.http.routers.api.middlewares: "auth"
       traefik.http.middlewares.auth.basicauth.users: "{{ user.name }}:{{ user.pass | password_hash('md5') }}"
-
-
-    
-- name: Get Traefik container info
-  community.docker.docker_container_info:
-    name: "{{ service.name }}"
-  register: traefik_container_info
-
-
-- debug:
-    var: traefik_container_info
-
-- name: Set Traefik IP address on proxy network
-  set_fact:
-    traefik_ip: "{{ traefik_container_info.containers[0].NetworkSettings.Networks.proxy.IPAddress }}"
-
-- name: Show Traefik IP address
-  debug:
-    msg: "Traefik IP on proxy network is {{ traefik_ip }}"
-
-- debug:
-    var: traefik_ip
-
-- debug:
-    var: traefik_ip
-
-- debug:
-    var: traefik_ip
