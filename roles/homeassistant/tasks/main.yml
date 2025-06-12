@@ -87,7 +87,7 @@
 
       traefik.http.routers.homeassistant-le.entrypoints: "websecure"
       traefik.http.routers.homeassistant-le.service: "homeassistant"
-      traefik.http.routers.homeassistant-le.tls: true
+      traefik.http.routers.homeassistant-le.tls: "true"
       traefik.http.routers.homeassistant-le.tls.certresolver: "letsencrypt"
       traefik.http.routers.homeassistant-le.rule: "Host(`emwe.duckdns.org`)"
 
