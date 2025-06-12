@@ -54,7 +54,7 @@
       PGID: "1000"
     labels:
       traefik.enable: "true"
-      # traefik.docker.network: "{{ smarthome.network }}"
+      traefik.docker.network: "proxy"
       traefik.http.routers.zigbee2mqtt.entrypoints: "web"
       traefik.http.routers.zigbee2mqtt.service: "{{ service.name }}"
       traefik.http.routers.zigbee2mqtt.rule: "Host(`{{ service.name }}.local`)"

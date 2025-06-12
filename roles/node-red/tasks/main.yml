@@ -29,7 +29,7 @@
       PGID: "1000"
     labels:
       traefik.enable: "true"
-      # traefik.docker.network: "{{ smarthome.network }}"
+      traefik.docker.network: "proxy"
       traefik.http.routers.node-red.entrypoints: "web"
       traefik.http.routers.node-red.service: "{{ service.name }}"
       traefik.http.routers.node-red.rule: "Host(`{{ service.name }}.local`)"

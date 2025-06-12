@@ -88,7 +88,7 @@
     labels:
         # APP: "{{ service.name }}"
         traefik.enable: "true"
-        # traefik.docker.network: "proxy"
+        traefik.docker.network: "proxy"
         traefik.http.routers.traefik.rule: "Host(`{{ service.name }}.local`)"
         traefik.http.routers.traefik.service: "api@internal"
         traefik.http.routers.traefik.middlewares: user-auth
