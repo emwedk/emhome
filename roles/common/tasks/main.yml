@@ -120,22 +120,15 @@
     split: ":"
   register: user_info
 
-- name: Debug user_info
-  ansible.builtin.debug:
-    msg: "user_info: {{ user_info }}"
-
-- debug:
-    var: user_info
-
 - name: Set PUID fact
   set_fact:
-    user.puid: "{{ user_info.ansible_facts.getent_passwd[user.name][1] }}"
+    user: "{{ user | combine({'puid': user_info.ansible_facts.getent_passwd[user.name][1] }) }}"
 - name: Set PGID fact
   set_fact:
-    user.pgid: "{{ user_info.ansible_facts.getent_passwd[user.name][2] }}"
+    user: "{{ user | combine({'pgid': user_info.ansible_facts.getent_passwd[user.name][2] }) }}"
 - name: Set User Path fact
   set_fact:
-    user.path: "{{ user_info.ansible_facts.getent_passwd[user.name][4] }}"
+    user: "{{ user | combine({'path': user_info.ansible_facts.getent_passwd[user.name][4] }) }}"
 
 - name: Debug PUID and PGID
   ansible.builtin.debug:
