@@ -11,13 +11,14 @@
   community.docker.docker_container:
     name: "{{ service.name }}"
     image: "{{ service.image }}:{{ service.version }}"
+    state: started
     restart: true
     restart_policy: unless-stopped
-    ports:
-      - "{{ service.port }}:3000"
     networks:
       - name: "proxy"
       - name: "{{ smarthome.network }}"
+    ports:
+      - "{{ service.port }}:3000"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -26,7 +27,6 @@
       TZ: "{{ tz }}"
       PUID: "1000"
       PGID: "1000"
-    state: started
     labels:
       traefik.enable: "true"
       traefik.docker.network: "proxy"

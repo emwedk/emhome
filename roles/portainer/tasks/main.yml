@@ -14,13 +14,13 @@
     state: started
     restart: true
     restart_policy: unless-stopped
+    networks:
+      - name: "proxy"
+      - name: "{{ smarthome.network }}"
     ports:
       - "8000:8000"
       - "{{ service.port }}:9000"
       - "9443:9443"
-    networks:
-      - name: "proxy"
-      - name: "{{ smarthome.network }}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro

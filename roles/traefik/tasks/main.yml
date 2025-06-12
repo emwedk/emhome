@@ -61,7 +61,6 @@
       - "443:443"
     etc_hosts:
       host.docker.internal: host-gateway
-
     command:
       - "--api.dashboard=true"
       - "--api.insecure=true"
@@ -76,28 +75,13 @@
       # - "--providers.file.watch=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      - "--entrypoints.websecure.asDefault=true"
+      # - "--entrypoints.websecure.asDefault=true"
       - "--entrypoints.websecure.http.tls.certresolver=le"
       - "--certificatesresolvers.le.acme.email={{ letsencrypt.email }}"
       - "--certificatesresolvers.le.acme.storage=/etc/traefik/letsencrypt/acme.json"
       - "--certificatesresolvers.le.acme.tlschallenge=true"
       # - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       # - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-      
-    
-    labels:
-        # APP: "{{ service.name }}"
-        traefik.enable: "true"
-        traefik.docker.network: "proxy"
-        traefik.http.routers.traefik.rule: "Host(`{{ service.name }}.local`)"
-        traefik.http.routers.traefik.service: "api@internal"
-        traefik.http.routers.traefik.middlewares: user-auth
-        traefik.http.middlewares.user-auth.basicauth.users: "{{ user.name }}:{{ user.pass | password_hash('md5') }}"
-        # traefik.http.routers.api.entrypoints: "web"
-        # traefik.http.routers.api.entrypoints: "websecure"
-        # traefik.http.routers.api.tls.certresolver: "le"
-        # traefik.http.routers.traefik.middlewares: "user-auth@file"
-
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -111,3 +95,18 @@
       TZ: "{{ tz }}"
       PUID: "1000"
       PGID: "1000"
+    labels:
+        # APP: "{{ service.name }}"
+        traefik.enable: "true"
+        traefik.docker.network: "proxy"
+        traefik.http.routers.traefik.rule: "Host(`{{ service.name }}.local`)"
+        traefik.http.routers.traefik.service: "api@internal"
+        traefik.http.routers.traefik.middlewares: user-auth
+        traefik.http.middlewares.user-auth.basicauth.users: "{{ user.name }}:{{ user.pass | password_hash('md5') }}"
+        # traefik.http.routers.api.entrypoints: "web"
+        # traefik.http.routers.api.entrypoints: "websecure"
+        # traefik.http.routers.api.tls.certresolver: "le"
+        # traefik.http.routers.traefik.middlewares: "user-auth@file"
+
+    
+    

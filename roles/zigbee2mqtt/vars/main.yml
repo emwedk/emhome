@@ -7,11 +7,13 @@ zigbee2mqtt:
     client_id: "zigbee2mqtt-{{ user.name }}"
 
   config: 
-    homeassistant: true
+    homeassistant: 
+      enabled: true
     frontend: 
       enabled: true
       port: 8080
       package: zigbee2mqtt-windfront
+      url: "http://{{ ansible_default_ipv4.address }}:{{ service.port }}"
     mqtt:
       base_topic: zigbee2mqtt
       server: '!secret.yaml server'
