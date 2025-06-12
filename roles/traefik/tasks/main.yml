@@ -71,8 +71,6 @@
       # - "--providers.docker.network=proxy"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
-      - "--providers.file.filename=/etc/traefik/"
-      - "--providers.file.watch=true"
       # - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
       # - "--providers.file.watch=true"
       - "--entrypoints.web.address=:80"
@@ -94,7 +92,6 @@
       # - /var/log:/var/log
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
       # - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
-      - "{{ service.dir }}/config:/etc/traefik/config"
       - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
     env:
       TZ: "{{ tz }}"
