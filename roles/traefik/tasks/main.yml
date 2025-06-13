@@ -102,7 +102,7 @@
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
-      DUCKDNS_TOKEN: "{{ duckdns.token }}"
+      # DUCKDNS_TOKEN: "{{ duckdns.token }}"
     labels:
       APP: "{{ service.name }}"
       traefik.enable: "true"
