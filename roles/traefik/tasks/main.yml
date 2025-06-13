@@ -75,6 +75,7 @@
       # - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
       # - "--providers.file.watch=true"
       - "--entrypoints.web.address=:80"
+      - "--entrypoints.ha.address=:8123"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
       # - "--entrypoints.web.asDefault=true"

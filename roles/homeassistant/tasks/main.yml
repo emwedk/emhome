@@ -56,9 +56,9 @@
     # dns_servers:
     #   - 8.8.8.8
     #   - 1.1.1.1
-    # networks:
+    networks:
     #   - name: "proxy"
-    #   - name: "{{ smarthome.network }}"
+      - name: "{{ smarthome.network }}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -82,7 +82,7 @@
       traefik.docker.network: "{{ smarthome.network }}"
       # traefik.http.routers.homeassistant.service: "{{ service.name }}"
       # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
-      traefik.http.routers.homeassistant.entrypoints: ":8123"
+      traefik.http.routers.homeassistant.entrypoints: "ha"
       traefik.http.routers.homeassistant.service: "homeassistant"
       traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}"
       # traefik.http.routers.homeassistant.rule: "PathPrefix(`/`)"
