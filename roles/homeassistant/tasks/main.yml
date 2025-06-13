@@ -51,6 +51,8 @@
     restart_policy: unless-stopped
     privileged: true
     network_mode: host
+    ports:
+      - "{{ service.port }}:8123"
     # dns_servers:
     #   - 8.8.8.8
     #   - 1.1.1.1
@@ -75,20 +77,20 @@
       - "{{ smarthome.zigbee_adapter }}:{{ smarthome.zigbee_adapter }}"
       # Uncomment and adjust if Bluetooth device is present
       # - "/dev/ttyS0:/dev/ttyS0"
-    labels:
-      traefik.enable: "true"
-      traefik.docker.network: "{{ smarthome.network }}"
-      # traefik.http.routers.homeassistant.service: "{{ service.name }}"
-      # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
-      traefik.http.routers.homeassistant.entrypoints: "web"
-      traefik.http.routers.homeassistant.service: "homeassistant"
-      # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}:{{ service.port }}`) && PathPrefix(`/`)"
-      traefik.http.routers.homeassistant.rule: "Host(`homeassistant.local`)"
+    # labels:
+    #   traefik.enable: "true"
+    #   traefik.docker.network: "{{ smarthome.network }}"
+    #   # traefik.http.routers.homeassistant.service: "{{ service.name }}"
+    #   # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
+    #   traefik.http.routers.homeassistant.entrypoints: "web"
+    #   traefik.http.routers.homeassistant.service: "homeassistant"
+    #   # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}:{{ service.port }}`) && PathPrefix(`/`)"
+    #   traefik.http.routers.homeassistant.rule: "Host(`homeassistant.local`)"
 
-      # traefik.http.routers.homeassistant-le.entrypoints: "websecure"
-      # traefik.http.routers.homeassistant-le.service: "homeassistant"
-      # traefik.http.routers.homeassistant-le.tls: "true"
-      # traefik.http.routers.homeassistant-le.tls.certresolver: "letsencrypt"
-      # traefik.http.routers.homeassistant-le.rule: "Host(`emwe.duckdns.org`)"
+    #   # traefik.http.routers.homeassistant-le.entrypoints: "websecure"
+    #   # traefik.http.routers.homeassistant-le.service: "homeassistant"
+    #   # traefik.http.routers.homeassistant-le.tls: "true"
+    #   # traefik.http.routers.homeassistant-le.tls.certresolver: "letsencrypt"
+    #   # traefik.http.routers.homeassistant-le.rule: "Host(`emwe.duckdns.org`)"
 
-      traefik.http.services.homeassistant.loadbalancer.server.port: "{{ service.port }}"
+    #   traefik.http.services.homeassistant.loadbalancer.server.port: "{{ service.port }}"
