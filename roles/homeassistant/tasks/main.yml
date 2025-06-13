@@ -56,9 +56,9 @@
     # dns_servers:
     #   - 8.8.8.8
     #   - 1.1.1.1
-    networks:
+    # networks:
     #   - name: "proxy"
-      - name: "{{ smarthome.network }}"
+    #   - name: "{{ smarthome.network }}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
