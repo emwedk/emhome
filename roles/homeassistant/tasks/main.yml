@@ -51,8 +51,8 @@
     restart_policy: unless-stopped
     privileged: true
     network_mode: host
-    ports:
-      - "{{ service.port }}:8123"
+    # ports:
+    #   - "{{ service.port }}:8123"
     # dns_servers:
     #   - 8.8.8.8
     #   - 1.1.1.1
