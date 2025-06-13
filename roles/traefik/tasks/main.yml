@@ -53,9 +53,9 @@
     #   - 8.8.8.8
     #   - 1.1.1.1
     # doesn't weem to function with any "networks:" tag
-    # networks:
-    # #   # - name: proxy
-    #   - name: "{{ smarthome.network }}"
+    networks:
+      - name: "{{ smarthome.network }}"
+    #   # - name: proxy
     ports:
       - "80:80"
       - "{{ service.port }}:8080"
