@@ -62,10 +62,10 @@
     groups: "{{ user.name }},docker,dialout,bluetooth"
     append: yes
 
-- name: "Ensure network exists ({{ smarthome.network }})"
+- name: "Ensure network exists (proxy)"
   when: smarthome.network != "host"
   community.docker.docker_network:
-    name: "{{ smarthome.network }}"
+    name: "proxy"
     state: "present"
 
 - name: Allow traffic from Docker bridge subnet 172.17.0.0/16 via UFW

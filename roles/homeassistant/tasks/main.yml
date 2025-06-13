@@ -58,7 +58,7 @@
     #   - 1.1.1.1
     # networks:
     #   - name: "proxy"
-    #   - name: "{{ smarthome.network }}"
+    #   - name: "proxy"
     volumes:
       # - /etc/localtime:/etc/localtime:ro
       # - /etc/timezone:/etc/timezone:ro
@@ -81,22 +81,28 @@
       # - "/dev/ttyS0:/dev/ttyS0"
     labels:
       traefik.enable: "true"
-      traefik.docker.network: "{{ smarthome.network }}"
-      traefik.http.routers.homeassistant.service: "{{ service.name }}"
-      # # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
+      traefik.docker.network: "proxy"
       traefik.http.routers.homeassistant.entrypoints: "web"
-      # traefik.http.routers.homeassistant.service: "homeassistant"
-      # traefik.http.routers.homeassistant.rule: "Host(`localhost`)"
-      traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`) && PathPrefix(`/`)"
-      # traefik.http.routers.homeassistant.rule: "PathPrefix(`/`)"
-      # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}:{{ service.port }}`) && PathPrefix(`/`)"
-      # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`) && Port(`{{ service.port }}`)"
-      # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}:{{ service.port }}`)"
-
-      # traefik.http.routers.homeassistant-le.entrypoints: "websecure"
-      # traefik.http.routers.homeassistant-le.service: "homeassistant"
-      # traefik.http.routers.homeassistant-le.tls: "true"
-      # traefik.http.routers.homeassistant-le.tls.certresolver: "letsencrypt"
-      # traefik.http.routers.homeassistant-le.rule: "Host(`emwe.duckdns.org`)"
-
+      traefik.http.routers.homeassistant.service: "homeassistant"
+      traefik.http.routers.homeassistant.rule: "PathPrefix(`/`)"
       traefik.http.services.homeassistant.loadbalancer.server.port: "{{ service.port }}"
+      # traefik.enable: "true"
+      # traefik.docker.network: "proxy"
+      # traefik.http.routers.homeassistant.service: "{{ service.name }}"
+      # # # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
+      # traefik.http.routers.homeassistant.entrypoints: "web"
+      # # traefik.http.routers.homeassistant.service: "homeassistant"
+      # # traefik.http.routers.homeassistant.rule: "Host(`localhost`)"
+      # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`) && PathPrefix(`/`)"
+      # # traefik.http.routers.homeassistant.rule: "PathPrefix(`/`)"
+      # # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}:{{ service.port }}`) && PathPrefix(`/`)"
+      # # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`) && Port(`{{ service.port }}`)"
+      # # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}:{{ service.port }}`)"
+
+      # # traefik.http.routers.homeassistant-le.entrypoints: "websecure"
+      # # traefik.http.routers.homeassistant-le.service: "homeassistant"
+      # # traefik.http.routers.homeassistant-le.tls: "true"
+      # # traefik.http.routers.homeassistant-le.tls.certresolver: "letsencrypt"
+      # # traefik.http.routers.homeassistant-le.rule: "Host(`emwe.duckdns.org`)"
+
+      # traefik.http.services.homeassistant.loadbalancer.server.port: "{{ service.port }}"
