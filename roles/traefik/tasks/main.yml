@@ -106,7 +106,7 @@
     labels:
       APP: "{{ service.name }}"
       traefik.enable: "true"
-      traefik.docker.network: "{{ smarthome.network }}"
+      # traefik.docker.network: "{{ smarthome.network }}"
       traefik.http.routers.api.entrypoints: "web"
       traefik.http.routers.api.rule: "Host(`{{ service.name }}.local`)"
       traefik.http.routers.api.service: "api@internal"
