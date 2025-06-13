@@ -3,4 +3,5 @@ service:
   name: homeassistant
   dir: "{{ dir.data }}/homeassistant"
   image: lscr.io/linuxserver/homeassistant
+  version: latest
   port: 8123
