@@ -91,4 +91,4 @@
     env:
       PUID: $PUID
       PGID: $PGID
-      TZ: "{{ tz }}"
+      TZ: $TZ
