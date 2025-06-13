@@ -68,8 +68,8 @@
       # - /etc/localtime:/etc/localtime:ro
       - "{{ homeassistant.dir }}:/config"
     env:
-      PUID: 1000
-      PGID: 1000
+      PUID: "1000"
+      PGID: "1000"
       TZ: "{{ tz }}"
     capabilities:
       - NET_ADMIN
