@@ -52,9 +52,9 @@
     # dns_servers:
     #   - 8.8.8.8
     #   - 1.1.1.1
-    networks:
-      # - name: proxy
-      - name: "{{ smarthome.network }}"
+    # networks:
+    #   # - name: proxy
+    #   - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
       - "{{ service.port }}:8080"
