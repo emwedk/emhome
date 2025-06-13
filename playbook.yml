@@ -9,7 +9,6 @@
     - role: common
     - role: docker
     - role: traefik
-    - role: duckdns
     - role: portainer
     - role: grafana
     - role: homeassistant
