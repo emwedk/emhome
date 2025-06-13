@@ -50,7 +50,7 @@
 - name: Run Home Assistant container
   community.docker.docker_container:
     name: homeassistant
-   
+    image: ghcr.io/home-assistant/home-assistant:latest
     state: started
     restart: true
     restart_policy: unless-stopped
@@ -86,8 +86,3 @@
       traefik.http.routers.homeassistant.service: "homeassistant"
       traefik.http.routers.homeassistant.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
       traefik.http.services.homeassistant.loadbalancer.server.port: "{{ homeassistant.port }}"
-tooth device is present
-      # - "/dev/ttyS0:/dev/ttyS0"
-    state: startedtyS0"
-    state: started0"
-    state: started
