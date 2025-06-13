@@ -104,7 +104,7 @@
       PGID: "{{ user.pgid }}"
       # DUCKDNS_TOKEN: "{{ duckdns.token }}"
     labels:
-      APP: "{{ service.name }}"
+      # APP: "{{ service.name }}"
       traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"
       traefik.http.routers.api.entrypoints: "web"
