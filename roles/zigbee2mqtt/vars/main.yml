@@ -1,5 +1,11 @@
 ---
 zigbee2mqtt:
+  version: latest
+  id: zigbee2mqtt
+  dir: "{{ dir.data }}/zigbee2mqtt"
+  logdir: "{{ dir.log }}/zigbee2mqtt"
+  network: "{{ smarthome.network }}"
+  port: 8124
   secret:
     server: mqtt://mosquitto:1883
     user: "{{ user.name }}"
@@ -7,11 +13,9 @@ zigbee2mqtt:
     client_id: "zigbee2mqtt-{{ user.name }}"
 
   config: 
-    homeassistant: 
-      enabled: true
+    homeassistant: true
     frontend: 
       enabled: true
-      port: 8080
       package: zigbee2mqtt-windfront
     mqtt:
       base_topic: zigbee2mqtt
@@ -38,5 +42,5 @@ zigbee2mqtt:
        disable_automatic_update_check: true
     serial:
       adapter: ember
-      port: "{{ smarthome.zigbee_adapter }}"
+      port: "{{ smarthome.host_adapter }}"
       rtscts: true

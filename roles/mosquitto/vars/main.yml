@@ -1,1 +1,7 @@
 ---
+mosquitto:
+  id: mosquitto
+  dir: "{{ dir.data }}/mosquitto"
+  logdir: "{{ dir.log }}/mosquitto"
+  network: "{{ smarthome.network }}"
+  port: 1883

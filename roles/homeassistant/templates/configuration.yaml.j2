@@ -1,22 +1,22 @@
 # Loads default set of integrations. Do not remove.
 default_config:
 
+homeassistant:
+  internal_url: "http://localhost:8123"
+
 http:
   ip_ban_enabled: false
   login_attempts_threshold: 12
   use_x_forwarded_for: true
   trusted_proxies:
-    - 172.19.0.0/24
+    - 192.168.0.180
+    - 192.168.0.0/24
     - 172.18.0.0/24 # Docker Subnet
     - 172.17.0.0/24
+    - 127.0.0.1
+    - ::1
   server_port: 8123
-  server_host: 192.168.0.180
-
-
-
-homeassistant:
-  external_url: "http://192.168.0.180"
-  internal_url: "http://localhost:8123"
+  server_host: 0.0.0.0
 
 logger:
   default: info
@@ -25,6 +25,9 @@ logger:
 frontend:
   themes: !include_dir_merge_named themes
 
+
 automation: !include automations.yaml
-script: !include scripts.yaml
+group: !include groups.yaml
 scene: !include scenes.yaml
+script: !include scripts.yaml
+template: !include template.yaml

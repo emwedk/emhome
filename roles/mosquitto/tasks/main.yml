@@ -1,5 +1,5 @@
 ---
-- name: "Create directories for: {{ service.name }}"
+- name: Create role directories
   file:
     state: directory
     path: "{{ item }}"
@@ -7,58 +7,50 @@
     group: "{{ user.name }}"
     mode: '0755'
   loop:
-    - "{{ service.dir }}/config"
-    - "{{ service.dir }}/data"
-    - "{{ service.logdir }}"
+    - "{{ mosquitto.dir }}/config"
+    - "{{ mosquitto.dir }}/data"
+    - "{{ dir.log }}/mosquitto/"
+
+- name: "Ensure network exists ({{ mosquitto.network }})"
+  when: mosquitto.network != "host"
+  community.docker.docker_network:
+    name: "{{ mosquitto.network }}"
+    state: "present"
 
 - name: Deploy Mosquitto configuration file
   template:
     src: mosquitto.conf.j2
-    dest: "{{ service.dir }}/config/mosquitto.conf"
+    dest: "{{ mosquitto.dir }}/config/mosquitto.conf"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0755"
-    force: no
 
 - name: Deploy Mosquitto passwd file
   template:
     src: mosquitto.passwd.j2
-    dest: "{{ service.dir }}/config/mosquitto.passwd"
+    dest: "{{ mosquitto.dir }}/config/mosquitto.passwd"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0755"
-    force: no
 
 - name: Run Mosquitto container
   community.docker.docker_container:
-    name: "{{ service.name }}"
-    image: "{{ service.image }}:{{ service.version }}"
-    state: started
+    name: mosquitto
+    image: eclipse-mosquitto:latest
     restart: true
     restart_policy: unless-stopped
     networks:
-      # - name: "proxy"
-      - name: "proxy"
+      - name: "{{ mosquitto.network }}"
     ports:
-      - "{{ service.port }}:1883"
-      - "1884:1884"
+      - "{{ mosquitto.port }}:1883"
       - "9001:9001"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - "{{ service.dir }}/config:/mosquitto/config"
-      - "{{ service.dir }}/data:/mosquitto/data"
+      - "{{ mosquitto.dir }}/config:/mosquitto/config"
+      - "{{ mosquitto.dir }}/data:/mosquitto/data"
       - "{{ dir.log }}/mosquitto:/mosquitto/log"
     env:
       TZ: "{{ tz }}"
-      # Mosquitto should not be run as root
-    labels:
-      traefik.enable: "true"
-      traefik.docker.network: "proxy"
-      traefik.http.routers.mosquitto.entrypoints: "web"
-      traefik.http.routers.mosquitto.service: "{{ service.name }}"
-      traefik.http.routers.mosquitto.rule: "Host(`{{ service.name }}.local`)"
-      traefik.http.services.mosquitto.loadbalancer.server.port: "{{ service.port }}"
+    state: started
 
 - name: Wait for Mosquitto container to be running
   community.docker.docker_container_info:
@@ -77,3 +69,4 @@
 
 - name: Install Zigbee2MQTT if adapter is present
   import_tasks: "subtasks/mqtt_check.yml"
+  notify: Restart mosquitto

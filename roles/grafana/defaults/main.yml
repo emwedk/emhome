@@ -1,7 +1,0 @@
----
-service:
-  name: grafana
-  dir: "{{ dir.data }}/grafana"
-  image: grafana/grafana
-  version: latest
-  port: 3000

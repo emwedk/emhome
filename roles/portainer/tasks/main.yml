@@ -1,7 +1,7 @@
 ---
-- name: "Create directories for: {{ service.name }}"
+- name: "Create role directories"
   file:
-    path: "{{ service.dir }}"
+    path: "{{ dir.data }}/portainer"
     state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -9,31 +9,17 @@
 
 - name: Run Portainer container
   community.docker.docker_container:
-    name: "{{ service.name }}"
-    image: "{{ service.image }}:{{ service.version }}"
-    state: started
+    name: portainer
+    image: portainer/portainer-ce:latest
     restart: true
     restart_policy: unless-stopped
-    networks:
-      # - name: "proxy"
-      - name: "proxy"
     ports:
       - "8000:8000"
-      - "{{ service.port }}:9000"
+      - "9000:9000"
       - "9443:9443"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
       - /var/run/docker.sock:/var/run/docker.sock
-      - "{{ service.dir }}:/data"
+      - "{{ dir.data }}/portainer:/data"
     env:
       TZ: "{{ tz }}"
-      PUID: "{{ user.puid }}"
-      PGID: "{{ user.pgid }}"
-    labels:
-      traefik.enable: "true"
-      traefik.docker.network: "proxy"
-      traefik.http.routers.portainer.entrypoints: "web"
-      traefik.http.routers.portainer.service: "{{ service.name }}"
-      traefik.http.routers.portainer.rule: "Host(`{{ service.name }}.local`)"
-      traefik.http.services.portainer.loadbalancer.server.port: "{{ service.port }}"
+    state: started

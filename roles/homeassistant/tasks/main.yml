@@ -1,6 +1,6 @@
-- name: "Create directories for: {{ service.name }}"
+- name: Create role directories
   file:
-    path: "{{ service.dir }}"
+    path: "{{ homeassistant.dir }}"
     state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -9,26 +9,25 @@
 - name: Deploy Home Assistant configuration file
   template:
     src: configuration.yaml.j2
-    dest: "{{ service.dir }}/configuration.yaml"
+    dest: "{{ homeassistant.dir }}/configuration.yaml"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0644"
-    force: no
 
 - name: Ensure Home Assistant include folders exist
   file:
-    path: "{{ service.dir }}/{{ item }}"
+    path: "{{ homeassistant.dir }}/{{ item }}"
     state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: '0755'
   loop:
-    - automations
+    # - automations
     - themes
 
 - name: Ensure Home Assistant include files exist
   copy:
-    dest: "{{ service.dir }}/{{ item }}"
+    dest: "{{ homeassistant.dir }}/{{ item }}"
     content: ""
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -42,67 +41,36 @@
     - scenes.yaml
     - template.yaml
 
+- name: "Ensure network exists ({{ homeassistant.network }})"
+  when: homeassistant.network != "host"
+  community.docker.docker_network:
+    name: "{{ homeassistant.network }}"
+    state: "present"
+
 - name: Run Home Assistant container
   community.docker.docker_container:
-    name: "{{ service.name }}"
-    image: "{{ service.image }}:{{ service.version }}"
-    state: started
+    name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:latest
     restart: true
     restart_policy: unless-stopped
     privileged: true
     network_mode: host
-    # ports:
-    #   - "{{ service.port }}:8123"
-    # dns_servers:
-    #   - 8.8.8.8
-    #   - 1.1.1.1
-    # networks:
-    #   - name: "proxy"
-    #   - name: "proxy"
+    expose:
+      - 8123
+    ports:
+      - "8123:8123"
     volumes:
+      - /run/dbus:/run/dbus:ro
       # - /etc/localtime:/etc/localtime:ro
-      # - /etc/timezone:/etc/timezone:ro
-      # - /etc/resolv.conf:/etc/resolv.conf
-      - /var/run/dbus:/var/run/dbus:ro
-      # - /run/dbus:/run/dbus:ro
-      - "{{ service.dir }}:/config"
+      - "{{ homeassistant.dir }}:/config"
     env:
       TZ: "{{ tz }}"
-      PUID: "{{ user.puid }}"
-      PGID: "{{ user.pgid }}"
-    capabilities:
-      - NET_ADMIN
-      - NET_RAW
-      - NET_BIND_SERVICE
-      - SYS_ADMIN
-    devices:
-      - "{{ smarthome.zigbee_adapter }}:{{ smarthome.zigbee_adapter }}"
+    # capabilities:
+    #   - NET_ADMIN
+    #   - NET_BIND_SERVICE
+    #   - SYS_ADMIN
+    # devices:
+    #   - "{{ smarthome.host_adapter }}:{{ smarthome.host_adapter }}"
       # Uncomment and adjust if Bluetooth device is present
       # - "/dev/ttyS0:/dev/ttyS0"
-    labels:
-      # traefik.enable: "true"
-      # traefik.docker.network: "proxy"
-      # traefik.http.routers.homeassistant.entrypoints: "web"
-      # traefik.http.routers.homeassistant.service: "homeassistant"
-      # traefik.http.routers.homeassistant.rule: "PathPrefix(`/`)"
-      # traefik.http.services.homeassistant.loadbalancer.server.port: "{{ service.port }}"
-      # traefik.enable: "true"
-      # traefik.docker.network: "proxy"
-      # traefik.http.routers.homeassistant.service: "{{ service.name }}"
-      # # # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
-      # traefik.http.routers.homeassistant.entrypoints: "web"
-      # # traefik.http.routers.homeassistant.service: "homeassistant"
-      # # traefik.http.routers.homeassistant.rule: "Host(`localhost`)"
-      # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`) && PathPrefix(`/`)"
-      # # traefik.http.routers.homeassistant.rule: "PathPrefix(`/`)"
-      # # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}:{{ service.port }}`) && PathPrefix(`/`)"
-      # # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`) && Port(`{{ service.port }}`)"
-      # # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}:{{ service.port }}`)"
-
-      # # traefik.http.routers.homeassistant-le.entrypoints: "websecure"
-      # # traefik.http.routers.homeassistant-le.service: "homeassistant"
-      # # traefik.http.routers.homeassistant-le.tls: "true"
-      # # traefik.http.routers.homeassistant-le.tls.certresolver: "letsencrypt"
-      # # traefik.http.routers.homeassistant-le.rule: "Host(`emwe.duckdns.org`)"
-
-      # traefik.http.services.homeassistant.loadbalancer.server.port: "{{ service.port }}"
+    state: started
