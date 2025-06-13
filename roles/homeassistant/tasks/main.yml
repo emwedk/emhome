@@ -99,4 +99,4 @@
       # traefik.http.routers.homeassistant-le.tls.certresolver: "letsencrypt"
       # traefik.http.routers.homeassistant-le.rule: "Host(`emwe.duckdns.org`)"
 
-      traefik.http.services.homeassistant.loadbalancer.server.url: "127.0.0.1:{{ service.port }}"
+      traefik.http.services.homeassistant.loadbalancer.server.url: "http://127.0.0.1:{{ service.port }}"
