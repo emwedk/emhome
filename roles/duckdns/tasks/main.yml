@@ -23,11 +23,13 @@
         state: "started"
         restart: true
         restart_policy: "unless-stopped"
-        network_mode: host
-        # networks:
-        #   - name: "{{ smarthome.network }}"
-        # ports:
-        #   - "{{ service.port }}:8053"
+        # network_mode: host
+        networks:
+          - name: "{{ smarthome.network }}"
+        ports:
+          - "80:80"
+          - "443:443"
+          - "{{ service.port }}:8053"
         volumes:
           - /etc/localtime:/etc/localtime:ro
           - /etc/timezone:/etc/timezone:ro
