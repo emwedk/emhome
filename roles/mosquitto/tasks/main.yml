@@ -51,8 +51,7 @@
       - "{{ dir.log }}/mosquitto:/mosquitto/log"
     env:
       TZ: "{{ tz }}"
-      PUID: "{{ user.puid }}"
-      PGID: "{{ user.pgid }}"
+      # Mosquitto should not be run as root
     labels:
       traefik.enable: "true"
       traefik.docker.network: "{{ smarthome.network }}"
