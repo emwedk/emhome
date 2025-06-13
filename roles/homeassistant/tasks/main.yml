@@ -80,12 +80,12 @@
       # Uncomment and adjust if Bluetooth device is present
       # - "/dev/ttyS0:/dev/ttyS0"
     labels:
-      traefik.enable: "true"
-      traefik.docker.network: "proxy"
-      traefik.http.routers.homeassistant.entrypoints: "web"
-      traefik.http.routers.homeassistant.service: "homeassistant"
-      traefik.http.routers.homeassistant.rule: "PathPrefix(`/`)"
-      traefik.http.services.homeassistant.loadbalancer.server.port: "{{ service.port }}"
+      # traefik.enable: "true"
+      # traefik.docker.network: "proxy"
+      # traefik.http.routers.homeassistant.entrypoints: "web"
+      # traefik.http.routers.homeassistant.service: "homeassistant"
+      # traefik.http.routers.homeassistant.rule: "PathPrefix(`/`)"
+      # traefik.http.services.homeassistant.loadbalancer.server.port: "{{ service.port }}"
       # traefik.enable: "true"
       # traefik.docker.network: "proxy"
       # traefik.http.routers.homeassistant.service: "{{ service.name }}"
