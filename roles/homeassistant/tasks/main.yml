@@ -82,8 +82,10 @@
       # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
       traefik.http.routers.homeassistant.entrypoints: "web"
       traefik.http.routers.homeassistant.service: "homeassistant"
+      # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}"
+      traefik.http.routers.homeassistant.rule: "PathPrefix(`/`)"
       # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}:{{ service.port }}`) && PathPrefix(`/`)"
-      traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`) && Port(`{{ service.port }}`)"
+      # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`) && Port(`{{ service.port }}`)"
       # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}:{{ service.port }}`)"
 
       # traefik.http.routers.homeassistant-le.entrypoints: "websecure"
