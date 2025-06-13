@@ -53,9 +53,9 @@
     #   - 8.8.8.8
     #   - 1.1.1.1
     # doesn't weem to function with any "networks:" tag
-    networks:
-    #   # - name: proxy
-      - name: "{{ smarthome.network }}"
+    # networks:
+    # #   # - name: proxy
+    #   - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
       - "{{ service.port }}:8080"
@@ -75,7 +75,6 @@
       # - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
       # - "--providers.file.watch=true"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.ha.address=:8123"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
       # - "--entrypoints.web.asDefault=true"
