@@ -60,8 +60,8 @@
     #   - name: "proxy"
     #   - name: "{{ smarthome.network }}"
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      # - /etc/localtime:/etc/localtime:ro
+      # - /etc/timezone:/etc/timezone:ro
       # - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/dbus:/var/run/dbus:ro
       # - /run/dbus:/run/dbus:ro
@@ -81,13 +81,13 @@
       # - "/dev/ttyS0:/dev/ttyS0"
     labels:
       traefik.enable: "true"
-      # traefik.docker.network: "{{ smarthome.network }}"
+      traefik.docker.network: "{{ smarthome.network }}"
       traefik.http.routers.homeassistant.service: "{{ service.name }}"
       # # traefik.http.routers.homeassistant-local.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
       traefik.http.routers.homeassistant.entrypoints: "web"
       # traefik.http.routers.homeassistant.service: "homeassistant"
       # traefik.http.routers.homeassistant.rule: "Host(`localhost`)"
-      traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`)"
+      traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`) && PathPrefix(`/`)"
       # traefik.http.routers.homeassistant.rule: "PathPrefix(`/`)"
       # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}:{{ service.port }}`) && PathPrefix(`/`)"
       # traefik.http.routers.homeassistant.rule: "Host(`{{ ansible_default_ipv4.address }}`) && Port(`{{ service.port }}`)"
