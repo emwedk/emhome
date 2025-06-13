@@ -11,15 +11,26 @@
   community.docker.docker_container:
     name: portainer
     image: portainer/portainer-ce:latest
+    state: started
     restart: true
     restart_policy: unless-stopped
     ports:
       - "8000:8000"
       - "9000:9000"
       - "9443:9443"
+    networks:
+      - name: "proxy"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - "{{ dir.data }}/portainer:/data"
     env:
-      TZ: "{{ tz }}"
-    state: started
+      PUID: $PUID
+      PGID: $PGID
+      TZ: {{ tz }}
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: "proxy"
+      traefik.http.routers.portainer.entrypoints: "web"
+      traefik.http.routers.portainer.service: "portainer"
+      traefik.http.routers.portainer.rule: "Host(`portainer.local`)"
+      traefik.http.services.portainer.loadbalancer.server.port: "9000"

@@ -22,6 +22,7 @@
       - openrc
       - tar
       - unzip
+      - ufw
     state: present
 
 - name: Create common groups
@@ -31,6 +32,16 @@
     - dialout
     - bluetooth
     - "{{ user.name }}"
+
+- name: Allow traffic from Docker bridge subnet 172.18.0.0/16 via UFW
+  ansible.builtin.ufw:
+    rule: allow
+    from_ip: 172.18.0.0/16
+
+- name: Allow traffic from Docker bridge subnet 172.17.0.0/16 via UFW
+  ansible.builtin.ufw:
+    rule: allow
+    from_ip: 172.17.0.0/16
 
 - name: "Create user '{{ user.name }}'"
   user:

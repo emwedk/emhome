@@ -6,32 +6,46 @@
     group: "{{ user.name }}"
     mode: '0755'
 
-- name: Copy Traefik dynamic config
-  template:
-    src: dynamic.yml.j2
-    dest: "{{ dir.data }}/traefik/dynamic.yml"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: '0644'
-
-- name: "Create acme directory"
+- name: "Create role directories"
   file:
-    path: "{{ dir.data }}/traefik/acme"
+    path: "{{ dir.data }}/traefik/letsencrypt"
     state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: '0755'
 
+- name: Copy Traefik config
+  template:
+    src: traefik.yml.j2
+    dest: "{{ dir.data }}/traefik/traefik.yml"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0644'
+
+- name: Copy Traefik dynamic config
+  template:
+    src: traefik_dynamic.yml.j2
+    dest: "{{ dir.data }}/traefik/traefik_dynamic.yml"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0644'
+
 - name: Set acme.json permissions
   copy:
-    dest: "{{ dir.data }}/traefik/acme/acme.json"
+    dest: "{{ dir.data }}/traefik/letsencrypt/acme.json"
     content: ""
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0600"
     force: no
 
+- name: "Ensure network exists (proxy)"
+  community.docker.docker_network:
+    name: "proxy"
+    state: "present"
+
 - name: Run Traefik container
+  become: true
   community.docker.docker_container:
     name: traefik
     image: traefik:latest
@@ -44,18 +58,37 @@
       - "--accesslog=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
-      - "--providers.file.filename=/etc/traefik/dynamic.yml"
+      - "--providers.docker.network=proxy"
+      # - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
+      - "--providers.file.watch=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
+    # networks:
+    #   - name: proxy
     ports:
       - "80:80"
-      - "443:443"
       - "8080:8080"
-    # etc_hosts:
-    #   host.docker.internal: 172.17.0.1
+      - "443:443"
+    etc_hosts:
+      host.docker.internal: host-gateway
+      # host.docker.internal: 172.17.0.1
+    labels:
+        APP: "traefik"
+        traefik.enable: "true"
+        traefik.docker.network: "proxy"
+        traefik.http.routers.traefik.entrypoints: "web"
+        traefik.http.routers.traefik.rule: "Host(`traefik.local`)"
+        traefik.http.routers.traefik.middlewares: "user-auth@file"
+        traefik.http.routers.traefik.service: "api@internal"
+
     volumes:
+      - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock
-      - "{{ dir.data }}/traefik:/etc/traefik"
+      # - "{{ dir.data }}/traefik/traefik.yml:/etc/traefik/traefik.yml"
+      - "{{ dir.data }}/traefik/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
+      # - "{{ dir.data }}/traefik/letsencrypt:/etc/traefik/letsencrypt"
     env:
-      TZ: "{{ tz }}"
+      PUID: $PUID
+      PGID: $PGID
+      TZ: {{ tz }}

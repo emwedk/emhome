@@ -50,27 +50,40 @@
 - name: Run Home Assistant container
   community.docker.docker_container:
     name: homeassistant
-    image: ghcr.io/home-assistant/home-assistant:latest
+    image: lscr.io/linuxserver/homeassistant:latest
+    state: started
     restart: true
     restart_policy: unless-stopped
     privileged: true
     network_mode: host
-    expose:
-      - 8123
-    ports:
-      - "8123:8123"
+    # dns_servers:
+    #   - 8.8.8.8
+    #   - 1.1.1.1
+    # networks:
+    #   - name: "proxy"
+    #   - name: "{{ homeassistant.network }}"
     volumes:
-      - /run/dbus:/run/dbus:ro
+      - /var/run/dbus:/var/run/dbus:ro
+      # - /etc/resolv.conf:/etc/resolv.conf
       # - /etc/localtime:/etc/localtime:ro
       - "{{ homeassistant.dir }}:/config"
     env:
-      TZ: "{{ tz }}"
-    # capabilities:
-    #   - NET_ADMIN
-    #   - NET_BIND_SERVICE
-    #   - SYS_ADMIN
-    # devices:
-    #   - "{{ smarthome.host_adapter }}:{{ smarthome.host_adapter }}"
+      PUID: 1000
+      PGID: 1000
+      TZ: {{ tz }}
+    capabilities:
+      - NET_ADMIN
+      - NET_RAW
+      - NET_BIND_SERVICE
+      - SYS_ADMIN
+    devices:
+      - "{{ smarthome.host_adapter }}:{{ smarthome.host_adapter }}"
       # Uncomment and adjust if Bluetooth device is present
       # - "/dev/ttyS0:/dev/ttyS0"
-    state: started
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: "proxy"
+      traefik.http.routers.homeassistant.entrypoints: "web"
+      traefik.http.routers.homeassistant.service: "homeassistant"
+      traefik.http.routers.homeassistant.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
+      traefik.http.services.homeassistant.loadbalancer.server.port: "{{ homeassistant.port }}"
