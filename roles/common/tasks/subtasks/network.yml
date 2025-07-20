@@ -4,23 +4,27 @@
   community.docker.docker_network:
     name: "{{ smarthome.network }}"
     state: "present"
-  register: docker_bridge_network
+  register: docker_bridge
 
 - name: "debug var"
   debug:
-    var: docker_bridge_network
+    var: docker_bridge
 
 - name: "debug var"
   debug:
-    var: docker_bridge_network
+    var: docker_bridge
 
 - name: "debug var"
   debug:
-    var: docker_bridge_network
+    var: docker_bridge
 
-- name: Set Docker host gateway IP
+- name: Extract docker host info
   set_fact:
-    docker_host_gateway: "{{ docker_bridge_network.gateway }}"
+    docker_host: "{{ docker_bridge.network.IPAM.Config | first }}"
+
+- name: Stop playbook
+  meta: end_play
+
 
 # - name: Allow traffic from Docker bridge subnet 172.20.0.0/16 via UFW
 #   ansible.builtin.ufw:
