@@ -6,6 +6,18 @@
     state: "present"
   register: docker_bridge_network
 
+- name: "debug var"
+  debug:
+    var: docker_bridge_network
+
+- name: "debug var"
+  debug:
+    var: docker_bridge_network
+
+- name: "debug var"
+  debug:
+    var: docker_bridge_network
+
 - name: Set Docker host gateway IP
   set_fact:
     docker_host_gateway: "{{ docker_bridge_network.gateway }}"
