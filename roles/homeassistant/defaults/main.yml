@@ -3,6 +3,7 @@ service:
   name: homeassistant
   dir: "{{ dir.data }}/homeassistant"
   logdir: "{{ dir.log }}/homeassistant"
-  image: lscr.io/linuxserver/homeassistant
+  image: ghcr.io/home-assistant/home-assistant
+  # image: lscr.io/linuxserver/homeassistant
   version: "{{ app.homeassistant.version }}"
   port: 8123
