@@ -55,8 +55,8 @@
     state: started
     restart: true
     restart_policy: unless-stopped
-    networks:
-      - name: "{{ smarthome.network }}"
+    # networks:
+    #   - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
       - "443:443"
@@ -81,7 +81,7 @@
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.network={{ smarthome.network }}"
-      # - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
       - "--providers.file.watch=true"
       - "--api.dashboard=true"

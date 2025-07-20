@@ -12,8 +12,8 @@ zigbee2mqtt:
       enabled: true
       port: 8080
       package: zigbee2mqtt-windfront
-      ssl_key: /config/etc/letsencrypt/live/mydomain.com/privkey.pem # private key file path for exposing HTTPS
-      ssl_cert: /config/etc/letsencrypt/live/mydomain.com/fullchain.pem # certificate file path for exposing HTTPS
+      # ssl_key: /config/etc/letsencrypt/live/mydomain.com/privkey.pem # private key file path for exposing HTTPS
+      # ssl_cert: /config/etc/letsencrypt/live/mydomain.com/fullchain.pem # certificate file path for exposing HTTPS
       # notification_filter: # list of regular expressions to hide notifications, the example below hides notifications for failed device pings
       #   - 'z2m: Failed to ping.*'
     mqtt:
