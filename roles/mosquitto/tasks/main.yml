@@ -61,8 +61,8 @@
       - "{{ service.logdir }}:/mosquitto/log"
     env:
       TZ: "{{ tz }}"
-      # PUID: "{{ user.puid }}"
-      # PGID: "{{ user.pgid }}"
+      PUID: "{{ user.puid }}"
+      PGID: "{{ user.pgid }}"
     labels: "{{ dynamic_labels }}"
       # traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"
