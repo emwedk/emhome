@@ -18,7 +18,7 @@ http:
   login_attempts_threshold: 12
   use_x_forwarded_for: true
   trusted_proxies:
-    - {{ docker_host_gateway }}
+    - {{ docker_host.Subnet }}
   server_port: 8123
   server_host: 0.0.0.0
 

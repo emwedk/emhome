@@ -1,7 +1,7 @@
 ---
 zigbee2mqtt:
   secret:
-    server: "mqtt://{{ docker_host_gateway: }}" # mqtts:// for secure connection
+    server: "mqtt://{{ docker_host.Gateway: }}" # mqtts:// for secure connection
     user: "{{ user.name }}"
     password: "{{ user.pass }}"
     client_id: "zigbee2mqtt-{{ user.name }}"
