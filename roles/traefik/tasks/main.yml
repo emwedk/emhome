@@ -31,6 +31,22 @@
     mode: "0600"
     force: no
 
+- name: Build dynamic labels dictionary
+  set_fact:
+    dynamic_labels: >-
+      {{
+        {
+          'traefik.enable': 'true',
+          'traefik.docker.network': smarthome.network,
+          ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'web',
+          ('traefik.http.routers.' ~ service.name ~ '.service'): 'api@internal',
+          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.name ~ '.local`)',
+          ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('sha512')),
+          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): service.name ~ '-auth@docker'
+          
+        }
+      }}
+
 - name: "Run container: {{ service.name }}"
   # become: true
   community.docker.docker_container:
@@ -74,14 +90,14 @@
       - "--accesslog=true"
       - "--metrics.prometheus=true"
 
-    labels:
-        traefik.enable: "true"
-        traefik.docker.network: "{{ smarthome.network }}"
-        "traefik.http.routers.{{ service.name }}.entrypoints": "web"
-        "traefik.http.routers.{{ service.name }}.service": "api@internal"
-        "traefik.http.routers.{{ service.name }}.rule": "Host(`{{ service.name }}.local`)"
-        "traefik.http.middlewares.{{ service.name }}-auth.basicauth.users": "{{ user.name }}:{{ user.pass | password_hash('sha512') }}"
-        "traefik.http.routers.{{ service.name }}.middlewares": "{{ service.name }}-auth@docker"
+    labels: "{{ dynamic_labels }}"
+        # traefik.enable: "true"
+        # traefik.docker.network: "{{ smarthome.network }}"
+        # "traefik.http.routers.{{ service.name }}.entrypoints": "web"
+        # "traefik.http.routers.{{ service.name }}.service": "api@internal"
+        # "traefik.http.routers.{{ service.name }}.rule": "Host(`{{ service.name }}.local`)"
+        # "traefik.http.middlewares.{{ service.name }}-auth.basicauth.users": "{{ user.name }}:{{ user.pass | password_hash('sha512') }}"
+        # "traefik.http.routers.{{ service.name }}.middlewares": "{{ service.name }}-auth@docker"
         # APP: "traefik"
         # traefik.http.routers.traefik.middlewares: "user-auth@file"
         # traefik.http.services.traefik.loadbalancer.server.port: 8080
