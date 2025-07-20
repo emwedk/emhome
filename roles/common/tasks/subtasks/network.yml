@@ -22,6 +22,10 @@
   set_fact:
     docker_host: "{{ docker_bridge.network.IPAM.Config | first }}"
 
+- name: Debug and stop
+  debug:
+    msg: "Gateway: {{ docker_host.Gateway }}, Subnet: {{ docker_host.Subnet }}"
+
 - name: Stop playbook
   meta: end_play
 
