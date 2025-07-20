@@ -24,6 +24,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0755"
+    force: no
 
 - name: Deploy Mosquitto passwd file
   template:
@@ -32,6 +33,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0755"
+    force: no
 
 - name: Run Mosquitto container
   community.docker.docker_container:

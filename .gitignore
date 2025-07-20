@@ -1,0 +1,6 @@
+# Ansible gitignore
+*.retry
+.ansible/
+
+# emhome gitignore
+*.zip

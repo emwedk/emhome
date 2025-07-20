@@ -1,5 +1,5 @@
 ---
-- name: Create role directories
+- name: Create directories
   file:
     path: "{{ dir.data }}/grafana"
     state: directory

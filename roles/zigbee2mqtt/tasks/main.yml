@@ -22,6 +22,7 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0644"
+    force: no
 
 - name: "Ensure network exists ({{ zigbee2mqtt.network }})"
   when: zigbee2mqtt.network != "host"
