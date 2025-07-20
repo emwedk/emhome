@@ -28,6 +28,8 @@
     state: started
     restart: true
     restart_policy: unless-stopped
+    user: 0
+    # user: "{{ user.puid }}"
     networks:
       - name: "{{ smarthome.network }}"
     ports:
@@ -36,8 +38,8 @@
       - "{{ service.dir }}:/var/lib/grafana"
     env:
       TZ: "{{ tz }}"
-      PUID: "{{ user.puid }}"
-      PGID: "{{ user.pgid }}"
+      # PUID: "{{ user.puid }}"
+      # PGID: "{{ user.pgid }}"
     labels: "{{ dynamic_labels }}"
       # traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"
