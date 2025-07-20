@@ -76,8 +76,8 @@
     dns_servers:
       - 8.8.8.8
       - 1.1.1.1
-    networks:
-      - name: "{{ smarthome.network }}"
+    # networks:
+    #   - name: "{{ smarthome.network }}"
     volumes:
       - /var/run/dbus:/var/run/dbus:ro
       # - /etc/resolv.conf:/etc/resolv.conf
