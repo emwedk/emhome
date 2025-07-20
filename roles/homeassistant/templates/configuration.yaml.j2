@@ -10,7 +10,7 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 
 homassistant:
-{{ homeassistant | combine(secret.homassistant | default({}), recursive=true) | to_nice_yaml(indent=1) }}
+  {{ homeassistant | combine(secret.homassistant | default({}), recursive=true) | to_nice_yaml }}
 
 
 http:
