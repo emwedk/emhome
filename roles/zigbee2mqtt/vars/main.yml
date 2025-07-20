@@ -1,13 +1,7 @@
 ---
 zigbee2mqtt:
-  version: latest
-  id: zigbee2mqtt
-  dir: "{{ dir.data }}/zigbee2mqtt"
-  logdir: "{{ dir.log }}/zigbee2mqtt"
-  network: "{{ smarthome.network }}"
-  port: 8124
   secret:
-    server: mqtt://mosquitto:1883
+    server: "mqtt://{{ docker_host_gateway: }}" # mqtts:// for secure connection
     user: "{{ user.name }}"
     password: "{{ user.pass }}"
     client_id: "zigbee2mqtt-{{ user.name }}"
@@ -18,8 +12,16 @@ zigbee2mqtt:
       enabled: true
       port: 8080
       package: zigbee2mqtt-windfront
+      ssl_key: /config/etc/letsencrypt/live/mydomain.com/privkey.pem # private key file path for exposing HTTPS
+      ssl_cert: /config/etc/letsencrypt/live/mydomain.com/fullchain.pem # certificate file path for exposing HTTPS
+      # notification_filter: # list of regular expressions to hide notifications, the example below hides notifications for failed device pings
+      #   - 'z2m: Failed to ping.*'
     mqtt:
       base_topic: zigbee2mqtt
+      # ca: '/etc/ssl/mqtt-ca.crt' # path to SSL/TLS certificate
+      # key: '/etc/ssl/mqtt-client.key' # path to SSL/TLS key
+      # cert: '/etc/ssl/mqtt-client.crt' # path to SSL/TLS certificate
+      # server: mqtt://mosquitto:1883
       server: '!secret.yaml server'
       user: '!secret.yaml user'
       password: '!secret.yaml password'

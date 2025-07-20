@@ -1,29 +1,6 @@
 # Loads default set of integrations. Do not remove.
 default_config:
 
-http:
-  ip_ban_enabled: false
-  login_attempts_threshold: 12
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - ::1
-    - 127.0.0.1
-    - 192.168.0.0/24
-    - 172.19.0.0/24
-    - 172.18.0.0/24 # Docker Subnet
-    - 172.17.0.0/24
-  server_port: 8123
-  server_host: 0.0.0.0
-
-
-
-homeassistant:
-  external_url: "http://192.168.0.180"
-  internal_url: "http://localhost:8123"
-
-logger:
-  default: info
-
 # Load frontend themes from the themes folder
 frontend:
   themes: !include_dir_merge_named themes
@@ -31,3 +8,19 @@ frontend:
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
+
+homassistant:
+{{ homeassistant | combine(secret.homassistant | default({}), recursive=true) | to_nice_yaml(indent=1) }}
+
+
+http:
+  ip_ban_enabled: false
+  login_attempts_threshold: 12
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - {{ docker_host_gateway }}
+  server_port: 8123
+  server_host: 0.0.0.0
+
+logger:
+  default: info

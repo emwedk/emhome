@@ -1,0 +1,8 @@
+---
+service:
+  name: grafana
+  dir: "{{ dir.data }}/grafana"
+  logdir: "{{ dir.log }}/grafana"
+  image: grafana/grafana
+  version: "{{ app.grafana.version }}"
+  port: 3000

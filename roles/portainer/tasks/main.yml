@@ -1,36 +1,43 @@
 ---
-- name: "Create role directories"
+- name: "Create directory for: {{ service.name }}"
   file:
-    path: "{{ dir.data }}/portainer"
-    state: directory
+    path: "{{ service.dir }}"
+    state: "directory"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: '0755'
+    mode: "0755"
 
-- name: Run Portainer container
+- name: "Run container: {{ service.name }}"
   community.docker.docker_container:
-    name: portainer
-    image: portainer/portainer-ce:latest
+    name: "{{ service.name }}"
+    image: "{{ service.image }}:{{ service.version }}"
     state: started
     restart: true
     restart_policy: unless-stopped
+    networks:
+      - name: "{{ smarthome.network }}"
     ports:
       - "8000:8000"
-      - "9000:9000"
+      - "{{ service.port }}:9000"
       - "9443:9443"
-    networks:
-      - name: "proxy"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - "{{ dir.data }}/portainer:/data"
+      - "{{ service.dir }}:/data"
     env:
-      PUID: $PUID
-      PGID: $PGID
-      TZ: $TZ
+      TZ: "{{ tz }}"
+      PUID: "{{ user.puid }}"
+      PGID: "{{ user.pgid }}"
     labels:
-      traefik.enable: "true"
-      traefik.docker.network: "proxy"
-      traefik.http.routers.portainer.entrypoints: "web"
-      traefik.http.routers.portainer.service: "portainer"
-      traefik.http.routers.portainer.rule: "Host(`portainer.local`)"
-      traefik.http.services.portainer.loadbalancer.server.port: "9000"
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ smarthome.network }}"
+      - "traefik.http.routers.{{ service.name }}.entrypoints=web"
+      - "traefik.http.routers.{{ service.name }}.service={{ service.name }}"
+      - "traefik.http.routers.{{ service.name }}.rule=Host(`{{ service.name }}.local`)"
+      - "traefik.http.services.{{ service.name }}.loadbalancer.server.port={{ service.port }}"
+
+      # traefik.enable: "true"
+      # traefik.docker.network: "{{ smarthome.network }}"
+      # traefik.http.routers.portainer.entrypoints: "web"
+      # traefik.http.routers.portainer.service: "portainer"
+      # traefik.http.routers.portainer.rule: "Host(`portainer.local`)"
+      # traefik.http.services.portainer.loadbalancer.server.port: "9000"

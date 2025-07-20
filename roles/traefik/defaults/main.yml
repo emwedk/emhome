@@ -1,0 +1,9 @@
+---
+service:
+  name: traefik
+  dir: "{{ dir.data }}/traefik"
+  logdir: "{{ dir.log }}/traefik"
+  image: traefik
+  version: "{{ app.traefik.version }}"
+  port: 8080
+

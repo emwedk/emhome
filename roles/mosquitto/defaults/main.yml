@@ -1,0 +1,9 @@
+---
+service:
+  name: mosquitto
+  dir: "{{ dir.data }}/mosquitto"
+  logdir: "{{ dir.log }}/mosquitto"
+  image: eclipse-mosquitto
+  version: "{{ app.mosquitto.version }}"
+  port: 1883
+

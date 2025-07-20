@@ -1,0 +1,38 @@
+---
+- name: Ensure dependency packages are installed
+  package:
+    name:
+      - python3
+      - python3-dev
+      - py3-requests
+      - py3-pip
+      - py3-passlib
+      - npm
+      - git
+      - curl
+      - dbus
+      - bluez
+      - openrc
+      - tar
+      - unzip
+      - ufw
+      - tzdata
+    state: present
+
+- name: Check if Avahi (mDNS) service is installed
+  stat:
+    path: /usr/sbin/avahi-daemon
+  register: avahi_installed
+
+- name: Install Avahi daemon if not present
+  package:
+    name: avahi-daemon
+    state: present
+  when: not avahi_installed.stat.exists
+
+- name: Ensure Avahi (mDNS) service is enabled and started
+  service:
+    name: avahi-daemon
+    state: started
+    enabled: yes
+  when: avahi_installed.stat.exists or (avahi_installed is defined and not avahi_installed.stat.exists)

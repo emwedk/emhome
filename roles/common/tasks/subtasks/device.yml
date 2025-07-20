@@ -1,0 +1,11 @@
+---
+- name: Check for Bluetooth device (optional)
+  shell: "hciconfig | grep -q hci0"
+  register: bt_check
+  ignore_errors: true
+
+- name: Warn if Bluetooth device not found
+  debug:
+    msg: "Bluetooth device not found. Bluetooth features will be unavailable."
+  when: bt_check.rc != 0
+

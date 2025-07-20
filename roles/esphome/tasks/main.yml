@@ -1,5 +1,5 @@
 ---
-- name: "Create directories for: {{ service.name }}"
+- name: "Create directory for: {{ service.name }}"
   file:
     path: "{{ service.dir }}"
     state: "directory"
@@ -7,7 +7,7 @@
     group: "{{ user.name }}"
     mode: "0755"
 
-- name: "Run ESPHome container"
+- name: "Run container: {{ service.name }}"
   community.docker.docker_container:
     name: "{{ service.name }}"
     image: "{{ service.image }}:{{ service.version }}"
@@ -15,8 +15,7 @@
     restart: true
     restart_policy: "unless-stopped"
     networks:
-      # - name: "proxy"
-      - name: "proxy"
+      - name: "{{ smarthome.network }}"
     ports:
       - "{{ service.port }}:6052"
     volumes:
@@ -26,9 +25,16 @@
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
     labels:
-      traefik.enable: "true"
-      traefik.docker.network: "proxy"
-      traefik.http.routers.esphome.entrypoints: "web"
-      traefik.http.routers.esphome.service: "{{ service.name }}"
-      traefik.http.routers.esphome.rule: "Host(`{{ service.name }}.local`)"
-      traefik.http.services.esphome.loadbalancer.server.port: "{{ service.port }}"
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ smarthome.network }}"
+      - "traefik.http.routers.{{ service.name }}.entrypoints=web"
+      - "traefik.http.routers.{{ service.name }}.service={{ service.name }}"
+      - "traefik.http.routers.{{ service.name }}.rule=Host(`{{ service.name }}.local`)"
+      - "traefik.http.services.{{ service.name }}.loadbalancer.server.port={{ service.port }}"
+
+      # traefik.enable: "true"
+      # traefik.docker.network: "{{ smarthome.network }}"
+      # traefik.http.routers.esphome.entrypoints: "web"
+      # traefik.http.routers.esphome.service: "{{ service.name }}"
+      # traefik.http.routers.esphome.rule: "Host(`{{ service.name }}.local`)"
+      # traefik.http.services.esphome.loadbalancer.server.port: "{{ service.port }}"

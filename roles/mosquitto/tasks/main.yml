@@ -1,5 +1,5 @@
 ---
-- name: Create role directories
+- name: "Create directories for: {{ service.name }}"
   file:
     state: directory
     path: "{{ item }}"
@@ -7,20 +7,14 @@
     group: "{{ user.name }}"
     mode: '0755'
   loop:
-    - "{{ mosquitto.dir }}/config"
-    - "{{ mosquitto.dir }}/data"
-    - "{{ dir.log }}/mosquitto/"
-
-- name: "Ensure network exists ({{ mosquitto.network }})"
-  when: mosquitto.network != "host"
-  community.docker.docker_network:
-    name: "{{ mosquitto.network }}"
-    state: "present"
+    - "{{ service.dir }}/config"
+    - "{{ service.dir }}/data"
+    - "{{ service.logdir }}"
 
 - name: Deploy Mosquitto configuration file
   template:
     src: mosquitto.conf.j2
-    dest: "{{ mosquitto.dir }}/config/mosquitto.conf"
+    dest: "{{ service.dir }}/config/mosquitto.conf"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0755"
@@ -29,43 +23,50 @@
 - name: Deploy Mosquitto passwd file
   template:
     src: mosquitto.passwd.j2
-    dest: "{{ mosquitto.dir }}/config/mosquitto.passwd"
+    dest: "{{ service.dir }}/config/mosquitto.passwd"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0755"
     force: no
 
-- name: Run Mosquitto container
+- name: "Run container: {{ service.name }}"
   community.docker.docker_container:
-    name: mosquitto
-    image: eclipse-mosquitto:latest
+    name: "{{ service.name }}"
+    image: "{{ service.image }}:{{ service.version }}"
     state: started
     restart: true
     restart_policy: unless-stopped
     networks:
-      - name: "{{ mosquitto.network }}"
+      - name: "{{ smarthome.network }}"
     ports:
-      - "{{ mosquitto.port }}:1883"
+      - "{{ service.port }}:1883"
       - "9001:9001"
     volumes:
-      - "{{ mosquitto.dir }}/config:/mosquitto/config"
-      - "{{ mosquitto.dir }}/data:/mosquitto/data"
-      - "{{ dir.log }}/mosquitto:/mosquitto/log"
+      - "{{ service.dir }}/config:/mosquitto/config"
+      - "{{ service.dir }}/data:/mosquitto/data"
+      - "{{ service.logdir }}:/mosquitto/log"
     env:
-      PUID: $PUID
-      PGID: $PGID
-      TZ: $TZ
+      TZ: "{{ tz }}"
+      PUID: "{{ user.puid }}"
+      PGID: "{{ user.pgid }}"
     labels:
-      traefik.enable: "true"
-      # traefik.docker.network: "{{ mosquitto.network }}"
-      traefik.http.routers.mosquitto.entrypoints: "web"
-      traefik.http.routers.mosquitto.service: "mosquitto"
-      traefik.http.routers.mosquitto.rule: "Host(`mosquitto.local`)"
-      traefik.http.services.mosquitto.loadbalancer.server.port: "{{ mosquitto.port }}"
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ smarthome.network }}"
+      - "traefik.http.routers.{{ service.name }}.entrypoints=web"
+      - "traefik.http.routers.{{ service.name }}.service={{ service.name }}"
+      - "traefik.http.routers.{{ service.name }}.rule=Host(`{{ service.name }}.local`)"
+      - "traefik.http.services.{{ service.name }}.loadbalancer.server.port={{ service.port }}"
+
+      # traefik.enable: "true"
+      # traefik.docker.network: "{{ smarthome.network }}"
+      # traefik.http.routers.mosquitto.entrypoints: "web"
+      # traefik.http.routers.mosquitto.service: "mosquitto"
+      # traefik.http.routers.mosquitto.rule: "Host(`mosquitto.local`)"
+      # traefik.http.services.mosquitto.loadbalancer.server.port: "{{ mosquitto.port }}"
 
 - name: Wait for Mosquitto container to be running
   community.docker.docker_container_info:
-    name: mosquitto
+    name: "{{ service.name }}"
   register: mosquitto_info
   until: mosquitto_info.container.State.Status == "running"
   retries: 10
@@ -73,7 +74,7 @@
 
 - name: Creating Mosquitto account and password
   community.docker.docker_container_exec:
-    container: mosquitto
+    container: "{{ service.name }}"
     command: "mosquitto_passwd -b -c /mosquitto/config/mosquitto.passwd {{ user.name }} {{ user.pass }}"
   notify: Restart mosquitto
 

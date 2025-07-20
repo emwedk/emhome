@@ -1,4 +1,9 @@
 ---
+app:
+  homeassistant:
+    version: latest
+  
+
 tz: Europe/Copenhagen
 dir:
   data: "/opt"

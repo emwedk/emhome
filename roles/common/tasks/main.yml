@@ -1,169 +1,20 @@
 ---
-- name: Allow current user to escalate with doas without password
-  copy:
-    dest: "/etc/doas.d/20-{{ user.name }}.conf"
-    content: "permit nopass {{ user.name }} as root\n"
-    owner: root
-    group: root
-    mode: '0755'
+- name: User Tasks
+  import_tasks: "subtasks/user.yml"
+  # ignore_errors: yes
 
-- name: Ensure dependency packages are installed
-  package:
-    name:
-      - python3
-      - python3-dev
-      - py3-requests
-      - py3-pip
-      - py3-passlib
-      - npm
-      - git
-      - curl
-      - dbus
-      - bluez
-      - openrc
-      - tar
-      - unzip
-      - ufw
-      - tzdata
-    state: present
+- name: Package Installs
+  import_tasks: "subtasks/package.yml"
+  # ignore_errors: yes
 
-- name: Check if Avahi (mDNS) service is installed
-  stat:
-    path: /usr/sbin/avahi-daemon
-  register: avahi_installed
+- name: Secret Tasks
+  import_tasks: "subtasks/secret.yml"
+  # ignore_errors: yes
+  
+- name: Network Tasks
+  import_tasks: "subtasks/network.yml"
+  # ignore_errors: yes
 
-- name: Install Avahi daemon if not present
-  package:
-    name: avahi-daemon
-    state: present
-  when: not avahi_installed.stat.exists
-
-- name: Ensure Avahi (mDNS) service is enabled and started
-  service:
-    name: avahi-daemon
-    state: started
-    enabled: yes
-  when: avahi_installed.stat.exists or (avahi_installed is defined and not avahi_installed.stat.exists)
-
-
-- name: Create common groups
-  group: "name={{ item }} state=present"
-  with_items:
-    - docker
-    - dialout
-    - bluetooth
-    - "{{ user.name }}"
-
-- name: "Create user '{{ user.name }}'"
-  user:
-    name: "{{ user.name }}"
-    group: "{{ user.name }}"
-    groups: "{{ user.name }},docker,dialout,bluetooth"
-    append: yes
-
-- name: "Ensure network exists (proxy)"
-  when: smarthome.network != "host"
-  community.docker.docker_network:
-    name: "proxy"
-    state: "present"
-
-- name: Allow traffic from Docker bridge subnet 172.20.0.0/16 via UFW
-  ansible.builtin.ufw:
-    rule: allow
-    from_ip: 172.20.0.0/16
-
-- name: Allow traffic from Docker bridge subnet 172.19.0.0/16 via UFW
-  ansible.builtin.ufw:
-    rule: allow
-    from_ip: 172.19.0.0/16
-
-- name: Allow traffic from Docker bridge subnet 172.18.0.0/16 via UFW
-  ansible.builtin.ufw:
-    rule: allow
-    from_ip: 172.18.0.0/16
-
-- name: Allow traffic from Docker bridge subnet 172.17.0.0/16 via UFW
-  ansible.builtin.ufw:
-    rule: allow
-    from_ip: 172.17.0.0/16
-
-- name: Allow traffic from Docker bridge subnet 172.16.0.0/16 via UFW
-  ansible.builtin.ufw:
-    rule: allow
-    from_ip: 172.16.0.0/16
-
-- name: "Ensure directory for container installations exists with proper permissions"
-  file:
-    path: "{{ dir.data }}"
-    state: directory
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: '0755'
-
-- name: Check for Bluetooth device (optional)
-  shell: "hciconfig | grep -q hci0"
-  register: bt_check
-  ignore_errors: true
-
-- name: Warn if Bluetooth device not found
-  debug:
-    msg: "Bluetooth device not found. Bluetooth features will be unavailable."
-  when: bt_check.rc != 0
-
-# Get User info
-
-- name: Get user information
-  getent:
-    database: passwd
-    key: "{{ user.name }}"
-    split: ":"
-  register: user_info
-
-- name: Set PUID fact
-  set_fact:
-    user: "{{ user | combine({'puid': user_info.ansible_facts.getent_passwd[user.name][1] }) }}"
-- name: Set PGID fact
-  set_fact:
-    user: "{{ user | combine({'pgid': user_info.ansible_facts.getent_passwd[user.name][2] }) }}"
-- name: Set User Path fact
-  set_fact:
-    user: "{{ user | combine({'path': user_info.ansible_facts.getent_passwd[user.name][4] }) }}"
-
-# Get Password from User Folder
-
-- name: Check if .passwd file exists in the base directory
-  stat:
-    path: "{{ user.path }}/.passwd"
-  register: passwd_file
-
-- name: Read .passwd file if it exists and is not empty
-  slurp:
-    src: "{{ user.path }}/.passwd"
-  register: passwd_content
-  when: passwd_file.stat.exists and passwd_file.stat.size > 0
-
-- name: Set user.pass to contents of .passwd if file exists and is not empty
-  set_fact:
-    user: "{{ user | combine({'pass': (passwd_content.content | b64decode | trim)}) }}"
-  when: passwd_file.stat.exists and passwd_file.stat.size > 0
-
-# Get Secrets from User Folder
-
-- name: Check if secrets.yml file exists in the base directory
-  stat:
-    path: "{{ user.path }}/secrets.yml"
-  register: secrets_file
-
-- name: Load secrets from user secrets.yml if it exists
-  include_vars:
-    file: "{{ user.path }}/secrets.yml"
-    name: user_secrets
-  ignore_errors: yes
-  when: secrets_file.stat.exists and secrets_file.stat.size > 0
-
-- name: Set secrets as top-level variables if loaded
-  set_fact:
-    "{{ item.key }}": "{{ item.value }}"
-  loop: "{{ user_secrets | dict2items }}"
-  when: user_secrets is defined
-
+- name: Device Tasks
+  import_tasks: "subtasks/device.yml"
+  # ignore_errors: yes

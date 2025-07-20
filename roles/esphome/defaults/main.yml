@@ -2,6 +2,7 @@
 service:
   name: esphome
   dir: "{{ dir.data }}/esphome"
+  logdir: "{{ dir.log }}/esphome"
   image: ghcr.io/esphome/esphome
-  version: latest
+  version: "{{ app.esphome.version }}"
   port: 6052

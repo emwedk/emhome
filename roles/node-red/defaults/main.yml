@@ -2,6 +2,7 @@
 service:
   name: node-red
   dir: "{{ dir.data }}/node-red"
+  logdir: "{{ dir.log }}/node-red"
   image: nodered/node-red
-  version: latest
+  version: "{{ app.node-red.version }}"
   port: 1880

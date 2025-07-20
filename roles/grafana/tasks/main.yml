@@ -1,33 +1,41 @@
 ---
-- name: Create directories
+- name: "Create directory for: {{ service.name }}"
   file:
-    path: "{{ dir.data }}/grafana"
-    state: directory
-    owner: "472"
-    group: "472"
-    mode: '0755'
+    path: "{{ service.dir }}"
+    state: "directory"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0755"
+    
 
-- name: Run Grafana container
+- name: "Run container: {{ service.name }}"
   community.docker.docker_container:
-    name: grafana
-    image: grafana/grafana:latest
+    name: "{{ service.name }}"
+    image: "{{ service.image }}:{{ service.version }}"
+    state: started
     restart: true
     restart_policy: unless-stopped
-    ports:
-      - "3000:3000"
     networks:
-      - name: "proxy"
+      - name: "{{ smarthome.network }}"
+    ports:
+      - "{{ service.port }}:3000"
     volumes:
-      - "{{ dir.data }}/grafana:/var/lib/grafana"
+      - "{{ service.dir }}:/var/lib/grafana"
     env:
-      PUID: $PUID
-      PGID: $PGID
-      TZ: $TZ
-    state: started
+      TZ: "{{ tz }}"
+      PUID: "{{ user.puid }}"
+      PGID: "{{ user.pgid }}"
     labels:
-      traefik.enable: "true"
-      traefik.docker.network: "proxy"
-      traefik.http.routers.grafana.entrypoints: "web"
-      traefik.http.routers.grafana.service: "grafana"
-      traefik.http.routers.grafana.rule: "Host(`grafana.local`)"
-      traefik.http.services.grafana.loadbalancer.server.port: "3000"
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ smarthome.network }}"
+      - "traefik.http.routers.{{ service.name }}.entrypoints=web"
+      - "traefik.http.routers.{{ service.name }}.service={{ service.name }}"
+      - "traefik.http.routers.{{ service.name }}.rule=Host(`{{ service.name }}.local`)"
+      - "traefik.http.services.{{ service.name }}.loadbalancer.server.port={{ service.port }}"
+      
+      # traefik.enable: "true"
+      # traefik.docker.network: "{{ smarthome.network }}"
+      # traefik.http.routers.grafana.entrypoints: "web"
+      # traefik.http.routers.grafana.service: "{{ service.name }}"
+      # traefik.http.routers.grafana.rule: "Host(`{{ service.name }}.local`)"
+      # traefik.http.services.grafana.loadbalancer.server.port: "{{ service.port }}"

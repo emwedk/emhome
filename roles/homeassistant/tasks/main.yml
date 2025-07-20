@@ -1,6 +1,6 @@
-- name: Create role directories
+- name: "Create directory for: {{ service.name }}"
   file:
-    path: "{{ homeassistant.dir }}"
+    path: "{{ service.dir }}"
     state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -9,15 +9,23 @@
 - name: Deploy Home Assistant configuration file
   template:
     src: configuration.yaml.j2
-    dest: "{{ homeassistant.dir }}/configuration.yaml"
+    dest: "{{ service.dir }}/configuration.yaml"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: "0644"
     force: no
 
+- name: Deploy Home Assistant secret file
+  template:
+    src: secret.yaml.j2
+    dest: "{{ service.dir }}/secret.yaml"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0644"
+
 - name: Ensure Home Assistant include folders exist
   file:
-    path: "{{ homeassistant.dir }}/{{ item }}"
+    path: "{{ service.dir }}/{{ item }}"
     state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -28,7 +36,7 @@
 
 - name: Ensure Home Assistant include files exist
   copy:
-    dest: "{{ homeassistant.dir }}/{{ item }}"
+    dest: "{{ service.dir }}/{{ item }}"
     content: ""
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
@@ -42,36 +50,29 @@
     - scenes.yaml
     - template.yaml
 
-- name: "Ensure network exists ({{ homeassistant.network }})"
-  when: homeassistant.network != "host"
-  community.docker.docker_network:
-    name: "{{ homeassistant.network }}"
-    state: "present"
-
-- name: Run Home Assistant container
+- name: "Run container: {{ service.name }}"
   community.docker.docker_container:
-    name: homeassistant
-    image: ghcr.io/home-assistant/home-assistant:latest
+    name: "{{ service.name }}"
+    image: "{{ service.image }}:{{ service.version }}"
     state: started
     restart: true
     restart_policy: unless-stopped
-    privileged: true
+    # privileged: true # only needed for official image
     network_mode: host
     # dns_servers:
     #   - 8.8.8.8
     #   - 1.1.1.1
     # networks:
-    #   - name: "proxy"
-    #   - name: "{{ homeassistant.network }}"
+    #   - name: "{{ smarthome.network }}"
     volumes:
       - /var/run/dbus:/var/run/dbus:ro
       # - /etc/resolv.conf:/etc/resolv.conf
       # - /etc/localtime:/etc/localtime:ro
-      - "{{ homeassistant.dir }}:/config"
+      - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
-      PUID: 1000
-      PGID: 1000
+      PUID: "{{ user.puid }}"
+      PGID: "{{ user.pgid }}"
       
     capabilities:
       - NET_ADMIN
@@ -83,9 +84,16 @@
       # Uncomment and adjust if Bluetooth device is present
       # - "/dev/ttyS0:/dev/ttyS0"
     labels:
-      traefik.enable: "true"
-      traefik.docker.network: "proxy"
-      traefik.http.routers.homeassistant.entrypoints: "web"
-      traefik.http.routers.homeassistant.service: "homeassistant"
-      traefik.http.routers.homeassistant.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
-      traefik.http.services.homeassistant.loadbalancer.server.port: "{{ homeassistant.port }}"
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ smarthome.network }}"
+      - "traefik.http.routers.{{ service.name }}.entrypoints=web"
+      - "traefik.http.routers.{{ service.name }}.service={{ service.name }}"
+      - "traefik.http.routers.{{ service.name }}.rule=Host(`{{ ansible_default_ipv4.address }}`) && PathPrefix(`/`)"
+      - "traefik.http.services.{{ service.name }}.loadbalancer.server.port={{ service.port }}"
+
+      # traefik.enable: "true"
+      # traefik.docker.network: "{{ smarthome.network }}"
+      # traefik.http.routers.homeassistant.entrypoints: "web"
+      # traefik.http.routers.homeassistant.service: "homeassistant"
+      # traefik.http.routers.homeassistant.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
+      # traefik.http.services.homeassistant.loadbalancer.server.port: "{{ homeassistant.port }}"
