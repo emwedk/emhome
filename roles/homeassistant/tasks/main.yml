@@ -85,7 +85,7 @@
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
-      DISABLE_JEMALLOC: true
+      DISABLE_JEMALLOC: "true"
       # PUID: "{{ user.puid }}"
       # PGID: "{{ user.pgid }}"
     # capabilities:
