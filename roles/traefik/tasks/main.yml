@@ -37,7 +37,6 @@
       {{
         {
           'traefik.enable': 'true',
-          'traefik.docker.network': smarthome.network,
           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'web',
           ('traefik.http.routers.' ~ service.name ~ '.service'): 'api@internal',
           ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.name ~ '.local`)',
@@ -46,7 +45,7 @@
           
         }
       }}
-
+  # 'traefik.docker.network': smarthome.network,
 - name: "Run container: {{ service.name }}"
   # become: true
   community.docker.docker_container:
