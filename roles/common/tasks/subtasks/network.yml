@@ -6,18 +6,6 @@
     state: "present"
   register: docker_bridge
 
-- name: "debug var"
-  debug:
-    var: docker_bridge
-
-- name: "debug var"
-  debug:
-    var: docker_bridge
-
-- name: "debug var"
-  debug:
-    var: docker_bridge
-
 - name: Extract docker host info
   set_fact:
     docker_host: "{{ docker_bridge.network.IPAM.Config | first }}"

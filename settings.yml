@@ -2,7 +2,20 @@
 app:
   homeassistant:
     version: latest
-  
+  mosquitto:
+    version: latest
+  zigbee2mqtt:
+    version: latest
+  esphome:
+    version: latest
+  node-red:
+    version: latest
+  grafana:
+    version: latest
+  traefik:
+    version: latest
+  portainer:
+    version: latest
 
 tz: Europe/Copenhagen
 dir:
