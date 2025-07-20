@@ -56,13 +56,13 @@
       {{
         {
           'traefik.enable': 'true',
+          'traefik.docker.network': smarthome.network,
           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'web',
           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
           ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ ansible_default_ipv4.address ~ '`) && PathPrefix(`/`)',
           ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
         }
       }}
-  # 'traefik.docker.network': smarthome.network,
           
 - name: "Run container: {{ service.name }}"
   community.docker.docker_container:
@@ -76,17 +76,17 @@
     # dns_servers:
     #   - 8.8.8.8
     #   - 1.1.1.1
-    # networks:
-    #   - name: "{{ smarthome.network }}"
+    networks:
+      - name: "{{ smarthome.network }}"
     volumes:
       - /var/run/dbus:/var/run/dbus:ro
-      # - /etc/resolv.conf:/etc/resolv.conf
+      - /etc/resolv.conf:/etc/resolv.conf
       # - /etc/localtime:/etc/localtime:ro
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
-      # PUID: "{{ user.puid }}"
-      # PGID: "{{ user.pgid }}"
+      PUID: "{{ user.puid }}"
+      PGID: "{{ user.pgid }}"
       
     capabilities:
       - NET_ADMIN
