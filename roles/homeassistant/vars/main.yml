@@ -1,7 +1,7 @@
 ---
 homeassistant:
   name: Home
-  time_zone: {{ tz }}
+  time_zone: "{{ tz }}"
   external_url: "http://{{ ansible_default_ipv4.address }}"
   internal_url: "http://localhost:8123"
   # media_dirs:
