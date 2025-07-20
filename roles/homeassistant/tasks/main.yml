@@ -50,18 +50,20 @@
     - scenes.yaml
     - template.yaml
 
-- name: Build dynamic labels dictionary
+- name: Build dynamic labels dictionary and assign to service.labels
   set_fact:
-    service.labels: >-
+    service: >-
       {{
-        {
-          'traefik.enable': 'true',
-          'traefik.docker.network': smarthome.network,
-          ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'web',
-          ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
-          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ ansible_default_ipv4.address ~ '`) && PathPrefix(`/`)',
-          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
-        }
+        service | combine({
+          'labels': {
+            'traefik.enable': 'true',
+            'traefik.docker.network': smarthome.network,
+            ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'web',
+            ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
+            ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ ansible_default_ipv4.address ~ '`) && PathPrefix(`/`)',
+            ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
+          }
+        })
       }}
 
 - name: "Run container: {{ service.name }}"
