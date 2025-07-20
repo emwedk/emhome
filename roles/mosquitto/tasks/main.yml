@@ -33,16 +33,14 @@
   set_fact:
     service: >-
       {{
-        service | combine({
-          'labels': {
-            'traefik.enable': 'true',
-            'traefik.docker.network': smarthome.network,
-            ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'web',
-            ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
-            ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.name ~ '.local`)',
-            ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
-          }
-        })
+        {
+          'traefik.enable': 'true',
+          'traefik.docker.network': smarthome.network,
+          ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'web',
+          ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
+          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.name ~ '.local`)',
+          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
+        }
       }}
 
 - name: "Run container: {{ service.name }}"
