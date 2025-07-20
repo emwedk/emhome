@@ -80,7 +80,7 @@
       - NET_BIND_SERVICE
       - SYS_ADMIN
     devices:
-      - "{{ smarthome.zigbee_adapter }}:{{ smarthome.zigbee_adapter }}"
+      - "{{ smarthome.zigbee_adapter }}"
       # Uncomment and adjust if Bluetooth device is present
       # - "/dev/ttyS0:/dev/ttyS0"
     labels:
