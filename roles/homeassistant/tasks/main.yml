@@ -63,7 +63,7 @@
           ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
         }
       }}
-          
+
 - name: "Run container: {{ service.name }}"
   community.docker.docker_container:
     name: "{{ service.name }}"
@@ -71,7 +71,7 @@
     state: started
     restart: true
     restart_policy: unless-stopped
-    privileged: true # only needed for official image
+    # privileged: true # only needed for official image
     network_mode: host
     # dns_servers:
     #   - 8.8.8.8
@@ -87,7 +87,6 @@
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
-      
     capabilities:
       - NET_ADMIN
       - NET_RAW
@@ -96,7 +95,7 @@
     devices:
       - "{{ smarthome.zigbee_adapter }}"
       # Uncomment and adjust if Bluetooth device is present
-      # - "/dev/ttyS0:/dev/ttyS0"
+      - "/dev/ttyS0:/dev/ttyS0"
     labels: "{{ dynamic_labels }}"
       # traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"
