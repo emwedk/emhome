@@ -75,8 +75,8 @@
     dns_servers:
       - 8.8.8.8
       - 1.1.1.1
-    networks:
-      - name: "{{ smarthome.network }}"
+    # networks:
+    #   - name: "{{ smarthome.network }}"
     volumes:
       - /var/run/dbus:/var/run/dbus:ro
       # - /etc/resolv.conf:/etc/resolv.conf
@@ -84,7 +84,6 @@
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
-      DISABLE_JEMALLOC: "true"
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
     # capabilities:
