@@ -63,7 +63,7 @@
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
-    labels: "{{ service.labels }}"
+    labels: "{{ dynamic_labels }}"
       # traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"
       # "traefik.http.routers.{{ service.name }}.entrypoints": "web"

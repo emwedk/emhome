@@ -97,7 +97,7 @@
       - "{{ smarthome.zigbee_adapter }}"
       # Uncomment and adjust if Bluetooth device is present
       # - "/dev/ttyS0:/dev/ttyS0"
-    labels: "{{ service.labels }}"
+    labels: "{{ dynamic_labels }}"
       # traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"
       # traefik.http.routers.{{ service.name }}.entrypoints: "web"
