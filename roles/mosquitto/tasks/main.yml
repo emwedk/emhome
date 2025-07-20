@@ -31,7 +31,7 @@
 
 - name: Build dynamic labels dictionary and assign to service.labels
   set_fact:
-    service: >-
+    dynamic_labels: >-
       {{
         {
           'traefik.enable': 'true',
