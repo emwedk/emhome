@@ -13,7 +13,7 @@
       - dbus
       - bluez
       - openrc
-      - avahi-daemon
+      - avahi
       - avahi-tools
       - mdns-scan
       - tar
@@ -29,7 +29,7 @@
 
 # - name: Install Avahi daemon if not present
 #   package:
-#     name: avahi-daemon
+#     name: avahi
 #     state: present
 #   when: not avahi_installed.stat.exists
 
