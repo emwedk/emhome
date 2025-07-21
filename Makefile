@@ -1,4 +1,4 @@
-.PHONY: em
+.PHONY: em install-ansible
 em:
 	@echo "Rebuild emhome"
 	docker rm -f $$(docker ps -a -q) || true
@@ -14,4 +14,18 @@ em:
 	sudo rm -rf /opt/portainer
 	sudo rm -rf /opt/zigbee2mqtt
 	git pull
-	sh install.sh
+	sudo ansible-playbook -i inventory playbook.yml "$@"
+# 	sh install.sh
+
+
+
+install-ansible:
+	@if ! ansible --version >/dev/null 2>&1; then \
+		echo "Installing Ansible"; \
+		sudo apk add --no-interactive --no-cache ansible; \
+		if [ $$? -ne 0 ]; then \
+			echo "Failed to install Ansible. Exiting."; \
+			exit 1; \
+		fi \
+	fi
+	echo "Installing Emhome with Ansible ..."
