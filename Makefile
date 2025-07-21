@@ -1,7 +1,7 @@
 .PHONY: em
 em:
 	@echo "Rebuild emhome"
-	docker rm -f $(docker ps -a -q)
+	docker rm -f $$(docker ps -a -q)
 	docker network prune -f
 	sudo rm -rf /opt/traefik
 	sudo rm -rf /opt/containerd
