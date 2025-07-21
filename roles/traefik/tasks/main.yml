@@ -48,15 +48,14 @@
       }}
 
 - name: "Run container: {{ service.name }}"
-  # become: true
   community.docker.docker_container:
     name: "{{ service.name }}"
     image: "{{ service.image }}:{{ service.version }}"
     state: started
     restart: true
     restart_policy: unless-stopped
-    # networks:
-    #   - name: "{{ smarthome.network }}"
+    networks:
+      - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
       - "443:443"
