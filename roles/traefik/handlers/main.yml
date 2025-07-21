@@ -1,16 +1,16 @@
 ---
-- name: Stop traefik
+- name: "Stop {{ service.name }}"
   docker_container:
-    name: traefik
+    name: "{{ service.name }}"
     state: stopped
 
-- name: Start traefik
+- name: "Start {{ service.name }}"
   docker_container:
-    name: traefik
+    name: "{{ service.name }}"
     state: started
 
-- name: Restart traefik
+- name: "Restart {{ service.name }}"
   docker_container:
-    name: traefik
+    name: "{{ service.name }}"
     state: started
     restart: true

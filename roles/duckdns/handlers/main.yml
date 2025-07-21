@@ -1,16 +1,16 @@
 ---
-- name: Stop esphome
+- name: "Stop {{ service.name }}"
   docker_container:
-    name: esphome
+    name: "{{ service.name }}"
     state: stopped
 
-- name: Start esphome
+- name: "Start {{ service.name }}"
   docker_container:
-    name: esphome
+    name: "{{ service.name }}"
     state: started
 
-- name: Restart esphome
+- name: "Restart {{ service.name }}"
   docker_container:
-    name: esphome
+    name: "{{ service.name }}"
     state: started
     restart: true

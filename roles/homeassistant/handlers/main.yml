@@ -1,16 +1,16 @@
 ---
-- name: Stop homeassistant
+- name: "Stop {{ service.name }}"
   docker_container:
-    name: homeassistant
+    name: "{{ service.name }}"
     state: stopped
 
-- name: Start homeassistant
+- name: "Start {{ service.name }}"
   docker_container:
-    name: homeassistant
+    name: "{{ service.name }}"
     state: started
 
-- name: Restart homeassistant
+- name: "Restart {{ service.name }}"
   docker_container:
-    name: homeassistant
+    name: "{{ service.name }}"
     state: started
     restart: true

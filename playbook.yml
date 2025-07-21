@@ -15,3 +15,4 @@
     - role: mosquitto
     - role: esphome
     - role: node-red
+    - role: duckdns

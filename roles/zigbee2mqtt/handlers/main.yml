@@ -1,16 +1,16 @@
 ---
-- name: Stop zigbee2mqtt
+- name: "Stop {{ service.name }}"
   docker_container:
-    name: zigbee2mqtt
+    name: "{{ service.name }}"
     state: stopped
 
-- name: Start zigbee2mqtt
+- name: "Start {{ service.name }}"
   docker_container:
-    name: zigbee2mqtt
+    name: "{{ service.name }}"
     state: started
 
-- name: Restart zigbee2mqtt
+- name: "Restart {{ service.name }}"
   docker_container:
-    name: zigbee2mqtt
+    name: "{{ service.name }}"
     state: started
     restart: true

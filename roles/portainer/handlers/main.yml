@@ -1,16 +1,16 @@
 ---
-- name: Stop portainer
+- name: "Stop {{ service.name }}"
   docker_container:
-    name: portainer
+    name: "{{ service.name }}"
     state: stopped
 
-- name: Start portainer
+- name: "Start {{ service.name }}"
   docker_container:
-    name: portainer
+    name: "{{ service.name }}"
     state: started
 
-- name: Restart portainer
+- name: "Restart {{ service.name }}"
   docker_container:
-    name: portainer
+    name: "{{ service.name }}"
     state: started
     restart: true

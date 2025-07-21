@@ -1,16 +1,16 @@
 ---
-- name: Stop node-red
+- name: "Stop {{ service.name }}"
   docker_container:
-    name: node-red
+    name: "{{ service.name }}"
     state: stopped
 
-- name: Start node-red
+- name: "Start {{ service.name }}"
   docker_container:
-    name: node-red
+    name: "{{ service.name }}"
     state: started
 
-- name: Restart node-red
+- name: "Restart {{ service.name }}"
   docker_container:
-    name: node-red
+    name: "{{ service.name }}"
     state: started
     restart: true

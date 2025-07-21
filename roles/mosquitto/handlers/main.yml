@@ -1,16 +1,16 @@
 ---
-- name: Stop mosquitto
+- name: "Stop {{ service.name }}"
   docker_container:
-    name: mosquitto
+    name: "{{ service.name }}"
     state: stopped
 
-- name: Start mosquitto
+- name: "Start {{ service.name }}"
   docker_container:
-    name: mosquitto
+    name: "{{ service.name }}"
     state: started
 
-- name: Restart mosquitto
+- name: "Restart {{ service.name }}"
   docker_container:
-    name: mosquitto
+    name: "{{ service.name }}"
     state: started
     restart: true

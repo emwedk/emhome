@@ -1,16 +1,16 @@
 ---
-- name: Stop grafana
+- name: "Stop {{ service.name }}"
   docker_container:
-    name: grafana
+    name: "{{ service.name }}"
     state: stopped
 
-- name: Start grafana
+- name: "Start {{ service.name }}"
   docker_container:
-    name: grafana
+    name: "{{ service.name }}"
     state: started
 
-- name: Restart grafana
+- name: "Restart {{ service.name }}"
   docker_container:
-    name: grafana
+    name: "{{ service.name }}"
     state: started
     restart: true
