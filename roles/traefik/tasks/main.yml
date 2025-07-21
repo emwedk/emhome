@@ -56,8 +56,8 @@
     restart_policy: unless-stopped
     security_opts:
       - no-new-privileges=true
-    networks:
-      - name: "{{ smarthome.network }}"
+    # networks:
+    #   - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
       - "443:443"
