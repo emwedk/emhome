@@ -1,0 +1,50 @@
+---
+- name: "Create directory for: {{ service.name }}"
+  file:
+    path: "{{ service.dir }}"
+    state: "directory"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0755"
+
+# - name: Build dynamic labels dictionary
+#   set_fact:
+#     dynamic_labels: >-
+#       {{
+#         {
+#           'traefik.enable': 'true',
+#           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'web',
+#           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
+#           ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.name ~ '.local`)',
+#           ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
+#         }
+#       }}
+  # 'traefik.docker.network': smarthome.network,
+
+
+- name: "Run container: {{ service.name }}"
+  community.docker.docker_container:
+    name: "{{ service.name }}"
+    image: "{{ service.image }}:{{ service.version }}"
+    state: "started"
+    restart: true
+    restart_policy: "unless-stopped"
+    networks:
+      - name: "{{ smarthome.network }}"
+    # ports:
+    #   - "{{ service.port }}:80"
+    volumes:
+      - "{{ service.dir }}:/config"
+    env:
+      TZ: "{{ tz }}"
+      PUID: "{{ user.puid }}"
+      PGID: "{{ user.pgid }}"
+      SUBDOMAINS: "{{ secret.duckdns.domain | default('') }}"
+      TOKEN: "{{ secret.duckdns.token | default('') }}"
+    # labels: "{{ dynamic_labels }}"
+      # traefik.enable: "true"
+      # traefik.docker.network: "{{ smarthome.network }}"
+      # "traefik.http.routers.{{ service.name }}.entrypoints": "web"
+      # "traefik.http.routers.{{ service.name }}.service": "{{ service.name }}"
+      # "traefik.http.routers.{{ service.name }}.rule": "Host(`{{ service.name }}.local`)"
+      # "traefik.http.services.{{ service.name }}.loadbalancer.server.port": "{{ service.port }}"

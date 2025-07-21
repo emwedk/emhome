@@ -2,6 +2,7 @@
 app:
   homeassistant:
     version: latest
+    subdomain: home
   mosquitto:
     version: latest
   zigbee2mqtt:
@@ -15,6 +16,8 @@ app:
   traefik:
     version: latest
   portainer:
+    version: latest
+  duckdns:
     version: latest
 
 tz: Europe/Copenhagen

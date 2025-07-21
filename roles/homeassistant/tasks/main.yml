@@ -58,7 +58,7 @@
           'traefik.enable': 'true',
           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'web',
           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
-          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ ansible_default_ipv4.address ~ '`) && PathPrefix(`/`)',
+          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ ansible_default_ipv4.address ~ '`) && PathPrefix(`/`) || Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.local`)',
           ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
         }
       }}
@@ -86,6 +86,7 @@
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
+      DOCKER_MODS: "linuxserver/mods:homeassistant-hacs"
     capabilities:
       - NET_ADMIN
       - NET_RAW

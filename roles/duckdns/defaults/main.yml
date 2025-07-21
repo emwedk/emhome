@@ -1,0 +1,8 @@
+---
+service:
+  name: duckdns
+  dir: "{{ dir.data }}/duckdns"
+  logdir: "{{ dir.log }}/duckdns"
+  image: lscr.io/linuxserver/duckdns
+  version: "{{ app.duckdns.version }}"
+  # port: 80
