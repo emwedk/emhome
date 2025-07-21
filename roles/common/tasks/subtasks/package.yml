@@ -22,17 +22,6 @@
       - tzdata
     state: present
 
-# - name: Check if Avahi (mDNS) service is installed
-#   stat:
-#     path: /usr/sbin/avahi-daemon
-#   register: avahi_installed
-
-# - name: Install Avahi daemon if not present
-#   package:
-#     name: avahi
-#     state: present
-#   when: not avahi_installed.stat.exists
-
 - name: Ensure Avahi (mDNS) service is enabled and started
   service:
     name: avahi-daemon
