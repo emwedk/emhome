@@ -56,7 +56,6 @@
     restart_policy: unless-stopped
     networks:
       - name: "{{ smarthome.network }}"
-      - name: "host"
     ports:
       - "80:80"
       - "443:443"
