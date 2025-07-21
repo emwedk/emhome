@@ -1,4 +1,4 @@
-.PHONY: em install-ansible
+.PHONY: em
 em:
 	@echo "Rebuild emhome"
 	docker rm -f $$(docker ps -a -q) || true
@@ -18,7 +18,7 @@ em:
 # 	sh install.sh
 
 
-
+.PHONY: install-ansible
 install-ansible:
 	@if ! ansible --version >/dev/null 2>&1; then \
 		echo "Installing Ansible"; \
