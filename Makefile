@@ -28,4 +28,4 @@ install-ansible:
 			exit 1; \
 		fi \
 	fi
-	echo "Installing Emhome with Ansible ..."
+	@echo "Installing Emhome with Ansible ..."
