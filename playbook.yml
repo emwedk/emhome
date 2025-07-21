@@ -9,10 +9,11 @@
     - role: common
     - role: docker
     - role: traefik
+    - role: duckdns
     - role: portainer
     - role: grafana
     - role: homeassistant
     - role: mosquitto
     - role: esphome
     - role: node-red
-    - role: duckdns
+    
