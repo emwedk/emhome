@@ -1,5 +1,6 @@
 .PHONY: em
 em:
+	shift
 	@echo "Rebuild emhome"
 	docker rm -f $$(docker ps -a -q) || true
 	docker network prune -f
@@ -20,6 +21,7 @@ em:
 
 .PHONY: install-ansible
 install-ansible:
+	shift
 	@if ! ansible --version >/dev/null 2>&1; then \
 		echo "Installing Ansible"; \
 		sudo apk add --no-interactive --no-cache ansible; \
