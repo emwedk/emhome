@@ -14,7 +14,7 @@ em:
 	sudo rm -rf /opt/portainer
 	sudo rm -rf /opt/zigbee2mqtt
 	git pull
-	sudo ansible-playbook -i inventory playbook.yml "$($@:1)"
+	sudo ansible-playbook -i inventory playbook.yml
 # 	sh install.sh
 
 
