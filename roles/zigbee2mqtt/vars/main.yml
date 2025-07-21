@@ -21,7 +21,6 @@ zigbee2mqtt:
       # ca: '/etc/ssl/mqtt-ca.crt' # path to SSL/TLS certificate
       # key: '/etc/ssl/mqtt-client.key' # path to SSL/TLS key
       # cert: '/etc/ssl/mqtt-client.crt' # path to SSL/TLS certificate
-      # server: mqtt://mosquitto:1883
       server: '!secret.yaml server'
       user: '!secret.yaml user'
       password: '!secret.yaml password'

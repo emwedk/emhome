@@ -60,12 +60,12 @@
   register: passwd_content
   when: passwd_file.stat.exists and passwd_file.stat.size > 0
 
-# - name: Set user.pass to contents of .passwd if file exists and is not empty
-#   set_fact:
-#     user: "{{ user | combine({'pass': (passwd_content.content | b64decode | trim)}) }}"
-#   when: passwd_file.stat.exists and passwd_file.stat.size > 0
-
 - name: Set user.pass to contents of .passwd if file exists and is not empty
   set_fact:
-    user: "{{ user | combine({'pass': passwd_content.content}) }}"
+    user: "{{ user | combine({'pass': (passwd_content.content | b64decode | trim)}) }}"
   when: passwd_file.stat.exists and passwd_file.stat.size > 0
+
+# - name: Set user.pass to contents of .passwd if file exists and is not empty
+#   set_fact:
+#     user: "{{ user | combine({'pass': passwd_content.content}) }}"
+#   when: passwd_file.stat.exists and passwd_file.stat.size > 0
