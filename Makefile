@@ -1,7 +1,7 @@
 .PHONY: em
 em:
 	@echo "Rebuild emhome"
-	sudo -v
+	sudo -s
 	docker rm -f $$(docker ps -a -q) || true
 	docker network prune -f
 	sudo rm -rf /opt/traefik
