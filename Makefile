@@ -1,6 +1,5 @@
 .PHONY: em
 em:
-	shift
 	@echo "Rebuild emhome"
 	docker rm -f $$(docker ps -a -q) || true
 	docker network prune -f
