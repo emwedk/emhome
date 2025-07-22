@@ -29,13 +29,17 @@
     dynamic_labels: >-
       {{
         {
-          'docker.network': smarthome.network,
           'traefik.enable': 'true',
           'traefik.docker.network': smarthome.network,
-          ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
+          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ smarthome.domain ~ '`)',
           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
-          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`) && PathPrefix(`/`)',
-          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): 8080
+          ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
+          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port,
+          ('traefik.http.routers.' ~ service.name ~ '.tls'): 'true',
+          ('traefik.http.routers.' ~ service.name ~ '.tls.certresolver'): 'letsencrypt',
+          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.passhostheader'): 'true',
+          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'compresstraefik',
+          ('traefik.http.middlewares.' ~ service.name ~ '.compress'): 'true',
         }
       }}
   # ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
