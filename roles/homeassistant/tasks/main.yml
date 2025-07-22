@@ -61,7 +61,6 @@
           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
           ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ smarthome.domain ~ '`)',
-          ('traefik.http.routers.' ~ service.name ~ '.tls.certresolver'): 'le',
           ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
 
         }
