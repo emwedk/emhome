@@ -43,8 +43,7 @@
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`) && PathPrefix(`/dashboard`) || PathPrefix(`/api`)',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.service'): 'api@internal',
-          ('traefik.http.routers.' ~ service.name ~ '-dashboard.tls'): 'true',
-          ('traefik.http.routers.' ~ service.name ~ '-dashboard.tls.certresolver'): 'letsencrypt',
+          
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.middlewares'): service.name ~ '-auth',
           ('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.server.port'): service.port,
           ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('md5')),
@@ -62,6 +61,8 @@
 #('traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto'): 'https'
 #('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.passhostheader'): 'true',
 #('traefik.http.routers.http-catchall.rule'): 'HostRegexp(`{host:.+}`)',
+#('traefik.http.routers.' ~ service.name ~ '-dashboard.tls'): 'true',
+#('traefik.http.routers.' ~ service.name ~ '-dashboard.tls.certresolver'): 'letsencrypt',
 
 
 
