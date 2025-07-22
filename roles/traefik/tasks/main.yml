@@ -62,6 +62,7 @@
     dns_servers:
       - 1.1.1.1
       - 8.8.8.8
+    dns_search: []
     networks:
       - name: bridge
       - name: "{{ smarthome.network }}"
@@ -106,7 +107,7 @@
       - "--certificatesresolvers.le.acme.dnschallenge.provider=duckdns"
       # - "--certificatesresolvers.le.acme.dnschallenge.disablePropagationCheck=true"
       # - "--certificatesresolvers.le.acme.dnschallenge.propagation.disableChecks=true"
-      - "--certificatesresolvers.le.acme.dnschallenge.propagation.delayBeforeChecks=300"
+      - "--certificatesresolvers.le.acme.dnschallenge.propagation.delayBeforeChecks=600"
       # - "--certificatesresolvers.le.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
       # - "--certificatesresolvers.le.acme.dnschallenge.resolvers[0]=1.1.1.1:53"
       # - "--certificatesresolvers.le.acme.dnschallenge.resolvers[1]=8.8.8.8:53"
