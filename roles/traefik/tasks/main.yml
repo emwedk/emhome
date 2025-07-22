@@ -53,6 +53,7 @@
           ('traefik.http.routers.http-catchall.entrypoints'): 'web',
           ('traefik.http.routers.http-catchall.middlewares'): 'redirect-to-https',
           ('traefik.http.middlewares.redirect-to-https.redirectscheme.scheme'): 'https',
+          ('traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto'): 'https'
         }
       }}
 #('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
@@ -86,6 +87,7 @@
       # host.docker.internal: "{{ docker_host.Gateway }}"
 
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - "/etc/hosts:/etc/hosts"
       # - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -96,8 +98,11 @@
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
+      TRAEFIK_DASHBOARD_CREDENTIALS: "{{ user.name }}:{{ user.pass | password_hash('md5') }}"
       DUCKDNS_TOKEN: "{{ secret.duckdns.token }}"
-      # DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
+      DUCKDNS_DOMAIN: "{{ secret.duckdns.domain }}"
+      DUCKDNS_PROPAGATION_TIMEOUT: 450
+      DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
       DNS: "1.1.1.1,8.8.8.8"
     command:
       - "--log.level=DEBUG"
@@ -106,12 +111,12 @@
       - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--entrypoints.web.address=:80"
-      # - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      # - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.websecure.address=:443"
-      # - "--entrypoints.websecure.asDefault=true"
+      - "--entrypoints.websecure.asDefault=true"
       - "--entrypoints.websecure.http.tls=true"
-      # - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
+      - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
       - "--entrypoints.websecure.http.tls.domains[0].main={{ smarthome.domain }}"
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ smarthome.domain }}"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
