@@ -97,7 +97,6 @@
       - "--entrypoints.websec.http.tls.domains[0].sans=*.{{ secret.duckdns.domain }}.duckdns.org"
       - "--certificatesresolvers.le.acme.email={{ secret.letsencrypt.email }}"
       - "--certificatesresolvers.le.acme.storage=/etc/traefik/letsencrypt/acme.json"
-      - "--certificatesresolvers.le.acme.entryPoint=websec"
       - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       # - "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
       - "--certificatesresolvers.le.acme.dnschallenge=true"
