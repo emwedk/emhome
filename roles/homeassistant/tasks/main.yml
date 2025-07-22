@@ -72,7 +72,7 @@
     state: started
     restart: true
     restart_policy: unless-stopped
-    privileged: true # only needed for official image
+    # privileged: true # only needed for official image
     network_mode: host
     dns_servers:
       - 8.8.8.8

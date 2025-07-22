@@ -7,6 +7,7 @@ app:
     version: latest
   zigbee2mqtt:
     version: latest
+    subdomain: zigbee
   esphome:
     version: latest
   node-red:
