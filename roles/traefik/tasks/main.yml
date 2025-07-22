@@ -78,16 +78,16 @@
     #   - 1.1.1.1
     #   - 8.8.8.8
     # dns_search_domains: []
-    networks:
-      # - name: bridge
-      - name: "{{ smarthome.network }}"
+    # networks:
+    #   # - name: bridge
+    #   - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
       - "443:443"
     etc_hosts:
-      host.docker.internal: host-gateway
+      # host.docker.internal: host-gateway
       # host.docker.internal: 172.18.0.1
-      # host.docker.internal: "{{ docker_host.Gateway }}"
+      host.docker.internal: "{{ docker_host.Gateway }}"
 
     volumes:
       # - /etc/localtime:/etc/localtime:ro
