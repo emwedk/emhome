@@ -16,6 +16,8 @@
     rule: allow
     from_ip: "{{ docker_host.Subnet }}"
 
+
+
 # - name: Allow traffic from Docker bridge subnet 172.19.0.0/16 via UFW
 #   ansible.builtin.ufw:
 #     rule: allow
