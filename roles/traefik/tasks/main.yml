@@ -22,14 +22,14 @@
     group: "{{ user.name }}"
     mode: '0644'
 
-# - name: Set acme.json permissions
-#   copy:
-#     dest: "{{ service.dir }}/letsencrypt/acme.json"
-#     content: ""
-#     owner: "{{ user.name }}"
-#     group: "{{ user.name }}"
-#     mode: "0600"
-#     force: no
+- name: Set acme.json permissions
+  copy:
+    dest: "{{ service.dir }}/letsencrypt/acme.json"
+    content: ""
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0600"
+    force: no
 
 - name: Build dynamic labels dictionary
   set_fact:
@@ -99,7 +99,7 @@
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certresolver=le"
       - "--entrypoints.websecure.http.tls.domains[0].main={{ secret.duckdns.domain }}.duckdns.org"
-      - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ secret.duckdns.domain }}.duckdns.org"
+      - "--entrypoints.websecure.http.tls.domains[0].sans[0]=*.{{ secret.duckdns.domain }}.duckdns.org"
       - "--certificatesresolvers.le.acme.email={{ secret.letsencrypt.email }}"
       - "--certificatesresolvers.le.acme.storage=/etc/traefik/letsencrypt/acme.json"
       # - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
