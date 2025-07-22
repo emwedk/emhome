@@ -78,10 +78,10 @@
     restart_policy: unless-stopped
     # privileged: true # only needed for official image
     network_mode: host
-    etc_hosts:
-      # host.docker.internal: host-gateway
-      # host.docker.internal: 172.18.0.1
-      host.docker.internal: "{{ docker_host.Gateway }}"
+    # etc_hosts:
+    #   # host.docker.internal: host-gateway
+    #   # host.docker.internal: 172.18.0.1
+    #   host.docker.internal: "{{ docker_host.Gateway }}"
     dns_servers:
       - 1.1.1.1
       - 8.8.8.8
