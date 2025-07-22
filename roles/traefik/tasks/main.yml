@@ -86,7 +86,7 @@
       DUCKDNS_TOKEN: "{{ secret.duckdns.token }}"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
     command:
-      - "--log.level=DEBUG"
+      # - "--log.level=DEBUG"
       - "--log.filePath={{ service.logdir  }}"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entrypoint.to=websec"
