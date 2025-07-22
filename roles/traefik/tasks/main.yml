@@ -52,11 +52,10 @@
           ('traefik.http.routers.' ~ service.name ~ '-catchall.rule'): 'HostRegexp(`{host:.+}`)',
           ('traefik.http.routers.' ~ service.name ~ '-catchall.entrypoints'): 'web',
           ('traefik.http.routers.' ~ service.name ~ '-catchall.middlewares'): 'redirect-to-https',
-          ('traefik.http.routers.' ~ service.name ~ '-secure.tls.domains[0].main'): 'redirect-to-https',
-          ('traefik.http.routers.' ~ service.name ~ '-secure.tls.domains[0].sans'): 'redirect-to-https',
-          ('traefik.http.middlewares.' ~ service.name ~ '-to-https.redirectscheme.scheme'): 'https',
           ('traefik.http.routers.' ~ service.name ~ '-secure.tls.domains[0].main'): smarthome.domain,
           ('traefik.http.routers.' ~ service.name ~ '-secure.tls.domains[0].sans'): '*.' ~ smarthome.domain
+          ('traefik.http.middlewares.' ~ service.name ~ '-to-https.redirectscheme.scheme'): 'https',
+         
         }
       }}
 #('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
