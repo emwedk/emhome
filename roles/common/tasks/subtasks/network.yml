@@ -16,6 +16,55 @@
     rule: allow
     from_ip: "{{ docker_host.Subnet }}"
 
+# --- Initialize smarthome_domains list ---
+
+- name: Initialize smarthome_domains list
+  set_fact:
+    smarthome_domains: []
+
+- name: Add FQDNs for all apps to smarthome_domains
+  set_fact:
+    smarthome_domains: "{{ smarthome_domains + [ (app[item].subdomain | default(item)) ~ '.' ~ smarthome.domain ] }}"
+  loop: "{{ app.keys() }}"
+
+# --- Manage a dedicated block in /etc/hosts for smarthome domains ---
+- name: "Ensure smarthome domains are mapped to 127.0.0.1 in /etc/hosts"
+  become: true
+  ansible.builtin.blockinfile:
+    path: /etc/hosts
+    marker: "# {mark} ANSIBLE MANAGED SMARTHOME DOMAINS"
+    block: |
+      127.0.0.1 {{ smarthome_domains | join(' ') }}
+
+# --- Merge new domains into 127.0.0.1 line in /etc/hosts ---
+
+# - name: "Read current 127.0.0.1 line from /etc/hosts"
+#   become: true
+#   ansible.builtin.shell: "grep '^127.0.0.1 ' /etc/hosts || echo ''"
+#   register: hosts_127_line
+#   changed_when: false
+
+# - name: "Set fact for existing 127.0.0.1 hosts"
+#   set_fact:
+#     existing_127_hosts: "{{ hosts_127_line.stdout.split()[1:] if hosts_127_line.stdout else [] }}"
+
+# - name: "Set fact for all required 127.0.0.1 hosts"
+#   set_fact:
+#     required_127_hosts: "{{ (existing_127_hosts + smarthome_domains) | unique }}"
+
+# - name: "Update 127.0.0.1 line in /etc/hosts with merged domains"
+#   become: true
+#   ansible.builtin.lineinfile:
+#     path: /etc/hosts
+#     regexp: '^127\.0\.0\.1\s+'
+#     line: "127.0.0.1 {{ required_127_hosts | join(' ') }}"
+#     state: present
+#     backrefs: yes
+
+
+
+
+
 
 
 # - name: Allow traffic from Docker bridge subnet 172.19.0.0/16 via UFW
