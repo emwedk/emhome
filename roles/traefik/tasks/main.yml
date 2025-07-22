@@ -85,6 +85,8 @@
       DUCKDNS_TOKEN: "{{ secret.duckdns.token }}"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
     command:
+      - "--resolvers=1.1.1.1:53"
+      - "--resolvers=8.8.8.8:53"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entrypoint.to=websec"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
