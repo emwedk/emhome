@@ -29,6 +29,7 @@
     dynamic_labels: >-
       {{
         {
+          'docker.network': smarthome.network,
           'traefik.enable': 'true',
           'traefik.docker.network': smarthome.network,
           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websec',
