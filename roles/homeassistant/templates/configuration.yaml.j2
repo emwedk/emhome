@@ -19,7 +19,7 @@ http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 127.0.0.1
-    - {{ ansible_default_ipv4.address }}:24
+    - {{ ansible_default_ipv4.address }}/24
     - 172.16.0.0/16
     - 172.17.0.0/16
     - 172.18.0.0/16
