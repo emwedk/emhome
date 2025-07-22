@@ -10,6 +10,8 @@
       - npm
       - git
       - curl
+      - openssl
+      - ca-certificates
       - dbus
       - bluez
       - openrc
