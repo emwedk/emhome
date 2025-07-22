@@ -43,6 +43,7 @@
           ('traefik.http.routers.' ~ service.name ~ '.service'): 'api@internal',
           ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`) && PathPrefix(`/`)',
           ('traefik.http.routers.' ~ service.name ~ '.middlewares'): service.name ~ '-auth',
+          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port,
           ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('md5'))
         }
       }}
@@ -63,13 +64,12 @@
       - 1.1.1.1
       - 8.8.8.8
     dns_search_domains: []
-    networks:
-      - name: bridge
-      - name: "{{ smarthome.network }}"
+    # networks:
+    #   - name: bridge
+    #   - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
     etc_hosts:
       # host.docker.internal: host-gateway
       # host.docker.internal: 172.18.0.1
@@ -117,8 +117,8 @@
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.docker.network={{ smarthome.network }}"
       - "--providers.docker.watch=true"
-      - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
-      - "--providers.file.watch=true"
+      # - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
+      # - "--providers.file.watch=true"
       - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--log.level=DEBUG"

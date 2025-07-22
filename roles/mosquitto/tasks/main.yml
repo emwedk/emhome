@@ -54,9 +54,9 @@
     restart_policy: unless-stopped
     networks:
       - name: "{{ smarthome.network }}"
-    ports:
-      - "{{ service.port }}:1883"
-      - "9001:9001"
+    # ports:
+    #   - "{{ service.port }}:1883"
+    #   - "9001:9001"
     volumes:
       - "{{ service.dir }}/config:/mosquitto/config"
       - "{{ service.dir }}/data:/mosquitto/data"
