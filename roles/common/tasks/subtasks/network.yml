@@ -24,31 +24,10 @@
 
 - name: Add FQDNs for all apps to smarthome_domains
   set_fact:
-    smarthome_domains: >-
-      {{ smarthome_domains + [
-        (
-          (app[item].subdomain is defined)
-            and (app[item].subdomain | trim)
-              | ternary(
-                  app[item].subdomain ~ '.' ~ smarthome.domain,
-                  smarthome.domain
-                )
-            or (item ~ '.' ~ smarthome.domain)
-        )
-      ] }}
+    smarthome_domains: "{{ smarthome_domains + [ (app[item].subdomain | default(item)) ~ '.' ~ smarthome.domain ] }}"
   loop: "{{ app.keys() }}"
 
-# - name: Build list of all app FQDNs for smarthome_domains
-#   set_fact:
-#     smarthome_domains: >-
-#       [{% for key, val in app.items() %}
-#         {{ (val.subdomain if ('subdomain' in val) else key) ~ '.' ~ smarthome.domain }}{% if not loop.last %}, {% endif %}
-#       {% endfor %}]
 
-# - name: Add FQDNs for all apps to smarthome_domains
-#   set_fact:
-#     smarthome_domains: "{{ smarthome_domains + [ (app[item].subdomain | default(item)) ~ '.' ~ smarthome.domain ] }}"
-#   loop: "{{ app.keys() }}"
 
 # --- Manage a dedicated block in /etc/hosts for smarthome domains ---
 - name: "Ensure smarthome domains are mapped to 127.0.0.1 in /etc/hosts"
@@ -58,6 +37,11 @@
     marker: "# {mark} ANSIBLE MANAGED SMARTHOME DOMAINS"
     block: |
       127.0.0.1 {{ smarthome_domains | join(' ') }}
+      
+# --- Add the base domain to smarthome_domains ---
+- name: Ensure base domain is included in smarthome_domains
+  set_fact:
+    smarthome_domains: "{{ smarthome_domains + [smarthome.domain] if smarthome.domain not in smarthome_domains else smarthome_domains }}"
 
 # --- Merge new domains into 127.0.0.1 line in /etc/hosts ---
 
