@@ -38,8 +38,8 @@
           ('traefik.http.routers.' ~ service.name ~ '.tls'): 'true',
           ('traefik.http.routers.' ~ service.name ~ '.tls.certresolver'): 'letsencrypt',
           ('traefik.http.services.' ~ service.name ~ '.loadbalancer.passhostheader'): 'true',
-          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'compresstraefik',
-          ('traefik.http.middlewares.' ~ service.name ~ '.compress'): 'true',
+          ('traefik.http.routers.' ~ service.name ~ '-.middlewares'): 'compresstraefik',
+          ('traefik.http.middlewares.compresstraefik.compress'): 'true',
         }
       }}
   # ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port

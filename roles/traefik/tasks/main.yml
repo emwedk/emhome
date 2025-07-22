@@ -49,12 +49,12 @@
           ('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.server.port'): service.port,
           ('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.passhostheader'): 'true',
           ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('md5')),
-          ('traefik.http.routers.' ~ service.name ~ '-catchall.rule'): 'HostRegexp(`{host:.+}`)',
-          ('traefik.http.routers.' ~ service.name ~ '-catchall.entrypoints'): 'web',
-          ('traefik.http.routers.' ~ service.name ~ '-catchall.middlewares'): 'redirect-to-https',
+          ('traefik.http.routers.http-catchall.rule'): 'HostRegexp(`{host:.+}`)',
+          ('traefik.http.routers.http-catchall.entrypoints'): 'web',
+          ('traefik.http.routers.http-catchall.middlewares'): 'redirect-to-https',
           ('traefik.http.routers.' ~ service.name ~ '-secure.tls.domains[0].main'): smarthome.domain,
           ('traefik.http.routers.' ~ service.name ~ '-secure.tls.domains[0].sans'): '*.' ~ smarthome.domain,
-          ('traefik.http.middlewares.' ~ service.name ~ '-to-https.redirectscheme.scheme'): 'https',
+          ('traefik.http.middlewares.redirect-to-https.redirectscheme.scheme'): 'https',
          
         }
       }}
