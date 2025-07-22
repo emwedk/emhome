@@ -62,7 +62,7 @@
     dns_servers:
       - 1.1.1.1
       - 8.8.8.8
-    dns_search: []
+    dns_search_domains: []
     networks:
       - name: bridge
       - name: "{{ smarthome.network }}"
@@ -87,7 +87,7 @@
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
       DUCKDNS_TOKEN: "{{ secret.duckdns.token }}"
-      DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
+      # DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
       DNS: "1.1.1.1,8.8.8.8"
     command:
       - "--entrypoints.web.address=:80"
