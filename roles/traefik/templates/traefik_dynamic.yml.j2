@@ -1,1 +1,15 @@
 ---
+http:
+  services:
+    homeassistant:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:8123"
+  routers:
+    homeassistant:
+      rule: "Host(`{{ smarthome.domain }}`)"
+      entryPoints:
+        - websecure
+      service: homeassistant
+      tls:
+        certResolver: letsencrypt

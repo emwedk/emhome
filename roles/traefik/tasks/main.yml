@@ -76,19 +76,19 @@
       - 8.8.8.8
     dns_search_domains: []
     networks:
-      # - name: bridge
+      - name: bridge
       - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
       - "443:443"
     etc_hosts:
-      # host.docker.internal: host-gateway
+      host.docker.internal: host-gateway
       # host.docker.internal: 172.18.0.1
-      host.docker.internal: "{{ docker_host.Gateway }}"
+      # host.docker.internal: "{{ docker_host.Gateway }}"
 
     volumes:
       - "/etc/hosts:/etc/hosts"
-      - /etc/resolv.conf:/etc/resolv.conf
+      # - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
       - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
@@ -129,8 +129,8 @@
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       # - "--providers.docker.network={{ smarthome.network }}"
       # - "--providers.docker.watch=true"
-      # - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
-      # - "--providers.file.watch=true"
+      - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
+      - "--providers.file.watch=true"
 
 
     labels: "{{ dynamic_labels }}"
