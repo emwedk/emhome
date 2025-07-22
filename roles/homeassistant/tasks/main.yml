@@ -83,7 +83,7 @@
     state: started
     restart: true
     restart_policy: unless-stopped
-    privileged: true # only needed for official image
+    # privileged: true # only needed for official image
     network_mode: host
     # etc_hosts:
     #   # host.docker.internal: host-gateway
@@ -97,7 +97,7 @@
     volumes:
       - /var/run/dbus:/var/run/dbus:ro
       # - /etc/resolv.conf:/etc/resolv.conf
-      - /etc/localtime:/etc/localtime:ro
+      # - /etc/localtime:/etc/localtime:ro
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
