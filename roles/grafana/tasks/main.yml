@@ -28,7 +28,7 @@
     state: started
     restart: true
     restart_policy: unless-stopped
-    user: 0
+    # user: 0
     # user: "{{ user.puid }}"
     networks:
       - name: "{{ smarthome.network }}"

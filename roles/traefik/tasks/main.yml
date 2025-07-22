@@ -37,15 +37,17 @@
       {{
         {
           'traefik.enable': 'true',
-          ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'web',
+          ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websec',
           ('traefik.http.routers.' ~ service.name ~ '.service'): 'api@internal',
-          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.name ~ '.local`)',
-          ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('sha512')),
+          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`)',
+          ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('md5')),
           ('traefik.http.routers.' ~ service.name ~ '.middlewares'): service.name ~ '-auth@docker'
           
         }
       }}
 #'traefik.docker.network': smarthome.network,
+#('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.name ~ '.local`)',
+#('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('sha512')),
 
 - name: "Run container: {{ service.name }}"
   community.docker.docker_container:
@@ -64,21 +66,43 @@
       - "8080:8080"
     etc_hosts:
       # host.docker.internal: host-gateway
-      host.docker.internal: 172.18.0.1
+      # host.docker.internal: 172.18.0.1
+      host.docker.internal: "{{ docker_host.Gateway }}"
 
     volumes:
       - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
       - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
-      # - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
+      - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
     env:
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
+      DUCKDNS_TOKEN: "{{ secret.duckdns.token }}"
+      DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
     command:
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websec"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.websec.address=:443"
+      - "--entrypoints.websec.asDefault=true"
+      # - "--entrypoints.websec.http.tls=true"
+      - "--entrypoints.websec.http.tls.certresolver=le"
+      - "--entrypoints.websec.http.tls.domains[0].main={{ secret.duckdns.domain }}.duckdns.org"
+      - "--entrypoints.websec.http.tls.domains[0].sans=*.{{ secret.duckdns.domain }}.duckdns.org"
+      - "--certificatesresolvers.le.acme.email={{ secret.letsencrypt.email }}"
+      - "--certificatesresolvers.le.acme.storage=/etc/traefik/letsencrypt/acme.json"
+      # - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
+      # - "--certificatesresolvers.le.acme.dnschallenge=true"
+      - "--certificatesresolvers.le.acme.dnschallenge.provider=duckdns"
+      # - "--certificatesresolvers.le.acme.dnschallenge.disablePropagationCheck=true"
+      # - "--certificatesresolvers.le.acme.dnschallenge.propagation.disableChecks=true"
+      - "--certificatesresolvers.le.acme.dnschallenge.delayBeforeCheck=30"
+      - "--certificatesresolvers.le.acme.dnschallenge.resolvers[0]=1.1.1.1:53"
+      - "--certificatesresolvers.le.acme.dnschallenge.resolvers[1]=8.8.8.8:53"
+
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       # - "--providers.docker.network={{ smarthome.network }}"
