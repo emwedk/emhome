@@ -42,7 +42,6 @@
           ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`) && PathPrefix(`/`)',
           ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('md5')),
           ('traefik.http.routers.' ~ service.name ~ '.middlewares'): service.name ~ '-auth@docker'
-          
         }
       }}
 #'traefik.docker.network': smarthome.network,
@@ -79,6 +78,7 @@
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
       - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
       - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
+      - "{{ service.logdir }}:/var/log/traefik"
     env:
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"
@@ -87,18 +87,19 @@
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
     command:
       - "--log.level=DEBUG"
-      # - "--log.filePath={{ service.logdir  }}"
+      - "--log.filePath={{ service.logdir  }}"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entrypoint.to=websec"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.websec.address=:443"
-      - "--entrypoints.websec.asDefault=true"
+      # - "--entrypoints.websec.asDefault=true"
       # - "--entrypoints.websec.http.tls=true"
       - "--entrypoints.websec.http.tls.certresolver=le"
       - "--entrypoints.websec.http.tls.domains[0].main={{ secret.duckdns.domain }}.duckdns.org"
       - "--entrypoints.websec.http.tls.domains[0].sans=*.{{ secret.duckdns.domain }}.duckdns.org"
       - "--certificatesresolvers.le.acme.email={{ secret.letsencrypt.email }}"
       - "--certificatesresolvers.le.acme.storage=/etc/traefik/letsencrypt/acme.json"
+      - "--certificatesresolvers.le.acme.entryPoint=websec"
       - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       # - "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
       # - "--certificatesresolvers.le.acme.dnschallenge=true"
@@ -114,10 +115,10 @@
       - "--providers.docker.exposedbydefault=false"
       # - "--providers.docker.network={{ smarthome.network }}"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
-      - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
-      - "--providers.file.watch=true"
+      # - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
+      # - "--providers.file.watch=true"
       - "--api.dashboard=true"
-      - "--api.insecure=false"
+      - "--api.insecure=true"
       - "--log.level=INFO"
       - "--accesslog=true"
       - "--metrics.prometheus=true"
