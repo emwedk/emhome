@@ -50,24 +50,24 @@
     - scenes.yaml
     - template.yaml
 
-- name: Build dynamic labels dictionary
-  set_fact:
-    dynamic_labels: >-
-      {{
-        {
-          'traefik.enable': 'true',
-          'traefik.docker.network': smarthome.network,
-          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ smarthome.domain ~ '`) && PathPrefix(`/`)',
-          ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
-          ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
-          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port,
-          ('traefik.http.routers.' ~ service.name ~ '.tls'): 'true',
-          ('traefik.http.routers.' ~ service.name ~ '.tls.certresolver'): 'letsencrypt',
-          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.passhostheader'): 'true',
-          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'compresstraefik',
-          ('traefik.http.middlewares.compresstraefik.compress'): 'true'
-        }
-      }}
+# - name: Build dynamic labels dictionary
+#   set_fact:
+#     dynamic_labels: >-
+#       {{
+#         {
+#           'traefik.enable': 'true',
+#           'traefik.docker.network': smarthome.network,
+#           ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ smarthome.domain ~ '`) && PathPrefix(`/`)',
+#           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
+#           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
+#           ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port,
+#           ('traefik.http.routers.' ~ service.name ~ '.tls'): 'true',
+#           ('traefik.http.routers.' ~ service.name ~ '.tls.certresolver'): 'letsencrypt',
+#           ('traefik.http.services.' ~ service.name ~ '.loadbalancer.passhostheader'): 'true',
+#           ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'compresstraefik',
+#           ('traefik.http.middlewares.compresstraefik.compress'): 'true'
+#         }
+#       }}
   
   #('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.local`) || Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ secret.duckdns.domain ~ '.duckdns.org`) && PathPrefix(`/`) || Host(`' ~ ansible_default_ipv4.address ~ '`) && PathPrefix(`/`)',
   #'traefik.docker.network': smarthome.network,
@@ -104,15 +104,15 @@
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
       DOCKER_MODS: "linuxserver/mods:homeassistant-hacs"
-    # capabilities:
-    #   - NET_ADMIN
-    #   - NET_RAW
-    #   - NET_BIND_SERVICE
-    #   - SYS_ADMIN
+    capabilities:
+      - NET_ADMIN
+      - NET_RAW
+      - NET_BIND_SERVICE
+      - SYS_ADMIN
     # devices:
     #   - "{{ smarthome.zigbee_adapter }}"
     #   - "/dev/ttyS0:/dev/ttyS0"
-    labels: "{{ dynamic_labels }}"
+    # labels: "{{ dynamic_labels }}"
       # traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"
       # traefik.http.routers.{{ service.name }}.entrypoints: "web"
