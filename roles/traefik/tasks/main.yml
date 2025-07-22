@@ -41,9 +41,10 @@
           'traefik.docker.network': smarthome.network,
           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websec',
           ('traefik.http.routers.' ~ service.name ~ '.service'): 'api@internal',
-          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`) && PathPrefix(`/`)',
-          ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('md5')),
-          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): service.name ~ '-auth@docker'
+          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`)',
+          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port,
+          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): service.name ~ '-auth',
+          ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('md5'))
         }
       }}
 #('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.name ~ '.local`)',
@@ -59,8 +60,8 @@
     security_opts:
       - no-new-privileges=true
     dns_servers:
-      - 8.8.8.8
       - 1.1.1.1
+      - 8.8.8.8
     networks:
       - name: bridge
       - name: "{{ smarthome.network }}"
@@ -86,35 +87,38 @@
       PGID: "{{ user.pgid }}"
       DUCKDNS_TOKEN: "{{ secret.duckdns.token }}"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
+      DNS: "1.1.1.1,8.8.8.8"
     command:
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.web.http.redirections.entrypoint.to=websec"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-      - "--entrypoints.websec.address=:443"
-      # - "--entrypoints.websec.asDefault=true"
-      # - "--entrypoints.websec.http.tls=true"
-      - "--entrypoints.websec.http.tls.certresolver=le"
-      - "--entrypoints.websec.http.tls.domains[0].main={{ secret.duckdns.domain }}.duckdns.org"
-      - "--entrypoints.websec.http.tls.domains[0].sans=*.{{ secret.duckdns.domain }}.duckdns.org"
+      - "--entrypoints.websecure.address=:443"
+      # - "--entrypoints.websecure.asDefault=true"
+      - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.http.tls.certresolver=le"
+      - "--entrypoints.websecure.http.tls.domains[0].main={{ secret.duckdns.domain }}.duckdns.org"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ secret.duckdns.domain }}.duckdns.org"
       - "--certificatesresolvers.le.acme.email={{ secret.letsencrypt.email }}"
       - "--certificatesresolvers.le.acme.storage=/etc/traefik/letsencrypt/acme.json"
-      - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
+      # - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       # - "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
-      - "--certificatesresolvers.le.acme.dnschallenge=true"
+      # - "--certificatesresolvers.le.acme.dnschallenge=true"
       - "--certificatesresolvers.le.acme.dnschallenge.provider=duckdns"
       # - "--certificatesresolvers.le.acme.dnschallenge.disablePropagationCheck=true"
       # - "--certificatesresolvers.le.acme.dnschallenge.propagation.disableChecks=true"
-      - "--certificatesresolvers.le.acme.dnschallenge.propagation.delayBeforeChecks=30"
+      - "--certificatesresolvers.le.acme.dnschallenge.propagation.delayBeforeChecks=300"
       # - "--certificatesresolvers.le.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
       # - "--certificatesresolvers.le.acme.dnschallenge.resolvers[0]=1.1.1.1:53"
       # - "--certificatesresolvers.le.acme.dnschallenge.resolvers[1]=8.8.8.8:53"
 
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      # - "--providers.docker.network={{ smarthome.network }}"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
-      # - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
-      # - "--providers.file.watch=true"
+      - "--providers.docker.domain={{ smarthome.domain }}"
+      - "--providers.docker.network={{ smarthome.network }}"
+      - "--providers.docker.watch=true"
+      - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
+      - "--providers.file.watch=true"
       - "--api.dashboard=true"
       - "--api.insecure=true"
       - "--log.level=DEBUG"

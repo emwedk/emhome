@@ -58,7 +58,7 @@
           'docker.network': smarthome.network,
           'traefik.enable': 'true',
           'traefik.docker.network': smarthome.network,
-          ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websec',
+          ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
           ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ smarthome.domain ~ '`)'
         }
@@ -77,8 +77,8 @@
     # privileged: true # only needed for official image
     network_mode: host
     dns_servers:
-      - 8.8.8.8
       - 1.1.1.1
+      - 8.8.8.8
     # networks:
     #   - name: "{{ smarthome.network }}"
     volumes:
