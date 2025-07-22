@@ -74,7 +74,7 @@
 
     volumes:
       - "/etc/hosts:/etc/hosts"
-      - /etc/resolv.conf:/etc/resolv.conf
+      # - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
       - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
@@ -87,6 +87,7 @@
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
     command:
       - "--log.level=DEBUG"
+      - "--log.filePath={{ service.logdir  }}"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entrypoint.to=websec"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
