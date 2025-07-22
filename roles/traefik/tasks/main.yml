@@ -79,7 +79,7 @@
     #   - 8.8.8.8
     # dns_search_domains: []
     networks:
-      - name: bridge
+      # - name: bridge
       - name: "{{ smarthome.network }}"
     ports:
       - "80:80"
@@ -90,8 +90,8 @@
       # host.docker.internal: "{{ docker_host.Gateway }}"
 
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - "/etc/hosts:/etc/hosts"
+      # - /etc/localtime:/etc/localtime:ro
+      # - "/etc/hosts:/etc/hosts"
       # - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
