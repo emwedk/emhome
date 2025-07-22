@@ -16,30 +16,30 @@
     rule: allow
     from_ip: "{{ docker_host.Subnet }}"
 
-# --- Initialize smarthome_domains list ---
+# # --- Initialize smarthome_domains list ---
 
-- name: Initialize smarthome_domains list
-  set_fact:
-    smarthome_domains: []
+# - name: Initialize smarthome_domains list
+#   set_fact:
+#     smarthome_domains: []
 
-- name: Add FQDNs for all apps to smarthome_domains
-  set_fact:
-    smarthome_domains: "{{ smarthome_domains + [ (app[item].subdomain | default(item)) ~ '.' ~ smarthome.domain ] }}"
-  loop: "{{ app.keys() }}"
+# - name: Add FQDNs for all apps to smarthome_domains
+#   set_fact:
+#     smarthome_domains: "{{ smarthome_domains + [ (app[item].subdomain | default(item)) ~ '.' ~ smarthome.domain ] }}"
+#   loop: "{{ app.keys() }}"
 
-- name: Ensure base domain is included in smarthome_domains
-  set_fact:
-    smarthome_domains: "{{ smarthome_domains + [smarthome.domain] if smarthome.domain not in smarthome_domains else smarthome_domains }}"
+# - name: Ensure base domain is included in smarthome_domains
+#   set_fact:
+#     smarthome_domains: "{{ smarthome_domains + [smarthome.domain] if smarthome.domain not in smarthome_domains else smarthome_domains }}"
 
 
-# --- Manage a dedicated block in /etc/hosts for smarthome domains ---
-- name: "Ensure smarthome domains are mapped to 127.0.0.1 in /etc/hosts"
-  become: true
-  ansible.builtin.blockinfile:
-    path: /etc/hosts
-    marker: "# {mark} ANSIBLE MANAGED SMARTHOME DOMAINS"
-    block: |
-      127.0.0.1 {{ smarthome_domains | join(' ') }}
+# # --- Manage a dedicated block in /etc/hosts for smarthome domains ---
+# - name: "Ensure smarthome domains are mapped to 127.0.0.1 in /etc/hosts"
+#   become: true
+#   ansible.builtin.blockinfile:
+#     path: /etc/hosts
+#     marker: "# {mark} ANSIBLE MANAGED SMARTHOME DOMAINS"
+#     block: |
+#       127.0.0.1 {{ smarthome_domains | join(' ') }}
 
 # --- Merge new domains into 127.0.0.1 line in /etc/hosts ---
 
