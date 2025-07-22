@@ -94,7 +94,7 @@
       - "--certificatesresolvers.le.acme.email={{ secret.letsencrypt.email }}"
       - "--certificatesresolvers.le.acme.storage=/etc/traefik/letsencrypt/acme.json"
       # - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
+      # - "--certificatesresolvers.le.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
       # - "--certificatesresolvers.le.acme.dnschallenge=true"
       - "--certificatesresolvers.le.acme.dnschallenge.provider=duckdns"
       # - "--certificatesresolvers.le.acme.dnschallenge.disablePropagationCheck=true"
