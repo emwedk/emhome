@@ -73,6 +73,7 @@
       host.docker.internal: "{{ docker_host.Gateway }}"
 
     volumes:
+      - "/etc/hosts:/etc/hosts"
       - /etc/resolv.conf:/etc/resolv.conf
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
@@ -85,8 +86,7 @@
       DUCKDNS_TOKEN: "{{ secret.duckdns.token }}"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
     command:
-      - "--resolvers=1.1.1.1:53"
-      - "--resolvers=8.8.8.8:53"
+      - "--log.level=DEBUG"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entrypoint.to=websec"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
@@ -105,8 +105,9 @@
       # - "--certificatesresolvers.le.acme.dnschallenge.disablePropagationCheck=true"
       # - "--certificatesresolvers.le.acme.dnschallenge.propagation.disableChecks=true"
       - "--certificatesresolvers.le.acme.dnschallenge.delayBeforeCheck=30"
-      - "--certificatesresolvers.le.acme.dnschallenge.resolvers[0]=1.1.1.1:53"
-      - "--certificatesresolvers.le.acme.dnschallenge.resolvers[1]=8.8.8.8:53"
+      - "--certificatesresolvers.le.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
+      # - "--certificatesresolvers.le.acme.dnschallenge.resolvers[0]=1.1.1.1:53"
+      # - "--certificatesresolvers.le.acme.dnschallenge.resolvers[1]=8.8.8.8:53"
 
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
