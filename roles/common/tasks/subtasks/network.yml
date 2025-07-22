@@ -27,6 +27,9 @@
     smarthome_domains: "{{ smarthome_domains + [ (app[item].subdomain | default(item)) ~ '.' ~ smarthome.domain ] }}"
   loop: "{{ app.keys() }}"
 
+- name: Ensure base domain is included in smarthome_domains
+  set_fact:
+    smarthome_domains: "{{ smarthome_domains + [smarthome.domain] if smarthome.domain not in smarthome_domains else smarthome_domains }}"
 
 
 # --- Manage a dedicated block in /etc/hosts for smarthome domains ---
@@ -37,11 +40,6 @@
     marker: "# {mark} ANSIBLE MANAGED SMARTHOME DOMAINS"
     block: |
       127.0.0.1 {{ smarthome_domains | join(' ') }}
-      
-# --- Add the base domain to smarthome_domains ---
-- name: Ensure base domain is included in smarthome_domains
-  set_fact:
-    smarthome_domains: "{{ smarthome_domains + [smarthome.domain] if smarthome.domain not in smarthome_domains else smarthome_domains }}"
 
 # --- Merge new domains into 127.0.0.1 line in /etc/hosts ---
 
