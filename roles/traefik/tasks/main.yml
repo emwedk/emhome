@@ -41,7 +41,7 @@
           'traefik.docker.network': smarthome.network,
           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '.service'): 'api@internal',
-          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`)',
+          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`) && PathPrefix(`/`) ',
           ('traefik.http.routers.' ~ service.name ~ '.middlewares'): service.name ~ '-auth',
           ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('md5'))
         }
@@ -100,7 +100,7 @@
       - "--entrypoints.websecure.http.tls.domains[0].main={{ secret.duckdns.domain }}.duckdns.org"
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ secret.duckdns.domain }}.duckdns.org"
       - "--certificatesresolvers.le.acme.dnschallenge.provider=duckdns"
-      - "--certificatesresolvers.le.acme.dnschallenge.propagation.delayBeforeChecks=60"
+      - "--certificatesresolvers.le.acme.dnschallenge.propagation.delayBeforeChecks=450"
       - "--certificatesresolvers.le.acme.email={{ secret.letsencrypt.email }}"
       - "--certificatesresolvers.le.acme.storage=/etc/traefik/letsencrypt/acme.json"
       # - "--certificatesresolvers.le.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
