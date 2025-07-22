@@ -53,7 +53,7 @@
           ('traefik.http.routers.' ~ service.name ~ '-catchall.entrypoints'): 'web',
           ('traefik.http.routers.' ~ service.name ~ '-catchall.middlewares'): 'redirect-to-https',
           ('traefik.http.routers.' ~ service.name ~ '-secure.tls.domains[0].main'): smarthome.domain,
-          ('traefik.http.routers.' ~ service.name ~ '-secure.tls.domains[0].sans'): '*.' ~ smarthome.domain
+          ('traefik.http.routers.' ~ service.name ~ '-secure.tls.domains[0].sans'): '*.' ~ smarthome.domain,
           ('traefik.http.middlewares.' ~ service.name ~ '-to-https.redirectscheme.scheme'): 'https',
          
         }
