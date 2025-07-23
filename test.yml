@@ -7,4 +7,4 @@
   tasks:
     - name: DEBUG
       debug:
-        msg: "{{ ansible_distribution_file_variety }}"
+        msg: "{{ ansible_lsb }}"
