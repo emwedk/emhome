@@ -7,4 +7,4 @@
   tasks:
     - name: DEBUG
       debug:
-        var: ansible_system
+        var: ansible_system_vendor
