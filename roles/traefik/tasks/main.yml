@@ -39,6 +39,7 @@
       {{
         {
           'traefik.enable': 'true',
+          'traefik.docker.network': smarthome.network,
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`) && PathPrefix(`/dashboard`) || PathPrefix(`/api`)',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.service'): 'api@internal',
@@ -69,12 +70,13 @@
   community.docker.docker_container:
     name: "{{ service.name }}"
     image: "{{ service.image }}:{{ service.version }}"
+    pull: yes
     state: started
     restart: true
     restart_policy: unless-stopped
     security_opts:
       - no-new-privileges=true
-    dns_servers:
+    # dns_servers:
       # - 99.79.143.35
       # - 35.182.183.211
       # - 8.8.4.4
@@ -85,15 +87,17 @@
       # - 15.223.21.81
       # - 15.223.106.16
       # - 15.222.19.97
-      - 146.185.176.56
+      # - 146.185.176.56
       # - 193.0.200.136
       # - 5.189.139.167
       # - 1.1.1.1
       # - 8.8.8.8
     # dns_search_domains: []
-    # networks:
-    #   # - name: bridge
-    #   - name: "{{ smarthome.network }}"
+    purge_networks: yes
+    networks:
+      - name: "{{ smarthome.network }}"
+        aliases:
+          - "{{ service.name }}"
     ports:
       - "80:80"
       - "443:443"
@@ -148,7 +152,7 @@
       - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/letsencrypt/acme.json"
       # - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
-      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=146.185.176.56,5.189.139.167"
+      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=146.185.176.56,5.189.139.167"
       # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=8.8.4.4:53"
       # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
       - "--providers.docker=true"

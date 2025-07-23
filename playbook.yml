@@ -9,13 +9,23 @@
     - ['settings.yml']
   roles:
     - role: common
+      tags: ['always', 'home', 'common']
     - role: docker
+      tags: ['always', 'home', 'docker']
     - role: traefik
+      tags: ['always', 'home', 'traefik']
     - role: duckdns
+      tags: ['home', 'duckdns']
     # - role: portainer
+    #   tags: ['traefik']
     # - role: grafana
+    #   tags: ['traefik']
     - role: homeassistant
+      tags: ['home', 'homeassistant']
     - role: mosquitto
+      tags: ['home', 'mosquitto']
     # - role: esphome
+    #   tags: ['traefik']
     # - role: node-red
+    #   tags: ['traefik']
     

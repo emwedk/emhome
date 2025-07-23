@@ -26,11 +26,15 @@
   community.docker.docker_container:
     name: "{{ service.name }}"
     image: "{{ service.image }}:{{ service.version }}"
+    pull: yes
     state: "started"
     restart: true
     restart_policy: "unless-stopped"
+    purge_networks: yes
     networks:
       - name: "{{ smarthome.network }}"
+        aliases:
+          - "{{ service.name }}"
     # ports:
     #   - "{{ service.port }}:80"
     volumes:
