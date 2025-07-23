@@ -80,6 +80,8 @@
 - name: "Run container: {{ service.name }}"
   community.docker.docker_container:
     name: "{{ service.name }}"
+    hostname: "{{ service.name }}"
+    domain: "{{ (app[service.name].subdomain | default(service.name)) }}.{{ smarthome.domain }}"
     image: "{{ service.image }}:{{ service.version }}"
     pull: yes
     recreate: "{{ rebuild }}"
@@ -106,10 +108,10 @@
       - 1.1.1.1
       - 8.8.8.8
     # dns_search_domains: []
-    networks:
-      - name: "{{ smarthome.network }}"
-        aliases:
-          - "{{ service.name }}"
+    # networks:
+    #   - name: "{{ smarthome.network }}"
+    #     aliases:
+    #       - "{{ service.name }}"
     exposed_ports:
       - "{{ service.port }}"
     ports:
@@ -148,7 +150,7 @@
       - "--metrics.prometheus=true"
       - "--api.dashboard=true"
       - "--api.insecure=true"
-      # - "--serversTransport.insecureSkipVerify=true"
+      - "--serversTransport.insecureSkipVerify=true"
       - "--entrypoints.web.address=:80"
       # - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       # - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
