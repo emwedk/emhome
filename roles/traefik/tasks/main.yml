@@ -165,7 +165,7 @@
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ smarthome.domain }}"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=duckdns"
-      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.propagation.delayBeforeChecks=60"
+      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.propagation.delayBeforeChecks=60"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.propagation.disableChecks=true"
       - "--certificatesresolvers.letsencrypt.acme.email={{ secret.letsencrypt.email }}"
       - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/letsencrypt/acme.json"
