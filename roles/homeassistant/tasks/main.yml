@@ -79,6 +79,8 @@
 #           ('traefik.http.middlewares.compresstraefik.compress'): 'true'
 #         }
 #       }}
+
+
   
   #('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.local`) || Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ secret.duckdns.domain ~ '.duckdns.org`) && PathPrefix(`/`) || Host(`' ~ ansible_default_ipv4.address ~ '`) && PathPrefix(`/`)',
   #'traefik.docker.network': smarthome.network,

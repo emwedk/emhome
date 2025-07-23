@@ -11,10 +11,14 @@ http:
       headers:
         customrequestheaders:
           X-Forwarded-Proto: 'https'
-    
+    comp:
+      compress: 'true'
   routers:
     homeassistant-rt:
       rule: "Host(`{{ smarthome.domain }}`)"
       entryPoints:
         - websecure
+      middlewares:
+        - sslheader
+        - comp
       service: homeassistant-srv

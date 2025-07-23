@@ -64,7 +64,9 @@
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.service'): 'api@internal',
           ('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.server.port'): service.port,
           ('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.passhostheader'): 'true',
-          ('traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto'): 'https'
+          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'comp',
+          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'sslheader',
+          
         }
       }}
 #('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.name ~ '.local`)',
