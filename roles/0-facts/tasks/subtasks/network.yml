@@ -5,7 +5,6 @@
     name: "{{ smarthome.network }}"
     internal: false
     driver_options:
-      com.docker.network.bridge.default_bridge: "true"
       com.docker.network.bridge.name: "{{ smarthome.network }}"
       com.docker.network.bridge.enable_ip_masquerade: "true"
       com.docker.network.bridge.enable_icc: "true"
