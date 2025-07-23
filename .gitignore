@@ -5,3 +5,4 @@
 # emhome gitignore
 *.zip
 backup/
+.env
