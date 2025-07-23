@@ -115,14 +115,15 @@
       - /var/run/dbus:/var/run/dbus:ro
       - /run/dbus/:/run/dbus/:ro
       - /etc/bluetooth:/etc/bluetooth:ro
+      - /dev:/dev:ro
       - /usr/share/dbus-1/system.d:/usr/share/dbus-1/system.d:ro
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
-      # PUID: "{{ user.puid }}"
-      # PGID: "{{ user.pgid }}"
-      PUID: "1000"
-      PGID: "1000"
+      PUID: "{{ user.puid }}"
+      PGID: "{{ user.pgid }}"
+      # PUID: "1000"
+      # PGID: "1000"
       DOCKER_MODS: "linuxserver/mods:homeassistant-hacs"
     capabilities:
       - NET_ADMIN
