@@ -7,7 +7,7 @@ http:
           - url: "http://host.docker.internal:8123"
   routers:
     homeassistant-rt:
-      rule: "Host(`{{ smarthome.domain | trim }}`)"
+      rule: "Host(`{{ smarthome.domain }}`)"
       entryPoints:
         - websecure
       service: homeassistant-srv

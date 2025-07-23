@@ -40,7 +40,7 @@
         {
           'traefik.enable': 'true',
           'traefik.docker.network': smarthome.network,
-          ('traefik.http.routers.' ~ service.name ~ '-dashboard.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name) | trim) ~ '.' ~ smarthome.domain | trim ~ '`) && PathPrefix(`/dashboard`) || PathPrefix(`/api`)',
+          ('traefik.http.routers.' ~ service.name ~ '-dashboard.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`) && PathPrefix(`/dashboard`) || PathPrefix(`/api`)',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.service'): 'api@internal',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.middlewares'): service.name ~ '-auth',
@@ -75,8 +75,9 @@
     security_opts:
       - no-new-privileges=true
     dns_servers:
-      - 1.1.1.1
-      - 8.8.8.8
+      # - 127.0.0.1
+      # - 1.1.1.1
+      # - 8.8.8.8
     # dns_search_domains: []
     # networks:
     #   # - name: bridge
@@ -97,22 +98,27 @@
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
       - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
       - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
+      - "{{ service.logdir }}:/var/log"
     env:
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
       TRAEFIK_DASHBOARD_CREDENTIALS: "{{ user.name }}:{{ user.pass | password_hash('md5') }}"
-      DUCKDNS_TOKEN: "{{ secret.duckdns.token | trim }}"
-      DUCKDNS_DOMAIN: "{{ secret.duckdns.domain | trim }}"
+      DUCKDNS_TOKEN: "{{ secret.duckdns.token }}"
+      DUCKDNS_DOMAIN: "{{ secret.duckdns.domain }}"
       DUCKDNS_PROPAGATION_TIMEOUT: "600"
-      DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain | trim }}"
+      DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
       # DNS: "1.1.1.1,8.8.8.8"
     command:
       - "--log.level=DEBUG"
       - "--accesslog=true"
+      - "--log.format=json"
+      - "--log.filePath=/var/log/traefik.log"
+      - "--accesslog.filePath=/var/log/traefik_access.log"
       - "--metrics.prometheus=true"
       - "--api.dashboard=true"
       - "--api.insecure=true"
+      - "--serversTransport.insecureSkipVerify=true"
       - "--entrypoints.web.address=:80"
       # - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       # - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
@@ -120,13 +126,13 @@
       - "--entrypoints.websecure.asDefault=true"
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
-      - "--entrypoints.websecure.http.tls.domains[0].main={{ smarthome.domain | trim }}"
-      - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ smarthome.domain | trim }}"
+      - "--entrypoints.websecure.http.tls.domains[0].main={{ smarthome.domain }}"
+      - "--entrypoints.websecure.http.tls.domains[0].sans=*.{{ smarthome.domain }}"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge=true"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.provider=duckdns"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.propagation.delayBeforeChecks=600"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.propagation.disableChecks=true"
-      - "--certificatesresolvers.letsencrypt.acme.email={{ secret.letsencrypt.email | trim }}"
+      - "--certificatesresolvers.letsencrypt.acme.email={{ secret.letsencrypt.email }}"
       - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/letsencrypt/acme.json"
       - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       # - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
