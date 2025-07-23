@@ -78,7 +78,7 @@
       networks: strict
     security_opts:
       - no-new-privileges=true
-    # dns_servers:
+    dns_servers:
       # - 99.79.143.35
       # - 35.182.183.211
       - 8.8.4.4
