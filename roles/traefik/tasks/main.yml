@@ -107,7 +107,7 @@
       # - 5.189.139.167
       - "1.1.1.1"
       - "8.8.8.8"
-    dns_opt:
+    dns_opts:
       - timeout: "20"
       - attempts: "10"
     # dns_search_domains: []
