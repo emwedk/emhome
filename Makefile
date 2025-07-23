@@ -39,7 +39,7 @@ em:##..................
 traefik:##..................Install Traefik
 	@echo "Running Ansible playbook for Traefik"
 	git pull
-	sudo ansible-playbook -i inventory traefik.yml --tags "traefik" --skip-tags "common"
+	sudo ansible-playbook -i inventory playbook.yml --tags "traefik"
 
 .PHONY: test
 test:##..................tests the "test.yml" Ansible playbook
