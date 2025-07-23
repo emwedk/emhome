@@ -50,6 +50,7 @@
       {{
         {
           'traefik.enable': 'true',
+          'traefik.docker.network': smarthome.network,
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`) && PathPrefix(`/dashboard`) || PathPrefix(`/api`)',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.service'): 'api@internal',
