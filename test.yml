@@ -7,4 +7,4 @@
   tasks:
     - name: DEBUG
       debug:
-        msg: "{{ ansible_lsb }}"
+        var: ansible_lsb
