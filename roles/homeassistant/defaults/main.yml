@@ -1,9 +1,10 @@
 ---
 service:
-  name: homeassistant
-  dir: "{{ dir.data }}/homeassistant"
-  logdir: "{{ dir.log }}/homeassistant"
+  name: "{{ role_name }}"
+  dir: "{{ dir.data }}/{{ role_name }}"
+  logdir: "{{ dir.log }}/{{ role_name }}"
   # image: ghcr.io/home-assistant/home-assistant
   image: lscr.io/linuxserver/homeassistant
-  version: "{{ app.homeassistant.version }}"
+  version: "{{ app[role_name].version }}"
   port: 8123
+  domain: "{{ app[role_name].subdomain | default(role_name) }}.{{ smarthome.domain }}"

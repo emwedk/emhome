@@ -1,8 +1,9 @@
 ---
 service:
-  name: "node-red"
-  dir: "{{ dir.data }}/node-red"
-  logdir: "{{ dir.log }}/node-red"
+  name: "{{ role_name }}"
+  dir: "{{ dir.data }}/{{ role_name }}"
+  logdir: "{{ dir.log }}/{{ role_name }}"
   image: nodered/node-red
-  version: "{{ app['node-red'].version }}"
+  version: "{{ app[role_name].version }}"
   port: 1880
+  domain: "{{ app[role_name].subdomain | default(role_name) }}.{{ smarthome.domain }}"

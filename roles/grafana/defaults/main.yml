@@ -1,8 +1,9 @@
 ---
 service:
-  name: grafana
-  dir: "{{ dir.data }}/grafana"
-  logdir: "{{ dir.log }}/grafana"
+  name: "{{ role_name }}"
+  dir: "{{ dir.data }}/{{ role_name }}"
+  logdir: "{{ dir.log }}/{{ role_name }}"
   image: grafana/grafana
-  version: "{{ app.grafana.version }}"
+  version: "{{ app[role_name].version }}"
   port: 3000
+  domain: "{{ app[role_name].subdomain | default(role_name) }}.{{ smarthome.domain }}"

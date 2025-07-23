@@ -1,9 +1,9 @@
 ---
 service:
-  name: mosquitto
-  dir: "{{ dir.data }}/mosquitto"
-  logdir: "{{ dir.log }}/mosquitto"
+  name: "{{ role_name }}"
+  dir: "{{ dir.data }}/{{ role_name }}"
+  logdir: "{{ dir.log }}/{{ role_name }}"
   image: "eclipse-mosquitto"
-  version: "{{ app.mosquitto.version }}"
+  version: "{{ app[role_name].version }}"
   port: 1883
-
+  domain: "{{ app[role_name].subdomain | default(role_name) }}.{{ smarthome.domain }}"

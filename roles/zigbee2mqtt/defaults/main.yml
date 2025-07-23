@@ -1,9 +1,9 @@
 ---
 service:
-  name: zigbee2mqtt
-  dir: "{{ dir.data }}/zigbee2mqtt"
-  logdir: "{{ dir.log }}/zigbee2mqtt"
+  name: "{{ role_name }}"
+  dir: "{{ dir.data }}/{{ role_name }}"
+  logdir: "{{ dir.log }}/{{ role_name }}"
   image: ghcr.io/koenkk/zigbee2mqtt
-  version: "{{ app.zigbee2mqtt.version }}"
+  version: "{{ app[role_name].version }}"
   port: 8124
-
+  domain: "{{ app[role_name].subdomain | default(role_name) }}.{{ smarthome.domain }}"

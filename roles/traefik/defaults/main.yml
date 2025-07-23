@@ -1,9 +1,9 @@
 ---
 service:
-  name: traefik
-  dir: "{{ dir.data }}/traefik"
-  logdir: "{{ dir.log }}/traefik"
+  name: "{{ role_name }}"
+  dir: "{{ dir.data }}/{{ role_name }}"
+  logdir: "{{ dir.log }}/{{ role_name }}"
   image: traefik
-  version: "{{ app.traefik.version }}"
+  version: "{{ app[role_name].version }}"
   port: 8080
-
+  domain: "{{ app[role_name].subdomain | default(role_name) }}.{{ smarthome.domain }}"

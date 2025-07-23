@@ -5,6 +5,13 @@ http:
       loadBalancer:
         servers:
           - url: "http://host.docker.internal:8123"
+        passhostheader: 'true'
+  middlewares:
+    sslheader:
+      headers:
+        customrequestheaders:
+          X-Forwarded-Proto: 'https'
+    
   routers:
     homeassistant-rt:
       rule: "Host(`{{ smarthome.domain }}`)"

@@ -1,8 +1,9 @@
 ---
 service:
-  name: esphome
-  dir: "{{ dir.data }}/esphome"
-  logdir: "{{ dir.log }}/esphome"
+  name: "{{ role_name }}"
+  dir: "{{ dir.data }}/{{ role_name }}"
+  logdir: "{{ dir.log }}/{{ role_name }}"
   image: ghcr.io/esphome/esphome
-  version: "{{ app.esphome.version }}"
+  version: "{{ app[role_name].version }}"
   port: 6052
+  domain: "{{ app[role_name].subdomain | default(role_name) }}.{{ smarthome.domain }}"

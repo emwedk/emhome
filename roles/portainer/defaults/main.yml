@@ -1,8 +1,9 @@
 ---
 service:
-  name: portainer
-  dir: "{{ dir.data }}/portainer"
-  logdir: "{{ dir.log }}/portainer"
+  name: "{{ role_name }}"
+  dir: "{{ dir.data }}/{{ role_name }}"
+  logdir: "{{ dir.log }}/{{ role_name }}"
   image: portainer/portainer-ce
-  version: "{{ app.portainer.version }}"
+  version: "{{ app[role_name].version }}"
   port: 9000
+  domain: "{{ app[role_name].subdomain | default(role_name) }}.{{ smarthome.domain }}"
