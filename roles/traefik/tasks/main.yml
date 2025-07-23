@@ -122,7 +122,6 @@
         aliases:
           - "{{ service.name }}"
       - name: bridge
-      - name: host
     exposed_ports:
       - "{{ service.port }}"
     ports:
