@@ -81,7 +81,7 @@
   community.docker.docker_container:
     name: "{{ service.name }}"
     hostname: "{{ service.name }}"
-    domain: "{{ (app[service.name].subdomain | default(service.name)) }}.{{ smarthome.domain }}"
+    domainname : "{{ (app[service.name].subdomain | default(service.name)) }}.{{ smarthome.domain }}"
     image: "{{ service.image }}:{{ service.version }}"
     pull: yes
     recreate: "{{ rebuild }}"
