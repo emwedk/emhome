@@ -39,7 +39,6 @@
       {{
         {
           'traefik.enable': 'true',
-          'traefik.docker.network': smarthome.network,
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`) && PathPrefix(`/dashboard`) || PathPrefix(`/api`)',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.service'): 'api@internal',
@@ -50,6 +49,7 @@
           
         }
       }}
+#'traefik.docker.network': smarthome.network,
 #('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
 #('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.name ~ '.local`)',
 #('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('sha512')),
@@ -75,7 +75,6 @@
     security_opts:
       - no-new-privileges=true
     dns_servers:
-      - 127.0.0.1
       - 192.168.0.180
       # - 1.1.1.1
       # - 8.8.8.8
@@ -113,8 +112,6 @@
     command:
       - "--log.level=DEBUG"
       - "--accesslog=true"
-      - "--log.filePath=/var/log/traefik.log"
-      - "--accesslog.filePath=/var/log/traefik_access.log"
       - "--metrics.prometheus=true"
       - "--api.dashboard=true"
       - "--api.insecure=true"
