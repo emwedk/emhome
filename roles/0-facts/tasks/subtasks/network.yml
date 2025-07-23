@@ -4,7 +4,6 @@
   community.docker.docker_network:
     name: "{{ smarthome.network }}"
     internal: false
-    dns_servers: "{{ smarthome.dns }}"
     driver_options:
       com.docker.network.bridge.name: "{{ smarthome.network }}"
       com.docker.network.bridge.enable_ip_masquerade: "true"
