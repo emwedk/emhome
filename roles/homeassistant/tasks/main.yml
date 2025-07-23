@@ -114,6 +114,7 @@
       - /etc/localtime:/etc/localtime:ro
       - /var/run/dbus:/var/run/dbus
       - /etc/bluetooth:/etc/bluetooth
+      - /usr/share/dbus-1/system.d:/usr/share/dbus-1/system.d 
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
@@ -130,7 +131,11 @@
       - NET_BROADCAST
       - SYS_MODULE
       - SYS_RAWIO
+      - SETUID
       - SETGID
+      - SYSLOG
+      - SETPCAP
+      - DAC_READ_SEARCH
 
     # devices:
     #   - "{{ smarthome.zigbee_adapter }}"
