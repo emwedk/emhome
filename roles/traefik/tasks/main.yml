@@ -105,8 +105,11 @@
       # - 146.185.176.56
       # - 193.0.200.136
       # - 5.189.139.167
-      - 1.1.1.1
-      - 8.8.8.8
+      - "1.1.1.1"
+      - "8.8.8.8"
+    dns_opt:
+      - timeout: "20"
+      - attempts: "10"
     # dns_search_domains: []
     # networks:
     #   - name: "{{ smarthome.network }}"
