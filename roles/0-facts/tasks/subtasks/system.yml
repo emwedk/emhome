@@ -2,7 +2,7 @@
 - name: Set Rebuild Fact to false
   set_fact:
     rebuild: true
-  tags: rebuild
+  tags: ["rebuild", "never"]
 
 # - name: Read /etc/os-release
 #   ansible.builtin.slurp:
