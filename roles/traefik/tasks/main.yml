@@ -81,15 +81,17 @@
     name: "{{ service.name }}"
     image: "{{ service.image }}:{{ service.version }}"
     pull: yes
+    recreate: "{{ rebuild }}"
     state: started
     restart: true
     restart_policy: unless-stopped
     security_opts:
       - no-new-privileges=true
     dns_servers:
+      - 8.8.8.8
+      - 8.8.4.4
       # - 99.79.143.35
       # - 35.182.183.211
-      - 8.8.4.4
       # - 35.183.157.249
       # - 3.97.51.116
       # - 99.79.16.64
@@ -101,12 +103,13 @@
       # - 193.0.200.136
       # - 5.189.139.167
       # - 1.1.1.1
-      - 8.8.8.8
     # dns_search_domains: []
     networks:
       - name: "{{ smarthome.network }}"
         aliases:
           - "{{ service.name }}"
+    exposed_ports:
+      - "{{ service.port }}"
     ports:
       - "80:80"
       - "443:443"

@@ -62,6 +62,7 @@
     name: "{{ service.name }}"
     image: "{{ service.image }}:{{ service.version }}"
     pull: yes
+    recreate: "{{ rebuild }}"
     state: started
     restart: true
     restart_policy: unless-stopped
