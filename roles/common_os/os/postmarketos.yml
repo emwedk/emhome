@@ -1,0 +1,7 @@
+---
+# # --- tell NetworkManager not to use and change dns servers ---
+# - name: Disable NetworkManager DNS management
+#   ansible.builtin.command:
+#     cmd: "nmcli connection modify {{ item }} ipv4.ignore-auto-dns yes"
+#   loop: "{{ ansible_play_hosts }}"
+#   when: ansible_os_family == 'Debian' and ansible_distribution == 'postmarketOS'

@@ -16,6 +16,9 @@
     rule: allow
     from_ip: "{{ docker_host.Subnet }}"
 
+
+- name: ""
+
 # # --- Initialize smarthome_domains list ---
 
 # - name: Initialize smarthome_domains list

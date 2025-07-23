@@ -1,0 +1,9 @@
+---
+# - name: Check if OS specific tasks file exists
+#   ansible.builtin.stat:
+#     path: "{{ role_path }}/os/{{ system_os }}.yml"
+#   register: os_tasks_file
+
+# - name: Include OS specific Tasks
+#   include_tasks: "os/{{ system_os }}.yml"
+#   when: os_tasks_file.stat.exists
