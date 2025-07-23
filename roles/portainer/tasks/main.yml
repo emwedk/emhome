@@ -3,7 +3,6 @@
   file:
     path: "{{ item }}"
     state: "absent"
-    recurse: true
     force: true
   loop:
     - "{{ service.dir }}"
