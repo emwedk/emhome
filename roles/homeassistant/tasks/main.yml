@@ -137,13 +137,13 @@
       - SETUID
       - SETGID
       - SYSLOG
-      - SETPCAP
-      # - DAC_READ_SEARCH
-      # - AUDIT_CONTROL
-      # - AUDIT_READ
-      # - BLOCK_SUSPEND
-      # - BPF
-      # - IPC_LOCK
+      # - SETPCAP
+      - DAC_READ_SEARCH
+      - AUDIT_CONTROL
+      - AUDIT_READ
+      - BLOCK_SUSPEND
+      - BPF
+      - IPC_LOCK
       - IPC_OWNER
       - LEASE
       - LINUX_IMMUTABLE
