@@ -81,16 +81,16 @@
   community.docker.docker_container:
     name: "{{ service.name }}"
     image: "{{ service.image }}:{{ service.version }}"
-    # pull: yes
-    # recreate: "{{ rebuild }}"
+    pull: yes
+    recreate: "{{ rebuild }}"
     state: started
     restart: true
     restart_policy: unless-stopped
     security_opts:
       - no-new-privileges=true
     dns_servers:
-      - 8.8.8.8
-      - 8.8.4.4
+      # - 8.8.8.8
+      # - 8.8.4.4
       # - 99.79.143.35
       # - 35.182.183.211
       # - 35.183.157.249
@@ -103,7 +103,8 @@
       # - 146.185.176.56
       # - 193.0.200.136
       # - 5.189.139.167
-      # - 1.1.1.1
+      - 1.1.1.1
+      - 8.8.8.8
     # dns_search_domains: []
     networks:
       - name: "{{ smarthome.network }}"
@@ -140,14 +141,14 @@
       DUCKDNS_PROPAGATION_TIMEOUT: "300"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
       # LEGO_DISABLE_CNAME_SUPPORT: "true"
-      # DNS: "1.1.1.1,8.8.8.8"
+      DNS: "1.1.1.1,8.8.8.8"
     command:
       - "--log.level=DEBUG"
       - "--accesslog=true"
       - "--metrics.prometheus=true"
       - "--api.dashboard=true"
       - "--api.insecure=true"
-      - "--serversTransport.insecureSkipVerify=true"
+      # - "--serversTransport.insecureSkipVerify=true"
       - "--entrypoints.web.address=:80"
       # - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       # - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
@@ -166,8 +167,8 @@
       # - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
       # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=146.185.176.56,5.189.139.167"
-      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=8.8.4.4:53,8.8.8.8:53"
-      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
+      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=8.8.4.4:53,8.8.8.8:53"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
