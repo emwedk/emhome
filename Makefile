@@ -20,7 +20,7 @@ em:
 .PHONY: test
 test:
 	@echo "Running Ansible playbook test"
-	ansible-playbook -i inventory test.yml --check --diff
+	sudo ansible-playbook -i inventory test.yml --check --diff
 
 .PHONY: install-ansible
 install-ansible:
