@@ -85,8 +85,8 @@
     state: started
     restart: true
     restart_policy: unless-stopped
-    security_opts:
-      - no-new-privileges=true
+    # security_opts:
+    #   - no-new-privileges=true
     dns_servers:
       - 8.8.8.8
       - 8.8.4.4
