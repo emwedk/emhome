@@ -59,12 +59,12 @@
         {
           'traefik.enable': 'true',
           'traefik.docker.network': smarthome.network,
-          ('traefik.http.routers.' ~ service.name ~ '-dashboard.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`) && PathPrefix(`/dashboard`) || PathPrefix(`/api`)',
+          ('traefik.http.routers.' ~ service.name ~ '-dashboard.rule'): 'Host(`' ~ (app[service.name].subdomain | default(service.name)) ~ '.' ~ smarthome.domain ~ '`)',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.service'): 'api@internal',
-          ('traefik.http.routers.' ~ service.name ~ '-dashboard.middlewares'): service.name ~ '-auth',
           ('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.server.port'): service.port,
-          ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.hash
+          ('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.passhostheader'): 'true',
+          ('traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto'): 'https'
         }
       }}
 #'traefik.docker.network': smarthome.network,
@@ -75,11 +75,14 @@
 #('traefik.http.routers.' ~ service.name ~ '-secure.tls.domains[0].sans'): '*.' ~ smarthome.domain,
 #('traefik.http.routers.http-catchall.middlewares'): 'redirect-to-https',
 #('traefik.http.middlewares.redirect-to-https.redirectscheme.scheme'): 'https',
-#('traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto'): 'https'
+# ('traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto'): 'https'
 #('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.passhostheader'): 'true',
 #('traefik.http.routers.http-catchall.rule'): 'HostRegexp(`{host:.+}`)',
 #('traefik.http.routers.' ~ service.name ~ '-dashboard.tls'): 'true',
 #('traefik.http.routers.' ~ service.name ~ '-dashboard.tls.certresolver'): 'letsencrypt',
+#('traefik.http.routers.' ~ service.name ~ '-dashboard.middlewares'): service.name ~ '-auth',
+#('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.hash
+
 
 
 
@@ -136,7 +139,7 @@
       # host.docker.internal: "{{ docker_host.Gateway }}"
 
     volumes:
-      # - /etc/localtime:/etc/localtime:ro
+      - /etc/localtime:/etc/localtime:ro
       # - "/etc/hosts:/etc/hosts"
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
@@ -164,8 +167,8 @@
       - "--api.insecure=true"
       - "--serversTransport.insecureSkipVerify=true"
       - "--entrypoints.web.address=:80"
-      # - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      # - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.asDefault=true"
       - "--entrypoints.websecure.http.tls=true"
@@ -180,13 +183,11 @@
       - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/letsencrypt/acme.json"
       - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       # - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
-      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=5.189.139.167:53"
       - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=8.8.4.4:53"
-      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
-      # - "--providers.docker.network={{ smarthome.network }}"
+      - "--providers.docker.network={{ smarthome.network }}"
       # - "--providers.docker.watch=true"
       - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
       - "--providers.file.watch=true"
