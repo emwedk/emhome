@@ -1,7 +1,7 @@
 ---
 - name: "Remove directories for: {{ service.name }}"
   file:
-    path: "{{ item }}"
+    path: "{{ item }}/"
     state: "absent"
     recurse: true
     force: true
