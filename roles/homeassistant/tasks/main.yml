@@ -85,7 +85,6 @@
     restart: true
     restart_policy: unless-stopped
     # privileged: true # only needed for official image
-    purge_networks: yes
     network_mode: host
     # etc_hosts:
     #   # host.docker.internal: host-gateway

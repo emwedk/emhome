@@ -30,7 +30,6 @@
     state: "started"
     restart: true
     restart_policy: "unless-stopped"
-    purge_networks: yes
     networks:
       - name: "{{ smarthome.network }}"
         aliases:

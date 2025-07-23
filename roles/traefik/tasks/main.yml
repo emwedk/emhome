@@ -95,7 +95,6 @@
       # - 1.1.1.1
       # - 8.8.8.8
     # dns_search_domains: []
-    purge_networks: yes
     networks:
       - name: "{{ smarthome.network }}"
         aliases:

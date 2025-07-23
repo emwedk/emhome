@@ -31,7 +31,6 @@
     restart_policy: unless-stopped
     # user: 0
     # user: "{{ user.puid }}"
-    purge_networks: yes
     networks:
       - name: "{{ smarthome.network }}"
         aliases:

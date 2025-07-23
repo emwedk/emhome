@@ -51,7 +51,6 @@
     restart_policy: "unless-stopped"
     groups:
       - "dialout"
-    purge_networks: yes
     networks:
       - name: "{{ smarthome.network }}"
         aliases:
