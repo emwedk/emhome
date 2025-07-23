@@ -1,7 +1,7 @@
 ---
-- name: Gather System Info
-  import_tasks: "subtasks/system.yml"
-  # ignore_errors: yes
+# - name: Gather System Info
+#   import_tasks: "subtasks/system.yml"
+#   # ignore_errors: yes
 
 - name: User Tasks
   import_tasks: "subtasks/user.yml"
