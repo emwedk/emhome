@@ -12,7 +12,7 @@ em:##..................
 # 	docker rm -f $$(docker ps -a -q) || true
 # 	docker network prune -f
 	git pull
-	sudo ansible-playbook -i inventory playbook.yml --tags "rebuild"
+	sudo ansible-playbook -i inventory playbook.yml --tags "home,rebuild"
 # 	sh install.sh
 
 .PHONY: traefik

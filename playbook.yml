@@ -10,7 +10,7 @@
 
   roles:
     - { role: 0-facts,        tags: ['core', 'home', 'facts', 'always'] }
-    - { role: 0-system,       tags: ['core', 'system'] }
+    - { role: 0-system,       tags: ['core', 'home', 'system'] }
     - { role: docker,         tags: ['core', 'home', 'docker'] }
     - { role: traefik,        tags: ['core', 'home', 'traefik',] }
     - { role: duckdns,        tags: ['home', 'duckdns'] }
