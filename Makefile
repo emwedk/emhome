@@ -37,6 +37,7 @@ em:##..................
 
 .PHONY: traefik
 traefik:##..................Install Traefik
+	sudo -s touch Makefile
 	@echo "Running Ansible playbook for Traefik"
 	git pull
 	sudo ansible-playbook -i inventory playbook.yml --tags "traefik,rebuild"
