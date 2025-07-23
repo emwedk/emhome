@@ -7,4 +7,4 @@
   tasks:
     - name: DEBUG
       debug:
-        var: ansible_system_vendor
+        var: ansible_distribution_file_variety
