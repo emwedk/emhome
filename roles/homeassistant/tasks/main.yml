@@ -112,7 +112,8 @@
     #   - name: "{{ smarthome.network }}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /var/run/dbus:/var/run/dbus:ro
+      - /var/run/dbus:/var/run/dbus
+      - /etc/bluetooth:/etc/bluetooth
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
