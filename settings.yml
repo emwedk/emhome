@@ -32,5 +32,6 @@ smarthome:
   # domain: local
   domain: duckdns.org
   network: proxy
+  dns: ["8.8.4.4", "8.8.8.8"]
   zigbee_adapter: "/dev/serial/by-id/usb-SMLIGHT_SMLIGHT_SLZB-07Mg24_fa8db40321adef11b54b924ba8793231-if00-port0"
   
