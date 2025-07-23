@@ -1,3 +1,15 @@
+---
+- name: "Remove directories for: {{ service.name }}"
+  file:
+    path: "{{ item }}"
+    state: "absent"
+    recursive: true
+    force: true
+  loop:
+    - "{{ service.dir }}"
+    - "{{ service.logdir }}"
+  tags: ["rebuild"]
+
 - name: "Create directory for: {{ service.name }}"
   file:
     path: "{{ service.dir }}"

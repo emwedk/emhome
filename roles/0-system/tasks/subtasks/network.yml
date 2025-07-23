@@ -1,7 +1,4 @@
 ---
-
-
-
 - name: "Allow traffic from Docker bridge subnet {{ docker_host.Subnet }} via UFW"
   ansible.builtin.ufw:
     rule: allow
