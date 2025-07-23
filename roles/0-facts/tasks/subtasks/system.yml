@@ -8,7 +8,6 @@
   community.docker.docker_prune:
     containers: yes
     networks: yes
-    force: yes
   tags: ["home", "never"]
   when: rebuild | default(false) | bool
 
