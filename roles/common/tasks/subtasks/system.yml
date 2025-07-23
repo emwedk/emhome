@@ -1,0 +1,9 @@
+---
+- name: Read /etc/os-release
+  ansible.builtin.slurp:
+    src: /etc/os-release
+  register: system_os_file
+
+- name: Set custom_os_name fact from /etc/os-release
+  set_fact:
+    system_os: "{{ (os_release_file['content'] | b64decode).split('\n') | select('match', '^ID=') | list | first | regex_replace('^ID=\"?([^\"]+)\"?$', '\\1') }}"
