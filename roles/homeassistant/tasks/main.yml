@@ -132,12 +132,12 @@
       - NET_BIND_SERVICE
       - SYS_ADMIN
       - NET_BROADCAST
-      - SYS_MODULE
-      - SYS_RAWIO
-      - SETUID
-      - SETGID
-      - SYSLOG
-      # - SETPCAP
+      # - SYS_MODULE
+      # - SYS_RAWIO
+      # - SETUID
+      # - SETGID
+      # - SYSLOG
+      - SETPCAP
       - DAC_READ_SEARCH
       - AUDIT_CONTROL
       - AUDIT_READ
