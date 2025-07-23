@@ -7,7 +7,7 @@
   loop:
     - "{{ service.dir }}"
     - "{{ service.logdir }}"
-  tags: ["rebuild"]
+  when: rebuild | default(false) | bool
 
 - name: "Create directories for: {{ service.name }}"
   file:
