@@ -109,20 +109,22 @@
     # networks:
     #   - name: "{{ smarthome.network }}"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - /var/run/dbus:/var/run/dbus:ro
-      # - /etc/resolv.conf:/etc/resolv.conf
-      # - /etc/localtime:/etc/localtime:ro
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
-      PUID: "{{ user.puid }}"
-      PGID: "{{ user.pgid }}"
+      # PUID: "{{ user.puid }}"
+      # PGID: "{{ user.pgid }}"
+      PUID: 1000
+      PGID: 1000
       DOCKER_MODS: "linuxserver/mods:homeassistant-hacs"
     capabilities:
       - NET_ADMIN
       - NET_RAW
       - NET_BIND_SERVICE
       - SYS_ADMIN
+      
     devices:
       - "{{ smarthome.zigbee_adapter }}"
       - "/dev/ttyS0:/dev/ttyS0"
