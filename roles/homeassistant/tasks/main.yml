@@ -103,7 +103,7 @@
     #   # host.docker.internal: 172.18.0.1
     #   host.docker.internal: "{{ docker_host.Gateway }}"
     dns_servers:
-      - 192.168.0.180
+      # - 192.168.0.180
       # - 1.1.1.1
       # - 8.8.8.8
     # networks:
