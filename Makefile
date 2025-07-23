@@ -9,8 +9,8 @@ help:##..................Show the help
 em:##..................
 	sudo -s touch Makefile
 	@echo "Rebuild emhome"
-	docker rm -f $$(docker ps -a -q) || true
-	docker network prune -f
+# 	docker rm -f $$(docker ps -a -q) || true
+# 	docker network prune -f
 	git pull
 	sudo ansible-playbook -i inventory playbook.yml --tags "rebuild"
 # 	sh install.sh
