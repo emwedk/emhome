@@ -75,8 +75,8 @@
     security_opts:
       - no-new-privileges=true
     dns_servers:
-      # - 127.0.0.1
-      # - 192.168.0.180
+      - 127.0.0.1
+      - 192.168.0.180
       # - 1.1.1.1
       # - 8.8.8.8
     # dns_search_domains: []
