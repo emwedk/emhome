@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  become: true
+  become_method: doas
+  become_user: root
+
+  tasks:
+    - name: DEBUG
+      debug:
+        msg: "{{ ansible_distribution }}"
