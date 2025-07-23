@@ -1,11 +1,20 @@
 ---
+# - name: "Remove directories for: {{ service.name }}"
+#   file:
+#     path: "{{ item }}"
+#     state: "absent"
+#     force: true
+#   loop:
+#     - "{{ service.dir }}"
+#     - "{{ service.logdir }}"
+#   when: rebuild | default(false) | bool
 - name: "Remove directories for: {{ service.name }}"
   file:
     path: "{{ item }}"
     state: "absent"
     force: true
   loop:
-    - "{{ service.dir }}"
+    - "{{ service.dir }}/traefik_dynamic.yml"
     - "{{ service.logdir }}"
   when: rebuild | default(false) | bool
 
