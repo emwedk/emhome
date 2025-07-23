@@ -7,25 +7,20 @@
   
   vars_files:
     - ['settings.yml']
+
   roles:
-    - role: common
-      tags: ['always', 'home', 'common']
-    - role: docker
-      tags: ['always', 'home', 'docker']
-    - role: traefik
-      tags: ['always', 'home', 'traefik']
-    - role: duckdns
-      tags: ['home', 'duckdns']
-    # - role: portainer
-    #   tags: ['traefik']
-    # - role: grafana
-    #   tags: ['traefik']
-    - role: homeassistant
-      tags: ['home', 'homeassistant']
-    - role: mosquitto
-      tags: ['home', 'mosquitto']
-    # - role: esphome
-    #   tags: ['traefik']
-    # - role: node-red
-    #   tags: ['traefik']
+    - { role: 0-system,         tags: ['core', 'system'] }
+    - { role: 0-facts,         tags: ['core', 'home', 'facts', 'always'] }
+    - { role: docker,         tags: ['core', 'home', 'docker'] }
+    - { role: traefik,        tags: ['core', 'home', 'traefik',] }
+    - { role: duckdns,        tags: ['home', 'duckdns'] }
+
+    # - { role: portainer,      tags: ['home', 'traefik'] }
+    # - { role: grafana,        tags: ['home', 'traefik'] }
+
+    - { role: homeassistant,  tags: ['home', 'homeassistant'] }
+    - { role: mosquitto,      tags: ['home', 'mosquitto'] }
+
+    # - { role: esphome,        tags: ['home', 'traefik'] }
+    # - { role: node-red,       tags: ['home', 'traefik'] }
     

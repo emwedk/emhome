@@ -11,10 +11,6 @@
   import_tasks: "subtasks/package.yml"
   # ignore_errors: yes
 
-- name: Secret Tasks
-  import_tasks: "subtasks/secret.yml"
-  # ignore_errors: yes
-  
 - name: Network Tasks
   import_tasks: "subtasks/network.yml"
   # ignore_errors: yes

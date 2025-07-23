@@ -1,0 +1,20 @@
+---
+# - name: Gather System Info
+#   import_tasks: "subtasks/system.yml"
+#   # ignore_errors: yes
+
+- name: User Tasks
+  import_tasks: "subtasks/user.yml"
+  # ignore_errors: yes
+
+- name: Secret Tasks
+  import_tasks: "subtasks/secret.yml"
+  # ignore_errors: yes
+  
+- name: Network Tasks
+  import_tasks: "subtasks/network.yml"
+  # ignore_errors: yes
+
+- name: Device Tasks
+  import_tasks: "subtasks/device.yml"
+  # ignore_errors: yes

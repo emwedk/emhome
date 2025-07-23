@@ -1,0 +1,31 @@
+---
+- name: "Ensure network exists: {{ smarthome.network }}"
+  when: smarthome.network != "host"
+  community.docker.docker_network:
+    name: "{{ smarthome.network }}"
+    state: "present"
+  register: docker_bridge
+
+- name: Extract docker host info
+  set_fact:
+    docker_host: "{{ docker_bridge.network.IPAM.Config | first }}"
+
+
+# # --- Initialize smarthome_domains list ---
+
+# - name: Initialize smarthome_domains list
+#   set_fact:
+#     smarthome_domains: []
+
+# - name: Add FQDNs for all apps to smarthome_domains
+#   set_fact:
+#     smarthome_domains: "{{ smarthome_domains + [ (app[item].subdomain | default(item)) ~ '.' ~ smarthome.domain ] }}"
+#   loop: "{{ app.keys() }}"
+
+# - name: Ensure base domain is included in smarthome_domains
+#   set_fact:
+#     smarthome_domains: "{{ smarthome_domains + [smarthome.domain] if smarthome.domain not in smarthome_domains else smarthome_domains }}"
+
+
+
+
