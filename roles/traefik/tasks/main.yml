@@ -81,7 +81,7 @@
     # dns_servers:
       # - 99.79.143.35
       # - 35.182.183.211
-      # - 8.8.4.4
+      - 8.8.4.4
       # - 35.183.157.249
       # - 3.97.51.116
       # - 99.79.16.64
@@ -154,7 +154,7 @@
       # - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
       # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=146.185.176.56,5.189.139.167"
-      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=8.8.4.4:53"
+      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=8.8.4.4:53"
       # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
