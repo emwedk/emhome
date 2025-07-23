@@ -91,9 +91,8 @@
     security_opts:
       - no-new-privileges=true
     dns_servers:
-      - "127.0.0.11"
-      # - "8.8.4.4"
-      # - "8.8.8.8"
+      - "8.8.4.4"
+      - "8.8.8.8"
       # - "99.79.143.35"
       # - "35.182.183.211"
       # - "35.183.157.249"
@@ -175,7 +174,7 @@
       - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       # - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
       # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=5.189.139.167:53"
-      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=127.0.0.11:53"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=8.8.4.4:53"
       # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
