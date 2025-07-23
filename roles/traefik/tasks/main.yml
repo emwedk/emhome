@@ -75,10 +75,8 @@
     security_opts:
       - no-new-privileges=true
     dns_servers:
-      - 127.0.0.1
-      - 127.0.0.11
-      # - 1.1.1.1
-      # - 8.8.8.8
+      - 1.1.1.1
+      - 8.8.8.8
     # dns_search_domains: []
     # networks:
     #   # - name: bridge
