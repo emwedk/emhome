@@ -22,6 +22,13 @@ traefik:##..................Install Traefik
 	git pull
 	sudo ansible-playbook -i inventory playbook.yml --tags "traefik,rebuild"
 
+.PHONY: home
+home:##..................Install Homeassistant
+	sudo -s touch Makefile
+	@echo "Running Ansible playbook for Homeassistant"
+	git pull
+	sudo ansible-playbook -i inventory playbook.yml --tags "home,rebuild"
+
 .PHONY: test
 test:##..................tests the "test.yml" Ansible playbook
 	@echo "Running Ansible playbook test"
