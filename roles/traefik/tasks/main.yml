@@ -93,7 +93,6 @@
     volumes:
       # - /etc/localtime:/etc/localtime:ro
       # - "/etc/hosts:/etc/hosts"
-      - /etc/resolv.conf:/etc/resolv.conf:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - "{{ service.dir }}/traefik.yml:/etc/traefik/traefik.yml"
       - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
@@ -133,7 +132,7 @@
       - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/letsencrypt/acme.json"
       - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       # - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
-      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=127.0.0.1:53,192.168.0.180:53"
+      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=192.168.0.180:53"
       # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"

@@ -1,10 +1,10 @@
 .PHONY: em
 em:
-	sudo touch Makefile
+	sudo -s touch Makefile
 	@echo "Rebuild emhome"
 	docker rm -f $$(docker ps -a -q) || true
 	docker network prune -f
-	sudo -s rm -rf /opt/traefik
+	sudo rm -rf /opt/traefik
 	sudo rm -rf /opt/containerd
 	sudo rm -rf /opt/duckdns
 	sudo rm -rf /opt/esphome
@@ -14,6 +14,18 @@ em:
 	sudo rm -rf /opt/node-red
 	sudo rm -rf /opt/portainer
 	sudo rm -rf /opt/zigbee2mqtt
+	sudo rm -rf /var/log/traefik
+	sudo rm -rf /var/log/containerd
+	sudo rm -rf /var/log/duckdns
+	sudo rm -rf /var/log/esphome
+	sudo rm -rf /var/log/grafana
+	sudo rm -rf /var/log/homeassistant
+	sudo rm -rf /var/log/mosquitto
+	sudo rm -rf /var/log/node-red
+	sudo rm -rf /var/log/portainer
+	sudo rm -rf /var/log/zigbee2mqtt
+	
+
 	git pull
 	sudo ansible-playbook -i inventory playbook.yml
 # 	sh install.sh
