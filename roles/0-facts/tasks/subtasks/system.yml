@@ -4,13 +4,6 @@
     rebuild: true
   tags: ["rebuild", "never"]
 
-- name: Prune Docker from containers and networks
-  community.docker.docker_prune:
-    containers: yes
-    networks: yes
-  tags: ["home", "never"]
-  when: rebuild | default(false) | bool
-
 # - name: Read /etc/os-release
 #   ansible.builtin.slurp:
 #     src: /etc/os-release
