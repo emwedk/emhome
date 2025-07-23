@@ -6,7 +6,7 @@
     internal: false
     driver_options:
       com.docker.network.bridge.default_bridge: "true"
-      com.docker.network.bridge.name: "{{ smarthome.network }}"
+      com.docker.network.bridge.name: "docker0"
       com.docker.network.bridge.enable_ip_masquerade: "true"
       com.docker.network.bridge.enable_icc: "true"
       com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
