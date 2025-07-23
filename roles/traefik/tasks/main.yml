@@ -81,7 +81,7 @@
   community.docker.docker_container:
     name: "{{ service.name }}"
     hostname: "{{ service.name }}"
-    domainname : "{{ (app[service.name].subdomain | default(service.name)) }}.{{ smarthome.domain }}"
+    domainname : "{{ smarthome.domain }}"
     image: "{{ service.image }}:{{ service.version }}"
     pull: yes
     recreate: "{{ rebuild }}"
@@ -111,10 +111,10 @@
       - timeout: "20"
       - attempts: "10"
     # dns_search_domains: []
-    # networks:
-    #   - name: "{{ smarthome.network }}"
-    #     aliases:
-    #       - "{{ service.name }}"
+    networks:
+      - name: "{{ smarthome.network }}"
+        aliases:
+          - "{{ service.name }}"
     exposed_ports:
       - "{{ service.port }}"
     ports:
@@ -122,6 +122,7 @@
       - "443:443"
     etc_hosts:
       host.docker.internal: host-gateway
+      # ns1.duckdns.org: 
 
       # host.docker.internal: 172.18.0.1
       # host.docker.internal: "{{ docker_host.Gateway }}"
