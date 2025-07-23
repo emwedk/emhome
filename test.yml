@@ -7,4 +7,4 @@
   tasks:
     - name: DEBUG
       debug:
-        var: ansible_os_family
+        var: ansible_system
