@@ -116,8 +116,8 @@
       TZ: "{{ tz }}"
       # PUID: "{{ user.puid }}"
       # PGID: "{{ user.pgid }}"
-      PUID: 1000
-      PGID: 1000
+      PUID: "1000"
+      PGID: "1000"
       DOCKER_MODS: "linuxserver/mods:homeassistant-hacs"
     capabilities:
       - NET_ADMIN
