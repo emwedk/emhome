@@ -74,6 +74,8 @@
     state: started
     restart: true
     restart_policy: unless-stopped
+    comparisons:
+      network: strict
     security_opts:
       - no-new-privileges=true
     # dns_servers:
