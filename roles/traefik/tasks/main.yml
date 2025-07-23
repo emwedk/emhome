@@ -170,7 +170,7 @@
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
-      - "--providers.docker.network={{ smarthome.network }}"
+      # - "--providers.docker.network={{ smarthome.network }}"
       # - "--providers.docker.watch=true"
       - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
       - "--providers.file.watch=true"
