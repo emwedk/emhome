@@ -52,7 +52,6 @@
     force: no
 
 
-
 - name: Build dynamic labels dictionary
   set_fact:
     dynamic_labels: >-
@@ -65,9 +64,7 @@
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.service'): 'api@internal',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.middlewares'): service.name ~ '-auth',
           ('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.server.port'): service.port,
-          ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.name ~ ':' ~ (user.pass | password_hash('md5')),
-          
-          
+          ('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.hash
         }
       }}
 #'traefik.docker.network': smarthome.network,
@@ -125,12 +122,13 @@
         aliases:
           - "{{ service.name }}"
       - name: bridge
+      - name: host
     exposed_ports:
       - "{{ service.port }}"
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
+      - "{{ service.port }}:8080"
     etc_hosts:
       host.docker.internal: host-gateway
       # ns1.duckdns.org: 

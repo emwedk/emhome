@@ -36,6 +36,11 @@
     user: "{{ user | combine({'pass': (passwd_content.content | b64decode | trim)}) }}"
   when: passwd_file.stat.exists and passwd_file.stat.size > 0
 
+- name: Set hashed user-pass for auth
+  set_fact:
+    user: "{{ user | combine({ 'hash': user.name ~ ':' ~ user.pass | password_hash('md5') }) }}"
+
+
 # - name: Set user.pass to contents of .passwd if file exists and is not empty
 #   set_fact:
 #     user: "{{ user | combine({'pass': passwd_content.content}) }}"
