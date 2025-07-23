@@ -15,7 +15,7 @@ app:
   grafana:
     version: latest
   traefik:
-    version: latest
+    version: stable
   portainer:
     version: latest
   duckdns:
