@@ -3,6 +3,8 @@
   become: true
   become_method: doas
   become_user: root
+  gather_facts: true
+  
   vars_files:
     - ['settings.yml']
   roles:
