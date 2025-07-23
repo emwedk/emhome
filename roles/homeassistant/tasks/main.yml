@@ -114,8 +114,8 @@
       - /etc/localtime:/etc/localtime:ro
       - /var/run/dbus:/var/run/dbus:ro
       - /run/dbus/:/run/dbus/:ro
-      # - /etc/bluetooth:/etc/bluetooth:ro
-      # - /usr/share/dbus-1/system.d:/usr/share/dbus-1/system.d:ro
+      - /etc/bluetooth:/etc/bluetooth:ro
+      - /usr/share/dbus-1/system.d:/usr/share/dbus-1/system.d:ro
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
