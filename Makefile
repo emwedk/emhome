@@ -29,6 +29,14 @@ home:##..................Install Homeassistant
 	git pull
 	sudo ansible-playbook -i inventory playbook.yml --tags "homeassistant,rebuild"
 
+.PHONY: zigbee
+zigbee:##..................Install Homeassistant
+	sudo -s touch Makefile
+	@echo "Running Ansible playbook for Homeassistant"
+	git pull
+	sudo ansible-playbook -i inventory playbook.yml --tags "zigbee2mqtt,rebuild"
+
+
 .PHONY: test
 test:##..................tests the "test.yml" Ansible playbook
 	@echo "Running Ansible playbook test"
