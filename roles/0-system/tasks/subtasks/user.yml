@@ -24,7 +24,7 @@
 #     validate: 'doas -C %s'
 
 - name: Copy Traefik dynamic config
-  template:
+  copy:
     src: /etc/doas.d/sxmo.conf
     dest: "/etc/doas.d/{{ user.name }}.conf"
     owner: "root"
