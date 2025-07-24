@@ -34,7 +34,7 @@ zigbee:##..................Install Zigbee2MQTT
 	sudo -s touch Makefile
 	@echo "Running Ansible playbook for Zigbee2MQTT"
 	git pull
-	sudo ansible-playbook -i inventory playbook.yml --tags "zigbee,rebuild"
+	sudo ansible-playbook -i inventory playbook.yml --tags "mosquitto,rebuild"
 
 
 .PHONY: test
