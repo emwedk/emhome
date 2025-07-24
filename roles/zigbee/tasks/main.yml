@@ -44,7 +44,7 @@
           ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.domain ~ '`)',
           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
-          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
+          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): 8080
         }
       }}
 
