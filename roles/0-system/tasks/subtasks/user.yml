@@ -27,8 +27,8 @@
   template:
     src: /etc/doas.d/sxmo.conf
     dest: "/etc/doas.d/{{ user.name }}.conf"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
+    owner: "root"
+    group: "root"
     mode: '0755'
 
 - name: Create common groups
