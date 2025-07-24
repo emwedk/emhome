@@ -23,13 +23,16 @@
       {{
         {
           'traefik.enable': 'true',
-          ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'web',
+          'traefik.docker.network': smarthome.network,
+          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.domain ~ '`)',
+          ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
-          ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.name ~ '.local`)',
-          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
+          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port,
+          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.passhostheader'): 'true',
+          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'comp',
+          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'sslheader'
         }
       }}
-  # 'traefik.docker.network': smarthome.network,
   
 - name: "Run container: {{ service.name }}"
   community.docker.docker_container:
