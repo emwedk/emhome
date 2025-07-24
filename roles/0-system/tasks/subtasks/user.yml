@@ -7,39 +7,6 @@
 #     group: root
 #     mode: '0755'
 
-# - name: Ensure doas.conf allows passwordless chown for Bluetooth devices
-#   ansible.builtin.lineinfile:
-#     path: /etc/doas.conf
-#     line: "permit nopass {{ ansible_user_id }} as root cmd chown"
-#     state: present
-#     create: yes
-#     validate: 'doas -C %s'
-
-# - name: Ensure doas.conf allows passwordless chmod for Bluetooth devices
-#   ansible.builtin.lineinfile:
-#     path: /etc/doas.conf
-#     line: "permit nopass {{ ansible_user_id }} as root cmd chmod"
-#     state: present
-#     create: yes
-#     validate: 'doas -C %s'
-
-- name: Copy sxmo doas conf for user
-  copy:
-    src: /etc/doas.d/sxmo.conf
-    dest: "/etc/doas.d/{{ user.name }}.conf"
-    owner: "root"
-    group: "root"
-    mode: '0755'
-  tags: rebuild
-  when: system_os == "postmarketos"
-
-- name: Replace :wheel with :{{ user.name }} in user's doas conf
-  replace:
-    path: "/etc/doas.d/{{ user.name }}.conf"
-    regexp: ":wheel"
-    replace: "{{ user.name }}"
-  tags: rebuild
-  when: system_os == "postmarketos"
 
 - name: Create common groups
   group:
@@ -65,3 +32,38 @@
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
     mode: '0755'
+
+- name: Copy sxmo doas conf for user
+  copy:
+    src: /etc/doas.d/sxmo.conf
+    dest: "/etc/doas.d/{{ user.name }}.conf"
+    owner: "root"
+    group: "root"
+    mode: '0755'
+  tags: rebuild
+  when: system_os == "postmarketos"
+
+- name: Replace :wheel with :{{ user.name }} in user's doas conf
+  replace:
+    path: "/etc/doas.d/{{ user.name }}.conf"
+    regexp: ":wheel"
+    replace: "{{ user.name }}"
+  tags: rebuild
+  when: system_os == "postmarketos"
+
+- name: Ensure doas.conf allows passwordless chown for Bluetooth devices
+  ansible.builtin.lineinfile:
+    path: /etc/doas.conf
+    line: "permit nopass {{ ansible_user_id }} as root cmd chown"
+    state: present
+    create: yes
+    validate: 'doas -C %s'
+
+- name: Ensure doas.conf allows passwordless chmod for Bluetooth devices
+  ansible.builtin.lineinfile:
+    path: /etc/doas.conf
+    line: "permit nopass {{ ansible_user_id }} as root cmd chmod"
+    state: present
+    create: yes
+    validate: 'doas -C %s'
+
