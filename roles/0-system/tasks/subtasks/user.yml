@@ -23,13 +23,13 @@
 #     create: yes
 #     validate: 'doas -C %s'
 
-# - name: Copy Traefik dynamic config
-#   template:
-#     src: /etc/doas.d/sxmo.conf
-#     dest: "/etc/doas.d/{{ user.name }}"
-#     owner: "{{ user.name }}"
-#     group: "{{ user.name }}"
-#     mode: '0755'
+- name: Copy Traefik dynamic config
+  template:
+    src: /etc/doas.d/sxmo.conf
+    dest: "/etc/doas.d/{{ user.name }}.conf"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0755'
 
 - name: Create common groups
   group:
