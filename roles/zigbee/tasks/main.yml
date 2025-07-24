@@ -44,7 +44,7 @@
           ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.domain ~ '`)',
           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
-          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): 8080
+          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
         }
       }}
 
@@ -65,10 +65,10 @@
       - name: "{{ smarthome.network }}"
         aliases:
           - "{{ service.name }}"
-    # exposed_ports:
-    #   - "{{ service.port }}"
-    ports:
-      - "{{ service.port }}:8080"
+    exposed_ports:
+      - "{{ service.port }}"
+    # ports:
+    #   - "{{ service.port }}:8080"
     volumes:
       - "{{ service.dir }}:/app/data"
       - "{{ service.logdir }}/:/app/data/log"
