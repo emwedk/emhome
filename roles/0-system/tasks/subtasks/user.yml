@@ -30,6 +30,7 @@
     owner: "root"
     group: "root"
     mode: '0755'
+  tags: rebuild
 
 - name: Create common groups
   group:
