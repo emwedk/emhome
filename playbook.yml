@@ -15,12 +15,12 @@
     - { role: traefik,        tags: ['core', 'home', 'traefik',] }
     - { role: duckdns,        tags: ['home', 'duckdns'] }
 
-    # - { role: portainer,      tags: ['home', 'traefik'] }
-    # - { role: grafana,        tags: ['home', 'traefik'] }
+    - { role: portainer,      tags: ['home', 'traefik'] }
+    - { role: grafana,        tags: ['home', 'traefik'] }
 
-    - { role: homeassistant,  tags: ['home', 'homeassistant'] }
     - { role: mosquitto,      tags: ['home', 'mosquitto'] }
+    - { role: homeassistant,  tags: ['home', 'homeassistant'] }
 
-    # - { role: esphome,        tags: ['home', 'traefik'] }
-    # - { role: node-red,       tags: ['home', 'traefik'] }
+    - { role: esphome,        tags: ['home', 'traefik'] }
+    - { role: node-red,       tags: ['home', 'traefik'] }
     
