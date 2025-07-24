@@ -96,8 +96,8 @@
         aliases:
           - "{{ service.name }}"
       - name: bridge
-    exposed_ports:
-      - "{{ service.port }}"
+    # exposed_ports:
+    #   - "{{ service.port }}"
     ports:
       - "80:80"
       - "443:443"

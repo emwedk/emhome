@@ -69,12 +69,12 @@
       - name: "{{ smarthome.network }}"
         aliases:
           - "{{ service.name }}"
-    exposed_ports:
-      - "{{ service.port }}"
+    # exposed_ports:
+    #   - "{{ service.port }}"
 
-    # ports:
-    #   - "{{ service.port }}:1883"
-    #   - "9001:9001"
+    ports:
+      - "{{ service.port }}:1883"
+      - "9001:9001"
     volumes:
       - "{{ service.dir }}/config:/mosquitto/config"
       - "{{ service.dir }}/data:/mosquitto/data"

@@ -66,10 +66,10 @@
       - name: "{{ smarthome.network }}"
         aliases:
           - "{{ service.name }}"
-    exposed_ports:
-      - "{{ service.port }}"
-    # ports:
-    #   - "{{ service.port }}:8080"
+    # exposed_ports:
+    #   - "{{ service.port }}"
+    ports:
+      - "{{ service.port }}:8080"
     volumes:
       - "{{ service.dir }}:/app/data"
       - "{{ service.logdir }}/:/app/data/log"
