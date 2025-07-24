@@ -23,7 +23,7 @@
 #     create: yes
 #     validate: 'doas -C %s'
 
-- name: Copy Traefik dynamic config
+- name: Copy sxmo doas conf for user
   copy:
     src: /etc/doas.d/sxmo.conf
     dest: "/etc/doas.d/{{ user.name }}.conf"
@@ -31,6 +31,15 @@
     group: "root"
     mode: '0755'
   tags: rebuild
+  when: system_os == "postmarketos"
+
+- name: Replace :wheel with :{{ user.name }} in user's doas conf
+  replace:
+    path: "/etc/doas.d/{{ user.name }}.conf"
+    regexp: ":wheel"
+    replace: "{{ user.name }}"
+  tags: rebuild
+  when: system_os == "postmarketos"
 
 - name: Create common groups
   group:
