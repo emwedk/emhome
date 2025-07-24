@@ -9,6 +9,6 @@
 
 - name: Include zigbee2mqtt role if Zigbee USB device is present and variable is set
   include_role:
-    name: zigbee2mqtt
+    name: zigbee
   when:
     - adapter_check.stat.exists | default(false)
