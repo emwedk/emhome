@@ -63,10 +63,6 @@
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '-dashboard.service'): 'api@internal',
           ('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.server.port'): service.port,
-          ('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.passhostheader'): 'true',
-          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'comp',
-          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'sslheader',
-          
         }
       }}
 #('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.name ~ '.local`)',
@@ -75,6 +71,9 @@
 #('traefik.http.routers.http-catchall.rule'): 'HostRegexp(`{host:.+}`)',
 #('traefik.http.routers.' ~ service.name ~ '-dashboard.middlewares'): service.name ~ '-auth',
 #('traefik.http.middlewares.' ~ service.name ~ '-auth.basicauth.users'): user.hash
+# ('traefik.http.services.' ~ service.name ~ '-dashboard.loadbalancer.passhostheader'): 'true',
+# ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'comp',
+# ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'sslheader',
 
 - name: "Run container: {{ service.name }}"
   community.docker.docker_container:

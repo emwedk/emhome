@@ -50,15 +50,14 @@
           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
           ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port,
-          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.passhostheader'): 'true',
-          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'comp',
-          ('traefik.http.routers.' ~ service.name ~ '.middlewares'): 'sslheader'
         }
       }}
 
 - name: "Run container: {{ service.name }}"
   community.docker.docker_container:
     name: "{{ service.name }}"
+    hostname: "{{ service.name }}"
+    domainname : "{{ smarthome.domain }}"
     image: "{{ service.image }}:{{ service.version }}"
     pull: yes
     recreate: "{{ rebuild }}"

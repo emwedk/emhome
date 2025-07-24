@@ -51,6 +51,8 @@
 - name: "Run container: {{ service.name }}"
   community.docker.docker_container:
     name: "{{ service.name }}"
+    hostname: "{{ service.name }}"
+    domainname : "{{ smarthome.domain }}"
     image: "{{ service.image }}:{{ service.version }}"
     pull: yes
     recreate: "{{ rebuild }}"
