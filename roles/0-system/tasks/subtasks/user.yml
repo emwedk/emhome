@@ -1,11 +1,35 @@
 ---
-- name: Allow current user to escalate with doas without password
-  copy:
-    dest: "/etc/doas.d/20-{{ user.name }}.conf"
-    content: "permit nopass {{ user.name }} as root\n"
-    owner: root
-    group: root
-    mode: '0755'
+# - name: Allow current user to escalate with doas without password
+#   copy:
+#     dest: "/etc/doas.d/20-{{ user.name }}.conf"
+#     content: "permit nopass {{ user.name }} as root\n"
+#     owner: root
+#     group: root
+#     mode: '0755'
+
+# - name: Ensure doas.conf allows passwordless chown for Bluetooth devices
+#   ansible.builtin.lineinfile:
+#     path: /etc/doas.conf
+#     line: "permit nopass {{ ansible_user_id }} as root cmd chown"
+#     state: present
+#     create: yes
+#     validate: 'doas -C %s'
+
+# - name: Ensure doas.conf allows passwordless chmod for Bluetooth devices
+#   ansible.builtin.lineinfile:
+#     path: /etc/doas.conf
+#     line: "permit nopass {{ ansible_user_id }} as root cmd chmod"
+#     state: present
+#     create: yes
+#     validate: 'doas -C %s'
+
+# - name: Copy Traefik dynamic config
+#   template:
+#     src: /etc/doas.d/sxmo.conf
+#     dest: "/etc/doas.d/{{ user.name }}"
+#     owner: "{{ user.name }}"
+#     group: "{{ user.name }}"
+#     mode: '0644'
 
 - name: Create common groups
   group: "name={{ item }} state=present"
