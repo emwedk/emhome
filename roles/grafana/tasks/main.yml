@@ -56,6 +56,10 @@
       TZ: "{{ tz }}"
       # PUID: "{{ user.puid }}"
       # PGID: "{{ user.pgid }}"
+      GF_DEFAULT_INSTANCE_NAME: "{{ user.name }}"
+      GF_SECURITY_ADMIN_USER: "{{ user.name }}"
+      GF_SECURITY_ADMIN_PASSWORD: "{{ user.pass }}"
+      
     labels: "{{ dynamic_labels }}"
       # traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"

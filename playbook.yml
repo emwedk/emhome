@@ -16,11 +16,11 @@
     - { role: duckdns,        tags: ['home', 'duckdns'] }
 
     - { role: portainer,      tags: ['home', 'traefik'] }
-    - { role: grafana,        tags: ['home', 'traefik'] }
+    - { role: grafana,        tags: ['home', 'grafana'] }
 
     - { role: mosquitto,      tags: ['home', 'mosquitto'] }
     - { role: homeassistant,  tags: ['home', 'homeassistant'] }
 
-    - { role: esphome,        tags: ['home', 'traefik'] }
-    - { role: node-red,       tags: ['home', 'traefik'] }
+    - { role: esphome,        tags: ['home', 'esphome'] }
+    - { role: node-red,       tags: ['home', 'node-red'] }
     
