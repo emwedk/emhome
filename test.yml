@@ -22,12 +22,12 @@
     #   debug:
     #     var: system_os
 
-    - name: Resolve real device path
-      command: readlink -f /dev/serial/by-id/{{ usb_by_id_name }}
-      register: device_real_path
+    # - name: Resolve real device path
+    #   command: readlink -f /dev/serial/by-id/{{ usb_by_id_name }}
+    #   register: device_real_path
 
     - name: Get sysfs path from resolved device
-      command: udevadm info --query=path --name={{ device_real_path.stdout }}
+      command: udevadm info --query=path --name={{ usb_dev }}
       register: sysfs_path
 
     - name: Get udevadm attribute walk from sysfs path
