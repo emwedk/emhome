@@ -65,7 +65,7 @@
 
     - name: Find all 'serial' files recursively in each USB device directory
       find:
-        paths: "{{ item }}"
+        paths: "{{ item.path }}"
         patterns: serial
         file_type: file
         recurse: true
