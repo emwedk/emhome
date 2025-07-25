@@ -25,8 +25,6 @@
     env:
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
-      OVERRIDE_UID: "{{ user.puid }}"
-      OVERRIDE_GID: "{{ user.pgid }}"
       DOMAIN: "{{ smarthome.domain }}"
       CERTIFICATE_FILE_NAME: "{{ smarthome.domain }}"
       CERTIFICATE_FILE_EXT: ".crt"
