@@ -27,6 +27,10 @@
       register: real_device_path
       changed_when: false
 
+    - name: DEBUG
+      debug:
+        var: real_device_path
+
     - name: Get the serial number from the device's sysfs path
       shell: |
         udevadm info -q property -n {{ real_device_path.stdout }} | grep ID_SERIAL_SHORT= | cut -d= -f2
