@@ -63,6 +63,13 @@
         }
       }}
 
+- name: Wait until at least one file exists in /opt/certs
+  shell: 'ls -1 {{ dir.certs }} | grep .'
+  register: certs_present
+  retries: 60
+  delay: 5
+  until: certs_present.stdout != ""
+
 - name: "Run container: {{ service.name }}"
   community.docker.docker_container:
     name: "{{ service.name }}"
