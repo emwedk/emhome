@@ -53,11 +53,14 @@
 
     - name: Find all USB device directories with a serial file
       find:
-        paths: "{{ device_path.stdout }}"
-        file_type: file
+        paths:  /sys/bus/usb/devices/usb1/
+        file_type: any
         patterns: serial
+        follow: true
+        limit: 1
         recurse: true
       register: usb_serial_files
+      ignore_errors: true
 
     - name: DEBUG
       debug:
