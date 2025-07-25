@@ -45,6 +45,7 @@
       register: parent_attrs
       changed_when: false
       ignore_errors: yes
+      until: parent_attrs.r != 0
 
     - name: debug
       debug:
