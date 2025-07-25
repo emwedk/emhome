@@ -23,10 +23,10 @@ zigbee2mqtt:
       # ca: 'certs/{{ smarthome.domain }}.pem' # path to SSL/TLS certificate
       # cert: 'certs/{{ smarthome.domain }}.crt' # path to SSL/TLS certificate
       # key: 'certs/{{ smarthome.domain }}.key' # path to SSL/TLS key
-      server: '!secret.yaml server'
-      user: '!secret.yaml user'
-      password: '!secret.yaml password'
-      client_id: '!secret.yaml client_id'
+      server: "!secret.yaml server"
+      user: "!secret.yaml user"
+      password: "!secret.yaml password"
+      client_id: "!secret.yaml client_id"
       reject_unauthorized: false
       include_device_information: true
       keepalive: 60
