@@ -83,37 +83,43 @@
       command: udevadm info --query=path --name={{ usb_dev }}
       register: usb_sysfs_path
 
-    - name: Get idVendor and idProduct
-      command: udevadm info --attribute-walk --path={{ usb_sysfs_path.stdout }}
-      register: udevadm_output
     
-    - name: Debug udevadm output
-      debug:
-        var: udevadm_output
+    - name: Get full udevadm attribute walk
+      command: udevadm info --attribute-walk --path=/sys{{ usb_sysfs_path.stdout }}
+      register: udevadm_output
 
-    - name: Parse idVendor from udevadm output
+    - name: Extract parent path for exact USB device (2 levels up)
       set_fact:
-        usb_id_vendor: "{{ udevadm_output.stdout | regex_search('ATTR\\{idVendor\\}==\\\"([0-9a-fA-F]+)\\\"', '\\1') }}"
+        usb_device_parent_path: "{{ usb_sysfs_path.stdout | regex_replace('/[^/]+$', '') | regex_replace('/[^/]+$', '') }}"
 
-    - name: Parse idProduct from udevadm output
+    # e.g., if sysfs is:
+    #   /devices/.../1-1.4/1-1.4:1.0/ttyUSB0/tty/ttyUSB0
+    # it becomes:
+    #   /devices/.../1-1.4
+
+    - name: Extract idVendor from correct parent block
       set_fact:
-        usb_id_product: "{{ udevadm_output.stdout | regex_search('ATTR\\{idProduct\\}==\\\"([0-9a-fA-F]+)\\\"', '\\1') }}"
+        usb_id_vendor: >-
+          {{ (udevadm_output.stdout
+              | regex_search('looking at parent device .?' ~ usb_device_parent_path ~ r'.*?idVendor\}==\"([0-9a-fA-F]+)\"', '\\1')) }}
 
-    - name: Debug USB device information
+    - name: Extract idProduct from correct parent block
+      set_fact:
+        usb_id_product: >-
+          {{ (udevadm_output.stdout
+              | regex_search('looking at parent device .?' ~ usb_device_parent_path ~ r'.*?idProduct\}==\"([0-9a-fA-F]+)\"', '\\1')) }}
+    
+    - name: debug
       debug:
-        msg: "USB device vendor: {{ usb_id_vendor }} and product: {{ usb_id_product }}"
-
-    # - name: Create udev rule to disable USB autosuspend
+       msg: "USB ID Vendor: {{ usb_id_vendor }} - USB ID Product: {{ usb_id_product }}"
+    # - name: Create udev rule to disable USB autosuspend for exact device
     #   copy:
     #     dest: /etc/udev/rules.d/99-usb-autosuspend.rules
     #     content: |
-    #       ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="{{ usb_id_vendor }}", ATTR{idProduct}=="{{ usb_id_product }}", TEST=="power/control", ATTR{power/control}="on"
+    #       ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="{{ usb_id_vendor }}", ATTR{idProduct}=="{{ usb_id_product }}", ATTR{serial}=="fa8db40321adef11b54b924ba8793231", TEST=="power/control", ATTR{power/control}="on"
     #     owner: root
     #     group: root
     #     mode: '0644'
 
     # - name: Reload udev rules
     #   command: udevadm control --reload
-
-    # - name: Trigger udev for the device
-    #   command: udevadm trigger --subsystem-match=usb --attr-match=idVendor={{ usb_id_vendor }}
