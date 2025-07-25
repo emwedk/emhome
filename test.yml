@@ -48,7 +48,7 @@
 
     - name: debug
       debug:
-        var: parent_paths
+        var: parent_attrs
 
     - name: Build udev rule lines for autosuspend=off
       set_fact:
