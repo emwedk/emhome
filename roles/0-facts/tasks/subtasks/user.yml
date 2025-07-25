@@ -19,6 +19,13 @@
   set_fact:
     user: "{{ user | combine({'path': user_info.ansible_facts.getent_passwd[user.name][4] }) }}"
 
+- name: Debug variable
+  debug:
+    var: user
+
+- name: Stop playbook
+  meta: end_play
+
 # Get Password from User Folder
 - name: Check if .passwd file exists in the base directory
   stat:
