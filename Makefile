@@ -41,7 +41,7 @@ zigbee:##..................Install Zigbee2MQTT
 test:##..................tests the "test.yml" Ansible playbook
 	@echo "Running Ansible playbook test"
 	git pull
-	sudo ansible-playbook -i inventory test.yml --check --diff
+	sudo ansible-playbook -i inventory test.yml
 
 .PHONY: cull
 cull:##..................Remove all containers
