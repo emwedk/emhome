@@ -11,6 +11,13 @@
   community.docker.docker_container:
     name: "{{ service.name }}-cd"
     image: ghcr.io/kereis/traefik-certs-dumper:latest # https://github.com/kereis/traefik-certs-dumper
+    networks:
+      - name: "{{ smarthome.network }}"
+        aliases:
+          - "{{ service.name }}-cd"
+    user: "{{ user.name }}"
+    group: "{{ user.name }}"
+    groups: "{{ user.name }}"
     pull: yes
     recreate: "{{ rebuild }}"
     state: started
@@ -25,6 +32,8 @@
     env:
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
+      OVERRIDE_UID: "{{ user.puid }}"
+      OVERRIDE_GID: "{{ user.pgid }}"
       DOMAIN: "{{ smarthome.domain }}"
       CERTIFICATE_FILE_NAME: "{{ smarthome.domain }}"
       CERTIFICATE_FILE_EXT: ".crt"
