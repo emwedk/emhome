@@ -51,13 +51,26 @@
       debug:
         var: device_serial
 
+    - name: Find all USB devices directories
+      find:
+        paths:  /sys/bus/usb/devices/
+        file_type: any
+        patterns: usb
+        follow: true
+        recurse: true
+      register: usb_dirs
+      ignore_errors: true
+
+    - name: DEBUG
+      debug:
+        var: usb_dirs
+
     - name: Find all USB device directories with a serial file
       find:
-        paths:  /sys/bus/usb/devices/usb1/
+        paths: "{{ usb_dirs }}"
         file_type: any
         patterns: serial
         follow: true
-        limit: 1
         recurse: true
       register: usb_serial_files
       ignore_errors: true
