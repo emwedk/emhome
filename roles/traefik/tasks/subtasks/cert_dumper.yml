@@ -7,6 +7,14 @@
     group: "root"
     mode: "0755"
 
+- name: "Create global certs folder"
+  file:
+    path: "{{ service.dir }}-certs-dumper"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "0755"
+
 - name: Create Hook script for traefik certs dumper
   copy:
     dest: "{{ service.dir }}-certs-dumper/hook.sh"
