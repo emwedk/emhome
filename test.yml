@@ -38,10 +38,6 @@
       set_fact:
         parent_paths: "{{ udevadm_output.stdout | regex_findall(\"looking at parent device '(/devices[^\\']+)'\") }}"
 
-    - name: debug
-      debug:
-        var: parent_paths
-
     - name: Gather udev attributes for each parent device
       shell: |
         udevadm info --path=/sys{{ item }} --attribute-walk | grep -E 'idVendor|idProduct|serial'
@@ -49,6 +45,10 @@
       register: parent_attrs
       changed_when: false
       ignore_errors: yes
+
+    - name: debug
+      debug:
+        var: parent_paths
 
     - name: Build udev rule lines for autosuspend=off
       set_fact:
