@@ -67,7 +67,7 @@
                 parent_attrs | map(attribute='item')
             )
             | map('flatten')
-            | map('map', 'regex_search', '"([^"]+)"')
+            | map('map', 'regex_search', '\"([^\"]+)\"')
             | map('list')
             | selectattr('0', 'defined') | selectattr('1', 'defined')
             | map('unique')
