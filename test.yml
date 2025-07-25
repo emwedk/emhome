@@ -38,6 +38,10 @@
       set_fact:
         parent_paths: "{{ udevadm_output.stdout | regex_findall(\"looking at parent device '(/devices[^\\']+)'\") }}"
 
+    - name: debug
+      debug:
+        var: parent_paths
+
     - name: Gather udev attributes for each parent device
       shell: |
         udevadm info --name=/sys{{ item }} --attribute-walk | grep -E 'idVendor|idProduct|serial'
