@@ -45,9 +45,10 @@
       register: parent_attrs
       changed_when: false
       ignore_errors: yes
-      until: parent_attrs.rc == 0
-      retries: 0
-      delay: 0
+
+    - name: Filter successful results
+      set_fact:
+        parent_attrs: "{{ parent_attrs.results | selectattr('rc', 'equalto', 0) | list }}"
 
     - name: debug
       debug:
