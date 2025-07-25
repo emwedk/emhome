@@ -54,6 +54,11 @@
       debug:
         var: parent_attrs
 
+
+    - name: Initialize udev_rule_lines
+      set_fact:
+        udev_rule_lines: []
+
     - name: Extract udev rules from parent_attrs
       set_fact:
         udev_rule_lines: "{{ udev_rule_lines + [rule_line] }}"
