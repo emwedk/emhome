@@ -24,6 +24,16 @@
         })
       }}
 
+- name: "Allow traffic from Docker bridge subnet {{ network_bridge.network.IPAM.Config[0].Subnet }} via UFW"
+  ansible.builtin.ufw:
+    rule: allow
+    from_ip: "{{ network_bridge.network.IPAM.Config[0].Subnet }}"
+
+- name: "Allow traffic from Docker bridge subnet {{ network_proxy.network.IPAM.Config[0].Subnet }} via UFW"
+  ansible.builtin.ufw:
+    rule: allow
+    from_ip: "{{ network_proxy.network.IPAM.Config[0].Subnet }}"
+
 # # --- Initialize smarthome_domains list ---
 
 # - name: Initialize smarthome_domains list

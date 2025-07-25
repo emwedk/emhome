@@ -51,19 +51,19 @@
   tags: rebuild
   when: system_os == "postmarketos"
 
-- name: Ensure doas.conf allows passwordless chown for Bluetooth devices
-  ansible.builtin.lineinfile:
-    path: /etc/doas.conf
-    line: "permit nopass {{ ansible_user_id }} as root cmd chown"
-    state: present
-    create: yes
-    validate: 'doas -C %s'
+# - name: Ensure doas.conf allows passwordless chown for Bluetooth devices
+#   ansible.builtin.lineinfile:
+#     path: /etc/doas.conf
+#     line: "permit nopass {{ ansible_user_id }} as root cmd chown"
+#     state: present
+#     create: yes
+#     validate: 'doas -C %s'
 
-- name: Ensure doas.conf allows passwordless chmod for Bluetooth devices
-  ansible.builtin.lineinfile:
-    path: /etc/doas.conf
-    line: "permit nopass {{ ansible_user_id }} as root cmd chmod"
-    state: present
-    create: yes
-    validate: 'doas -C %s'
+# - name: Ensure doas.conf allows passwordless chmod for Bluetooth devices
+#   ansible.builtin.lineinfile:
+#     path: /etc/doas.conf
+#     line: "permit nopass {{ ansible_user_id }} as root cmd chmod"
+#     state: present
+#     create: yes
+#     validate: 'doas -C %s'
 
