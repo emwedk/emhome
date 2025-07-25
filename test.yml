@@ -89,7 +89,7 @@
     
     - name: Debug udevadm output
       debug:
-        msg: "{{ udevadm_output.stdout }}"
+        var: udevadm_output
 
     - name: Parse idVendor from udevadm output
       set_fact:
