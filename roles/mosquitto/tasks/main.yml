@@ -17,8 +17,9 @@
     group: "{{ user.name }}"
     mode: '0755'
   loop:
-    - "{{ service.dir }}/config"
+    - "{{ service.dir }}/config/http"
     - "{{ service.dir }}/data"
+    - "{{ service.dir }}/http"
     - "{{ service.logdir }}"
 
 - name: Deploy Mosquitto configuration file

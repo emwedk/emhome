@@ -28,6 +28,32 @@ password_file /mosquitto/config/mosquitto.passwd
 acl_file /mosquitto/config/mosquitto.acl
 set_tcp_nodelay true
 
+# MQTT - encrypted, unauthenticated
+listener 8883
+allow_anonymous true
+cafile /mosquitto/certs/{{ smarthome.domain }}.pem
+certfile /mosquitto/certs/{{ smarthome.domain }}.crt
+keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+set_tcp_nodelay true
+
+# MQTT - encrypted, authenticated
+listener 8884
+password_file /mosquitto/config/mosquitto.passwd
+acl_file /mosquitto/config/mosquitto.acl
+cafile /mosquitto/certs/{{ smarthome.domain }}.pem
+certfile /mosquitto/certs/{{ smarthome.domain }}.crt
+keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+set_tcp_nodelay true
+
+# MQTT - encrypted, client certificate required (two-way tls)
+listener 8885
+allow_anonymous true
+cafile /mosquitto/certs/{{ smarthome.domain }}.pem
+certfile /mosquitto/certs/{{ smarthome.domain }}.crt
+keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+require_certificate true
+set_tcp_nodelay true
+
 
 
 
@@ -46,3 +72,35 @@ acl_file /mosquitto/config/mosquitto.acl
 http_dir /mosquitto/config/http
 set_tcp_nodelay true
 
+# Websockets - encrypted, unauthenticated
+listener 8081
+protocol websockets
+allow_anonymous true
+http_dir /mosquitto/config/http
+cafile /mosquitto/certs/{{ smarthome.domain }}.pem
+certfile /mosquitto/certs/{{ smarthome.domain }}.crt
+keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+set_tcp_nodelay true
+
+# Websockets - encrypted, authenticated
+listener 8091
+protocol websockets
+password_file /mosquitto/config/mosquitto.passwd
+acl_file /mosquitto/config/mosquitto.acl
+http_dir /mosquitto/config/http
+cafile /mosquitto/certs/{{ smarthome.domain }}.pem
+certfile /mosquitto/certs/{{ smarthome.domain }}.crt
+keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+set_tcp_nodelay true
+
+# Websockets - encrypted, client certificate required (two-way tls)
+listener 8888
+protocol websockets
+allow_anonymous true
+http_dir /mosquitto/config/http
+capath /mosquitto/certs/trusted
+cafile /mosquitto/certs/{{ smarthome.domain }}.pem
+certfile /mosquitto/certs/{{ smarthome.domain }}.crt
+keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+require_certificate true
+set_tcp_nodelay true
