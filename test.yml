@@ -44,7 +44,7 @@
 
     - name: Gather udev attributes for each parent device
       shell: |
-        udevadm info --name=/sys{{ item }} --attribute-walk | grep -E 'idVendor|idProduct|serial'
+        udevadm info --path=/sys{{ item }} --attribute-walk | grep -E 'idVendor|idProduct|serial'
       loop: "{{ parent_paths }}"
       register: parent_attrs
       changed_when: false
