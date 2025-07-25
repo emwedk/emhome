@@ -16,7 +16,6 @@
         aliases:
           - "{{ service.name }}-cd"
     user: "{{ user.name }}"
-    group: "{{ user.name }}"
     groups: "{{ user.name }}"
     pull: yes
     recreate: "{{ rebuild }}"
