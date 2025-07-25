@@ -53,11 +53,10 @@
 
     - name: Find all USB devices directories
       find:
-        paths:  /sys/bus/usb/devices/
-        file_type: any
+        paths: /sys/bus/usb/devices/
+        file_type: directory
         patterns: usb
       register: usb_dirs
-      ignore_errors: true
 
     - name: DEBUG
       debug:
