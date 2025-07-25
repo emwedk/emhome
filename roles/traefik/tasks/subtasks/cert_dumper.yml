@@ -49,6 +49,7 @@
       PRIVATE_KEY_FILE_NAME: "{{ smarthome.domain }}"
       PRIVATE_KEY_FILE_EXT: ".key"
       COMBINED_PEM: "{{ smarthome.domain }}.pem"
+      POST_HOOK_FILE_PATH: "/hook/hook.sh"
       # COMBINE_PKCS12: "yes"
       # PKCS12_PASSWORD: "{{ user.pass }}"
       # CONVERT_KEYS_TO_RSA: "yes"
