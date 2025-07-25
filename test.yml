@@ -45,6 +45,7 @@
         patterns: serial
         follow: true
         limit: 1
+        recurse: true
       register: usb_serial_files
 
     - name: DEBUG
