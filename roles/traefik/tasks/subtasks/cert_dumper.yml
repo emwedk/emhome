@@ -9,7 +9,7 @@
 
 - name: Create Hook script for traefik certs dumper
   copy:
-    dest: "{{ service.dir }}-cd/hook.sh"
+    dest: "{{ service.dir }}-certs-dumper/hook.sh"
     content: "sudo chown -R {{ user.name }}:{{ user.name }} {{ dir.certs }}"
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
