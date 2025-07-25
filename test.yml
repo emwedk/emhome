@@ -46,9 +46,9 @@
       changed_when: false
       ignore_errors: yes
 
-    # - name: Filter successful results
-    #   set_fact:
-    #     parent_attrs: "{{ parent_attrs.results | selectattr('rc', 'equalto', 0) | list }}"
+    - name: Filter successful results
+      set_fact:
+        parent_attrs: "{{ parent_attrs.results | selectattr('rc', 'equalto', 0) | list }}"
 
     - name: debug
       debug:
