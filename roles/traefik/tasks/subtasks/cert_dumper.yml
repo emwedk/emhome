@@ -16,8 +16,7 @@
     state: started
     restart: true
     restart_policy: unless-stopped
-    command:
-      - "--restart-containers mosquitto,zigbee"
+    command: --restart-containers mosquitto,zigbee
     volumes:
       - "{{ service.dir }}/letsencrypt:/traefik:ro"
       - "{{ dir.certs }}:/output:rw"
