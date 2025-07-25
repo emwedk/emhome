@@ -3,8 +3,8 @@
   file:
     path: "{{ dir.certs }}"
     state: directory
-    owner: "root"
-    group: "root"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
     mode: "0755"
 
 - name: "Create global certs folder"
