@@ -27,15 +27,16 @@
       register: real_device_path
       changed_when: false
 
-    - name: DEBUG
-      debug:
-        var: real_device_path
 
     - name: Get the serial number from the device's sysfs path
       shell: |
         udevadm info -q property -n {{ real_device_path.stdout }} | grep ID_SERIAL_SHORT= | cut -d= -f2
       register: device_serial
       changed_when: false
+
+    - name: DEBUG
+      debug:
+        var: device_serial
 
     - name: Find all USB device directories with a serial file
       find:
@@ -44,11 +45,19 @@
         patterns: serial
       register: usb_serial_files
 
+    - name: DEBUG
+      debug:
+        var: usb_serial_files
+
     - name: Read serials from all USB device directories
       slurp:
         src: "{{ item.path }}"
       loop: "{{ usb_serial_files.files }}"
       register: usb_serial_contents
+
+    - name: DEBUG
+      debug:
+        var: usb_serial_contents
 
     - name: Find the USB device directory matching the serial
       set_fact:
