@@ -48,6 +48,7 @@
       loop: "{{ parent_paths }}"
       register: parent_attrs
       changed_when: false
+      ignore_errors: yes
 
     - name: Build udev rule lines for autosuspend=off
       set_fact:
