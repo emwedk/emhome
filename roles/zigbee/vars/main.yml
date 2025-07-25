@@ -1,7 +1,8 @@
 ---
 zigbee2mqtt:
   secret:
-    server: "mqtt://mosquitto:1883" # mqtts:// for secure connection
+    server: "mqtt://mosquitto:1883"
+    # server: "mqtts://mosquitto:8883"
     user: "{{ user.name }}"
     password: "{{ user.pass }}"
     client_id: "zigbee2mqtt-{{ user.name }}"
@@ -19,9 +20,9 @@ zigbee2mqtt:
       #   - 'z2m: Failed to ping.*'
     mqtt:
       base_topic: zigbee2mqtt
-      ca: 'certs/{{ smarthome.domain }}.pem' # path to SSL/TLS certificate
-      cert: 'certs/{{ smarthome.domain }}.crt' # path to SSL/TLS certificate
-      key: 'certs/{{ smarthome.domain }}.key' # path to SSL/TLS key
+      # ca: 'certs/{{ smarthome.domain }}.pem' # path to SSL/TLS certificate
+      # cert: 'certs/{{ smarthome.domain }}.crt' # path to SSL/TLS certificate
+      # key: 'certs/{{ smarthome.domain }}.key' # path to SSL/TLS key
       server: !secret.yaml server
       user: !secret.yaml user
       password: !secret.yaml password
@@ -44,9 +45,9 @@ zigbee2mqtt:
       log_directory: data/log/%TIMESTAMP%
       log_file: zigbee2mqtt_%TIMESTAMP%.log
       log_symlink_current: true
-      log_output:
-        - console
-        - file
+      # log_output:
+      #   - console
+      #   - file
     ota:
        update_check_interval: 10000
        disable_automatic_update_check: true

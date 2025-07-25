@@ -17,7 +17,6 @@ websockets_log_level 0
 
 per_listener_settings true
 
-
 # MQTT - unencrypted, unauthenticated
 listener 1883
 allow_anonymous true
@@ -35,6 +34,7 @@ allow_anonymous true
 cafile /mosquitto/certs/{{ smarthome.domain }}.pem
 certfile /mosquitto/certs/{{ smarthome.domain }}.crt
 keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+set_tcp_nodelay true
 
 # MQTT - encrypted, authenticated
 listener 8884
