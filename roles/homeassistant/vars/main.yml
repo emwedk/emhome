@@ -2,13 +2,13 @@
 homeassistant:
   name: Home
   time_zone: "{{ tz }}"
-  latitude: '!secret latitude'
-  longitude: '!secret longitude'
-  elevation: '!secret elevation'
-  radius: '!secret radius'
-  currency: '!secret currency'
-  country: '!secret country'
-  unit_system: '!secret metric'
+  latitude: !secret latitude
+  longitude: !secret longitude
+  elevation: !secret elevation
+  radius: !secret radius
+  currency: !secret currency
+  country: !secret country
+  unit_system: !secret metric
 
   external_url: "http://{{ service.domain }}"
   internal_url: "http://localhost:8123"
