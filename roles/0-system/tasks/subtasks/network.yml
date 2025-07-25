@@ -1,8 +1,13 @@
 ---
-- name: "Allow traffic from Docker bridge subnet {{ smarthome.network.Subnet }} via UFW"
+- name: "Allow traffic from Docker bridge subnet {{ network_bridge }} via UFW"
   ansible.builtin.ufw:
     rule: allow
-    from_ip: "{{ smarthome.network.Subnet }}"
+    from_ip: "{{ network_bridge }}"
+
+- name: "Allow traffic from Docker bridge subnet {{ network_proxy }} via UFW"
+  ansible.builtin.ufw:
+    rule: allow
+    from_ip: "{{ network_proxy }}"
 
 
 # # --- Manage a dedicated block in /etc/hosts for smarthome domains ---
