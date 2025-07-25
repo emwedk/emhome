@@ -1,15 +1,14 @@
 ---
-- name: Get list of Bluetooth device names
-  shell: |
-    hciconfig | grep -o '^hci[0-9]\+'
-  register: bluetooth_devices
-  changed_when: false
+# - name: Get list of Bluetooth device names
+#   shell: |
+#     hciconfig | grep -o '^hci[0-9]\+'
+#   register: bluetooth_devices
+#   changed_when: false
 
-- name: Ensure all Bluetooth devices are up
-  shell: |
-    hciconfig {{ item }} up
-  loop: "{{ bluetooth_devices.stdout_lines }}"
-  when: bluetooth_devices.stdout_lines | length > 0
-  changed_when: false
+# - name: Ensure all Bluetooth devices are up
+#   shell: |
+#     hciconfig {{ item }} up
+#   loop: "{{ bluetooth_devices.stdout_lines }}"
+#   when: bluetooth_devices.stdout_lines | length > 0
+#   changed_when: false
 
-  
