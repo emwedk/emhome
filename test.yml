@@ -71,15 +71,15 @@
       vars:
         id_vendor: >-
           {{ item.stdout_lines | select('search', 'idVendor')
-                              | map('regex_search', 'idVendor\}==\"([0-9a-fA-F]+)\"')
+                              | map('regex_search', 'idVendor\\\}==\\\"([0-9a-fA-F]+)\\\"')
                               | select('string') | list | first | default('') }}
         id_product: >-
           {{ item.stdout_lines | select('search', 'idProduct')
-                              | map('regex_search', 'idProduct\}==\"([0-9a-fA-F]+)\"')
+                              | map('regex_search', 'idProduct\\\}==\\\"([0-9a-fA-F]+)\\\"')
                               | select('string') | list | first | default('') }}
         serial: >-
           {{ item.stdout_lines | select('search', 'serial')
-                              | map('regex_search', 'serial\}==\"([^"]+)\"')
+                              | map('regex_search', 'serial\\\}==\\\"([^"]+)\\\"')
                               | select('string') | list | first | default('') }}
         rule_line: >-
           ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="{{ id_vendor }}", ATTR{idProduct}=="{{ id_product }}"{{ ', ATTR{serial}=="' ~ serial ~ '"' if serial not in ['', 'xhci-hcd.0.auto'] else '' }}, TEST=="power/control", ATTR{power/control}="on"
