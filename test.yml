@@ -54,35 +54,26 @@
       debug:
         var: parent_attrs
 
-    - name: Build udev rule lines for autosuspend=off
+    - name: Extract udev rules from parent_attrs
       set_fact:
-        udev_rule_lines: >-
-          {{
-            parent_attrs
-            | map(attribute='stdout_lines')
-            | map('select', 'search', 'idVendor') | map('list')
-            | zip(
-                parent_attrs | map(attribute='stdout_lines') | map('select', 'search', 'idProduct') | map('list'),
-                parent_attrs | map(attribute='stdout_lines') | map('select', 'search', 'serial') | map('list'),
-                parent_attrs | map(attribute='item')
-            )
-            | map('flatten')
-            | map('map', 'regex_search', '\"([^\"]+)\"')
-            | map('list')
-            | selectattr('0', 'defined') | selectattr('1', 'defined')
-            | map('unique')
-            | map('map', 'string')
-            | map('map', 'trim')
-            | map('map', 'default', '')
-            | map('map', 'string')
-            | map('map', 'regex_replace', '^$', 'null')
-            | map('map', 'string')
-            | map('map', 'regex_replace', 'null', '')
-            | map('list')
-            | map('regex_replace', '^(.*?)\\|(.*?)\\|(.*?)$', 'ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="\\1", ATTR{idProduct}=="\\2"%s, TEST=="power/control", ATTR{power/control}="on"' % (
-                ', ATTR{serial}=="\\3"' if '\\3' not in ['','xhci-hcd.0.auto'] else ''
-              ))
-          }}
+        udev_rule_lines: "{{ udev_rule_lines + [rule_line] }}"
+      loop: "{{ parent_attrs }}"
+      vars:
+        id_vendor: >-
+          {{ item.stdout_lines | select('search', 'idVendor')
+                              | map('regex_search', 'idVendor\\}==\\"([0-9a-fA-F]+)\\"')
+                              | select('string') | list | first | default('') }}
+        id_product: >-
+          {{ item.stdout_lines | select('search', 'idProduct')
+                              | map('regex_search', 'idProduct\\}==\\"([0-9a-fA-F]+)\\"')
+                              | select('string') | list | first | default('') }}
+        serial: >-
+          {{ item.stdout_lines | select('search', 'serial')
+                              | map('regex_search', 'serial\\}==\\"([^"]+)\\"')
+                              | select('string') | list | first | default('') }}
+        rule_line: >-
+          ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="{{ id_vendor }}", ATTR{idProduct}=="{{ id_product }}"{{ ', ATTR{serial}=="' ~ serial ~ '"' if serial != '' and serial != 'xhci-hcd.0.auto' else '' }}, TEST=="power/control", ATTR{power/control}="on"
+      when: id_vendor != '' and id_product != ''
 
     - name: debug
       debug:
