@@ -55,7 +55,7 @@
       find:
         paths: /sys/bus/usb/devices/
         file_type: directory
-        patterns: usb
+        patterns: usb*
       register: usb_dirs
 
     - name: DEBUG
