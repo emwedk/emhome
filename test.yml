@@ -46,6 +46,8 @@
       changed_when: false
       ignore_errors: yes
       until: parent_attrs.rc == 0
+      retries: 0
+      delay: 0
 
     - name: debug
       debug:
