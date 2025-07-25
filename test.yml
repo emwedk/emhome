@@ -22,36 +22,18 @@
     #   debug:
     #     var: system_os
 
-    - name: Get the real device path from the by-id symlink
+    - name: Set USB Autosuspend to 0 | Get the real device path from the by-id symlink
       command: readlink -f /dev/serial/by-id/{{ usb_by_id_name }}
       register: real_device_path
       changed_when: false
 
-
-    - name: Get the serial number from the device's sysfs path
+    - name: Set USB Autosuspend to 0 | Get the serial number from the device's sysfs path
       shell: |
         udevadm info -q property -n {{ real_device_path.stdout }} | grep ID_SERIAL_SHORT= | cut -d= -f2
       register: device_serial
       changed_when: false
 
-    - name: Get the serial number from the device's sysfs path
-      shell: |
-        udevadm info -q property -n {{ real_device_path.stdout }} | grep DEVPATH= | cut -d= -f2
-      register: device_path
-      changed_when: false
-
-
-    # - name: Get the real device path from the by-id symlink
-    #   shell: readlink -f /sys/class/tty/$(basename $(readlink -f /dev/serial/by-id/usb-SMLIGHT_SMLIGHT_SLZB-07Mg24_fa8db40321adef11b54b924ba8793231-if00-port0))
-    #   register: real_device_path
-    #   changed_when: false
-
-
-    - name: DEBUG
-      debug:
-        var: device_serial
-
-    - name: Find all USB devices directories
+    - name: Set USB Autosuspend to 0 | Find all USB devices directories
       find:
         paths: /sys/bus/usb/devices/
         file_type: any
@@ -59,11 +41,7 @@
         use_regex: true
       register: usb_dirs
 
-    - name: DEBUG
-      debug:
-        var: usb_dirs
-
-    - name: Find all 'serial' files recursively in each USB device directory
+    - name: Set USB Autosuspend to 0 | Find all 'serial' files recursively in each USB device directory
       find:
         paths: "{{ item.path }}"
         patterns: serial
@@ -72,30 +50,25 @@
       loop: "{{ usb_dirs.files }}"
       register: found_serials
 
-    - name: Combine all found serial files into a single list
+    - name: Set USB Autosuspend to 0 | Combine all found serial files into a single list
       set_fact:
         usb_serial_files: "{{ usb_serial_files | default([]) + (item.files | default([])) }}"
       loop: "{{ found_serials.results }}"
 
-    - name: DEBUG
-      debug:
-        var: usb_serial_files
-
-    - name: Read serials from all USB device directories
+    - name: Set USB Autosuspend to 0 | Read serials from all USB device directories
       slurp:
         src: "{{ item.path }}"
       loop: "{{ usb_serial_files }}"
       register: usb_serial_contents
 
-    - name: DEBUG
-      debug:
-        var: usb_serial_contents
-
-    - name: Find the USB device directory matching the serial
+    - name: Set USB Autosuspend to 0 | Find the USB device directory matching the serial
       set_fact:
         matched_usb_device_dir: "{{ item.item.path | regex_replace('/serial$', '') }}"
       loop: "{{ usb_serial_contents.results }}"
       when: (item.content | b64decode | trim) == device_serial.stdout
+
+    - name: Disable autosuspend (idempotent)
+      ansible.builtin.shell: "echo 0 > {{ matched_usb_device_dir.stdout }}/power/autosuspend"
 
     - name: Debug matched USB device directory
       debug:
