@@ -43,6 +43,8 @@
         paths: /sys/bus/usb/devices/
         file_type: file
         patterns: serial
+        follow: true
+        limit: 1
       register: usb_serial_files
 
     - name: DEBUG
