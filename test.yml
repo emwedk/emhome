@@ -69,7 +69,7 @@
         patterns: serial
         file_type: file
         recurse: true
-      loop: "{{ usb_dirs }}"
+      loop: "{{ usb_dirs.files }}"
       register: found_serials
 
     - name: Combine all found serial files into a single list
