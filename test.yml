@@ -46,9 +46,9 @@
       changed_when: false
       ignore_errors: yes
 
-    - name: Filter successful results
-      set_fact:
-        parent_attrs: "{{ parent_attrs.results | selectattr('rc', 'equalto', 0) | list }}"
+    # - name: Filter successful results
+    #   set_fact:
+    #     parent_attrs: "{{ parent_attrs.results | selectattr('rc', 'equalto', 0) | list }}"
 
     - name: debug
       debug:
@@ -68,7 +68,7 @@
             | zip(parent_paths)
             | map('map', 'string')
             | map('extract', [0, 1, 2, 3])
-            | map('map', 'regex_search', '\\"([0-9a-fA-F]+)\\"')
+            | map('map', 'regex_search', '\"([0-9a-fA-F]+)\"')
             | map('map', 'first')
             | selectattr('0', '!=', None)
             | selectattr('1', '!=', None)
