@@ -79,7 +79,7 @@
             | map('map', 'string')
             | map('map', 'regex_replace', 'null', '')
             | map('list')
-            | map('regex_replace', '^(.*?)\\|(.*?)\\|(.*?)$', 'ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="\\\1", ATTR{idProduct}=="\\\2"%s, TEST=="power/control", ATTR{power/control}="on"' % (
+            | map('regex_replace', '^(.*?)|(.*?)|(.*?)$', 'ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="\\\1", ATTR{idProduct}=="\\\2"%s, TEST=="power/control", ATTR{power/control}="on"' % (
                 ', ATTR{serial}=="\\\3"' if '\\\3' not in ['','xhci-hcd.0.auto'] else ''
               ))
           }}
