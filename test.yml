@@ -63,15 +63,19 @@
       debug:
         var: usb_dirs
 
-    - name: Find all USB device directories with a serial file
+    - name: Find all 'serial' files recursively in each USB device directory
       find:
-        paths: "{{ usb_dirs }}"
-        file_type: any
+        paths: "{{ item }}"
         patterns: serial
-        follow: true
+        file_type: file
         recurse: true
-      register: usb_serial_files
-      ignore_errors: true
+      loop: "{{ usb_dirs_list }}"
+      register: found_serials
+
+    - name: Combine all found serial files into a single list
+      set_fact:
+        usb_serial_files: "{{ usb_serial_files | default([]) + (item.files | default([])) }}"
+      loop: "{{ found_serials.results }}"
 
     - name: DEBUG
       debug:
