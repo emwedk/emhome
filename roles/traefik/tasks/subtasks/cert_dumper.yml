@@ -15,8 +15,7 @@
       - name: "{{ smarthome.network }}"
         aliases:
           - "{{ service.name }}-cd"
-    user: "{{ user.name }}"
-    groups: "{{ user.name }}"
+    user: "{{ user.puid }}"
     pull: yes
     recreate: "{{ rebuild }}"
     state: started
