@@ -11,4 +11,4 @@
   loop: "{{ bluetooth_devices.stdout_lines }}"
   when: bluetooth_devices.stdout_lines | length > 0
   changed_when: false
-  ignore_errors: true
+  
