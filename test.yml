@@ -53,7 +53,7 @@
 
     - name: Find all USB device directories with a serial file
       find:
-        paths: "{{ device_path }}"
+        paths: "{{ device_path.stdout }}"
         file_type: file
         patterns: serial
         follow: true
