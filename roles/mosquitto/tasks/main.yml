@@ -39,6 +39,15 @@
     mode: "0755"
     force: no
 
+- name: Deploy Mosquitto passwd file
+  template:
+    src: mosquitto.passwd.j2
+    dest: "{{ service.dir }}/config/mosquitto.acl"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0755"
+    force: no
+
 - name: Build dynamic labels dictionary
   set_fact:
     dynamic_labels: >-
