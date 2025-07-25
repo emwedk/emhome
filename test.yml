@@ -23,7 +23,7 @@
     #     var: system_os
 
     - name: Get the real device path from the by-id symlink
-      shell: readlink -f /dev/serial/by-id/{{ usb_by_id_name }}
+      command: readlink -f /dev/serial/by-id/{{ usb_by_id_name }}
       register: real_device_path
       changed_when: false
 
