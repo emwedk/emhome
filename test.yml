@@ -86,6 +86,10 @@
     - name: Get idVendor and idProduct
       command: udevadm info --attribute-walk --path={{ usb_sysfs_path.stdout }}
       register: udevadm_output
+    
+    - name: Debug udevadm output
+      debug:
+        msg: "{{ udevadm_output.stdout }}"
 
     - name: Parse idVendor from udevadm output
       set_fact:
