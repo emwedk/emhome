@@ -10,23 +10,7 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 
 homeassistant:
-  name: Home
-  time_zone: "{{ tz }}"
-  latitude: "!secret latitude"
-  longitude: "!secret longitude"
-  elevation: "!secret elevation"
-  radius: "!secret radius"
-  currency: "!secret currency"
-  country: "!secret country"
-  unit_system: "!secret metric"
-
-  external_url: "http://{{ service.domain }}"
-  internal_url: "http://localhost:8123"
-  # media_dirs:
-  #   media: "/media"
-  #   recordings: "/mnt/recordings"
-  debug: false
-
+  {{ homeassistant | combine(secret.homeassistant | default({}), recursive=true) | to_nice_yaml | indent(2) }}
 http:
   ip_ban_enabled: false
   login_attempts_threshold: 12

@@ -1,1 +1,10 @@
 ---
+homeassistant:
+  name: Home
+  time_zone: "{{ tz }}"
+  external_url: "http://{{ service.domain }}"
+  internal_url: "http://localhost:8123"
+  # media_dirs:
+  #   media: "/media"
+  #   recordings: "/mnt/recordings"
+  debug: false
