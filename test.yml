@@ -56,8 +56,6 @@
         paths:  /sys/bus/usb/devices/
         file_type: any
         patterns: usb
-        follow: true
-        recurse: true
       register: usb_dirs
       ignore_errors: true
 
