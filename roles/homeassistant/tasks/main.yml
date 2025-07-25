@@ -100,18 +100,8 @@
     state: started
     restart: true
     restart_policy: unless-stopped
-    privileged: true # only needed for official image
+    privileged: true
     network_mode: host
-    # etc_hosts:
-    #   # host.docker.internal: host-gateway
-    #   # host.docker.internal: 172.18.0.1
-    #   host.docker.internal: "{{ docker_host.Gateway }}"
-    # dns_servers:
-      # - 192.168.0.180
-      # - 1.1.1.1
-      # - 8.8.8.8
-    # networks:
-    #   - name: "{{ smarthome.network }}"
     volumes:
       - /etc/localtime:/etc/localtime
       - /var/run/dbus:/var/run/dbus
@@ -125,15 +115,15 @@
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
       DOCKER_MODS: "linuxserver/mods:homeassistant-hacs"
-    capabilities:
-      - NET_ADMIN
-      - NET_RAW
-      - NET_BIND_SERVICE
-      - SYS_ADMIN
+    # capabilities:
+    #   - NET_ADMIN
+    #   - NET_RAW
+    #   - NET_BIND_SERVICE
+    #   - SYS_ADMIN
 
-    devices:
-      - "{{ smarthome.zigbee_adapter }}"
-      - "/dev/ttyS0:/dev/ttyS0"
+    # devices:
+    #   - "{{ smarthome.zigbee_adapter }}"
+    #   - "/dev/ttyS0:/dev/ttyS0"
     # labels: "{{ dynamic_labels }}"
       # traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"

@@ -1,15 +1,28 @@
 ---
+- name: "Register Network Info for the Bridge network"
+  community.docker.docker_network_info:
+    name: bridge
+  register: network_bridge
+
 - name: "Ensure network exists: {{ smarthome.network }}"
-  when: smarthome.network != "host"
   community.docker.docker_network:
     name: "{{ smarthome.network }}"
     state: "present"
-  register: docker_bridge
+  register: network_proxy
 
-- name: Extract docker host info
+- name: Add trusted networks to smarthome dictionary
   set_fact:
-    docker_host: "{{ docker_bridge.network.IPAM.Config | first }}"
-
+    smarthome: >-
+      {{
+        smarthome | combine({
+          'trusted_networks': [
+            "127.0.0.1",
+            smarthome.local_network,
+            network_bridge.network.IPAM.Config[0].Subnet,
+            network_proxy.network.IPAM.Config[0].Subnet
+          ]
+        })
+      }}
 
 # # --- Initialize smarthome_domains list ---
 

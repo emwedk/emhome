@@ -2,7 +2,15 @@
 homeassistant:
   name: Home
   time_zone: "{{ tz }}"
-  external_url: "http://{{ ansible_default_ipv4.address }}"
+  latitude: !secret latitude
+  longitude: !secret longitude
+  elevation: !secret elevation
+  radius: !secret radius
+  currency: !secret currency
+  country: !secret country
+  unit_system: !secret metric
+
+  external_url: "http://{{ service.domain }}"
   internal_url: "http://localhost:8123"
   # media_dirs:
   #   media: "/media"

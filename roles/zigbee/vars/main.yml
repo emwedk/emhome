@@ -21,10 +21,10 @@ zigbee2mqtt:
       # ca: '/etc/ssl/mqtt-ca.crt' # path to SSL/TLS certificate
       # key: '/etc/ssl/mqtt-client.key' # path to SSL/TLS key
       # cert: '/etc/ssl/mqtt-client.crt' # path to SSL/TLS certificate
-      server: '!secret.yaml server'
-      user: '!secret.yaml user'
-      password: '!secret.yaml password'
-      client_id: '!secret.yaml client_id'
+      server: !secret.yaml server
+      user: !secret.yaml user
+      password: !secret.yaml password
+      client_id: !secret.yaml client_id
       reject_unauthorized: false
       include_device_information: true
       keepalive: 60
