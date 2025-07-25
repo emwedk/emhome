@@ -11,11 +11,7 @@
   community.docker.docker_container:
     name: "{{ service.name }}-cd"
     image: ghcr.io/kereis/traefik-certs-dumper:latest # https://github.com/kereis/traefik-certs-dumper
-    networks:
-      - name: "{{ smarthome.network }}"
-        aliases:
-          - "{{ service.name }}-cd"
-    user: 0
+    privileged: true
     pull: yes
     recreate: "{{ rebuild }}"
     state: started
