@@ -1,0 +1,39 @@
+---
+- name: "Create global certs folder"
+  file:
+    path: "{{ dir.certs }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: "0644"
+
+- name: "Run container: {{ service.name }}-certs-dumper"
+  community.docker.docker_container:
+    name: "{{ service.name }}-certs-dumper"
+    image: ghcr.io/kereis/traefik-certs-dumper:latest # https://github.com/kereis/traefik-certs-dumper
+    pull: yes
+    recreate: "{{ rebuild }}"
+    state: started
+    restart: true
+    restart_policy: unless-stopped
+    command:
+      - "--restart-containers mosquitto,zigbee"
+    volumes:
+      - "{{ service.dir }}/letsencrypt:/traefik:ro"
+      - "{{ dir.certs }}:/output:rw"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - ./hook.sh:/hook/hook.sh:ro
+    env:
+      OVERRIDE_UID: "{{ user.puid }}"
+      OVERRIDE_GID: "{{ user.pgid }}"
+      DOMAIN: "{{ smarthome.domain }}"
+      CERTIFICATE_FILE_NAME: "{{ smarthome.domain }}"
+      CERTIFICATE_FILE_EXT: ".crt"
+      PRIVATE_KEY_FILE_NAME: "{{ smarthome.domain }}"
+      PRIVATE_KEY_FILE_EXT: ".key"
+      COMBINED_PEM: "{{ smarthome.domain }}.pem"
+      # COMBINE_PKCS12: "yes"
+      # PKCS12_PASSWORD: "{{ user.pass }}"
+      # CONVERT_KEYS_TO_RSA: "yes"
+      # RSA_KEY_FILE_NAME: "{{ smarthome.domain }}-rsa"
+      # RSA_KEY_FILE_EXT: ".pem"

@@ -79,6 +79,7 @@
       - "{{ service.dir }}/config:/mosquitto/config"
       - "{{ service.dir }}/data:/mosquitto/data"
       - "{{ service.logdir }}:/mosquitto/log"
+      - "{{ dir.certs }}:/mosquitto/certs"
     env:
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"

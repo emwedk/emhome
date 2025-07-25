@@ -72,6 +72,7 @@
     volumes:
       - "{{ service.dir }}:/app/data"
       - "{{ service.logdir }}/:/app/data/log"
+      - "{{ dir.certs }}:/app/certs"
       - /run/udev:/run/udev:ro
     devices:
       - "{{ smarthome.zigbee_adapter }}"

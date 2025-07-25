@@ -1,18 +1,106 @@
-
-
-password_file /mosquitto/config/mosquitto.passwd
-allow_anonymous true
-
-log_dest file /mosquitto/log/mosquitto.log
-persistence true
-persistence_location /mosquitto/data
-
+max_inflight_messages 10
 max_queued_messages 8192
+#message_size_limit 1000000
 autosave_interval 1800
 autosave_on_changes true
+persistence_location /mosquitto/data
 
+log_dest none
+#log_dest file /mosquitto/log/mosquitto.log
+#log_type debug
+#log_type error
+#log_type warning
+#log_type notice
+#log_type information
+#log_type internal
+websockets_log_level 0
+
+per_listener_settings true
+
+
+# MQTT - unencrypted, unauthenticated
 listener 1883
-protocol mqtt
+allow_anonymous true
+set_tcp_nodelay true
 
+# MQTT - unencrypted, authenticated
 listener 1884
+password_file /mosquitto/config/mosquitto.passwd
+acl_file /mosquitto/config/mosquitto.acl
+set_tcp_nodelay true
+
+# MQTT - encrypted, unauthenticated
+listener 8883
+allow_anonymous true
+cafile /mosquitto/certs/{{ smarthome.domain }}.pem
+certfile /mosquitto/certs/{{ smarthome.domain }}.crt
+keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+
+# MQTT - encrypted, authenticated
+listener 8884
+password_file /mosquitto/config/mosquitto.passwd
+acl_file /mosquitto/config/mosquitto.acl
+cafile /mosquitto/certs/{{ smarthome.domain }}.pem
+certfile /mosquitto/certs/{{ smarthome.domain }}.crt
+keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+set_tcp_nodelay true
+
+# MQTT - encrypted, client certificate required (two-way tls)
+listener 8885
+allow_anonymous true
+cafile /mosquitto/certs/{{ smarthome.domain }}.pem
+certfile /mosquitto/certs/{{ smarthome.domain }}.crt
+keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+require_certificate true
+set_tcp_nodelay true
+
+
+
+
+# Websockets - unencrypted, unauthenticated
+listener 8080
 protocol websockets
+allow_anonymous true
+http_dir /mosquitto/config/http
+set_tcp_nodelay true
+
+# Websockets - unencrypted, authenticated
+listener 8090
+protocol websockets
+password_file /mosquitto/config/mosquitto.passwd
+acl_file /mosquitto/config/mosquitto.acl
+http_dir /mosquitto/config/http
+set_tcp_nodelay true
+
+# Websockets - encrypted, unauthenticated
+listener 8081
+protocol websockets
+allow_anonymous true
+http_dir /mosquitto/config/http
+cafile /mosquitto/certs/{{ smarthome.domain }}.pem
+certfile /mosquitto/certs/{{ smarthome.domain }}.crt
+keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+set_tcp_nodelay true
+
+# Websockets - encrypted, authenticated
+listener 8091
+protocol websockets
+password_file /mosquitto/config/mosquitto.passwd
+acl_file /mosquitto/config/mosquitto.acl
+http_dir /mosquitto/config/http
+cafile /mosquitto/certs/{{ smarthome.domain }}.pem
+certfile /mosquitto/certs/{{ smarthome.domain }}.crt
+keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+set_tcp_nodelay true
+
+# Websockets - encrypted, client certificate required (two-way tls)
+listener 8888
+protocol websockets
+allow_anonymous true
+http_dir /mosquitto/config/http
+capath /mosquitto/certs/trusted
+cafile /mosquitto/certs/{{ smarthome.domain }}.pem
+certfile /mosquitto/certs/{{ smarthome.domain }}.crt
+keyfile /mosquitto/certs/{{ smarthome.domain }}.key
+require_certificate true
+set_tcp_nodelay true

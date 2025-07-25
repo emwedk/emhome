@@ -26,6 +26,8 @@
     group: "{{ user.name }}"
     mode: "0755"
 
+
+
 # - name: Copy Traefik config
 #   template:
 #     src: traefik.yml.j2
@@ -149,8 +151,6 @@
       - "--providers.docker.network={{ smarthome.network }}"
       - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
       - "--providers.file.watch=true"
-        
 
-      
-
-        
+- name: Install traefik-certs-dumper
+  import_tasks: "subtasks/cert_dumper.yml"
