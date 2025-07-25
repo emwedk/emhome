@@ -58,12 +58,12 @@
       set_fact:
         udev_rule_lines: >-
           {{
-            parent_attrs.results
+            parent_attrs
             | map(attribute='stdout_lines')
             | map('select', 'search', 'idVendor')
             | list
-            | zip(parent_attrs.results | map(attribute='stdout_lines') | map('select', 'search', 'idProduct') | list)
-            | zip(parent_attrs.results | map(attribute='stdout_lines') | map('select', 'search', 'serial') | list)
+            | zip(parent_attrs | map(attribute='stdout_lines') | map('select', 'search', 'idProduct') | list)
+            | zip(parent_attrs | map(attribute='stdout_lines') | map('select', 'search', 'serial') | list)
             | map('flatten')
             | zip(parent_paths)
             | map('map', 'string')
