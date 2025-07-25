@@ -62,10 +62,12 @@
       set_fact:
         udev_rule_lines: []
 
-    - name: Extract udev rules from parent_attrs
+    - name: Append valid udev rules to list
       set_fact:
         udev_rule_lines: "{{ udev_rule_lines + [rule_line] }}"
       loop: "{{ parent_attrs }}"
+      loop_control:
+        label: "{{ item.item }}"
       vars:
         id_vendor: >-
           {{ item.stdout_lines | select('search', 'idVendor')
@@ -80,9 +82,12 @@
                               | map('regex_search', 'serial\\}==\\"([^"]+)\\"')
                               | select('string') | list | first | default('') }}
         rule_line: >-
-          {% if id_vendor != '' and id_product != '' %}
           ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="{{ id_vendor }}", ATTR{idProduct}=="{{ id_product }}"{{ ', ATTR{serial}=="' ~ serial ~ '"' if serial not in ['', 'xhci-hcd.0.auto'] else '' }}, TEST=="power/control", ATTR{power/control}="on"
-          {% else %}{{ omit }}{% endif %}
+      when: id_vendor != '' and id_product != ''
+
+    - name: Remove duplicate udev rules
+      set_fact:
+        udev_rule_lines: "{{ udev_rule_lines | unique }}"
 
     - name: debug
       debug:
