@@ -84,7 +84,7 @@
     - name: Read serials from all USB device directories
       slurp:
         src: "{{ item.path }}"
-      loop: "{{ usb_serial_files.files }}"
+      loop: "{{ usb_serial_files }}"
       register: usb_serial_contents
 
     - name: DEBUG
