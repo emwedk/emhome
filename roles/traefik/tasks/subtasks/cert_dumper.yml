@@ -5,7 +5,7 @@
     state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0644"
+    mode: "0755"
 
 - name: "Run container: {{ service.name }}-certs-dumper"
   community.docker.docker_container:
