@@ -82,7 +82,7 @@
                               | map('regex_search', 'serial}=="([^"]+)"')
                               | select('string') | list | first | default('') }}
         rule_line: >-
-          ACTION==\"add\", SUBSYSTEM==\"usb\", ATTR{idVendor}==\"{{ id_vendor }}\", ATTR{idProduct}==\"{{ id_product }}\"{{ ', ATTR{serial}==\"' ~ serial ~ '\"' if serial not in ['', 'xhci-hcd.0.auto'] else '' }}, TEST==\"power/control\", ATTR{power/control}=\"on\"
+          ACTION==\\"add\\", SUBSYSTEM==\\"usb\\", ATTR{idVendor}==\\"{{ id_vendor }}\\", ATTR{idProduct}==\\"{{ id_product }}\\"{{ ', ATTR{serial}==\\"' ~ serial ~ '\\"' if serial not in ['', 'xhci-hcd.0.auto'] else '' }}, TEST==\\"power/control\\", ATTR{power/control}=\\"on\\"
       when: id_vendor != '' and id_product != ''
 
     - name: Remove duplicate udev rules
