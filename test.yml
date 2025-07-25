@@ -58,6 +58,10 @@
       set_fact:
         udev_rule_lines: []
 
+    - name: Initialize udev_rule_lines
+      set_fact:
+        udev_rule_lines: []
+
     - name: Extract udev rules from parent_attrs
       set_fact:
         udev_rule_lines: "{{ udev_rule_lines + [rule_line] }}"
@@ -76,8 +80,9 @@
                               | map('regex_search', 'serial\\}==\\"([^"]+)\\"')
                               | select('string') | list | first | default('') }}
         rule_line: >-
+          {% if id_vendor != '' and id_product != '' %}
           ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="{{ id_vendor }}", ATTR{idProduct}=="{{ id_product }}"{{ ', ATTR{serial}=="' ~ serial ~ '"' if serial not in ['', 'xhci-hcd.0.auto'] else '' }}, TEST=="power/control", ATTR{power/control}="on"
-      when: id_vendor != '' and id_product != ''
+          {% else %}{{ omit }}{% endif %}
 
     - name: debug
       debug:
