@@ -59,34 +59,29 @@
         udev_rule_lines: >-
           {{
             parent_attrs
-            | map('extract', ['item', 'stdout_lines'])
-            | map('combine', ['path', 'lines'])
-            | map('combine', lambda d: {
-                'vendor': (
-                  d.lines | select('search', 'idVendor')
-                          | map('regex_search', 'idVendor\\}==\\"([0-9a-fA-F]+)\\"')
-                          | select('string') | list | first | default('')
-                ),
-                'product': (
-                  d.lines | select('search', 'idProduct')
-                          | map('regex_search', 'idProduct\\}==\\"([0-9a-fA-F]+)\\"')
-                          | select('string') | list | first | default('')
-                ),
-                'serial': (
-                  d.lines | select('search', 'serial')
-                          | map('regex_search', 'serial\\}==\\"([^"]+)\\"')
-                          | select('string') | list | first | default('')
-                )
-              })
-            | selectattr('vendor', '!=', '')
-            | selectattr('product', '!=', '')
-            | map('combine', lambda d:
-                'ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="%s", ATTR{idProduct}=="%s"%s, TEST=="power/control", ATTR{power/control}="on"' % (
-                  d.vendor, d.product,
-                  (', ATTR{serial}=="%s"' % d.serial) if d.serial not in ['', 'xhci-hcd.0.auto'] else ''
-                )
-              )
-            | list | unique
+            | map(attribute='stdout_lines')
+            | map('select', 'search', 'idVendor') | map('list')
+            | zip(
+                parent_attrs | map(attribute='stdout_lines') | map('select', 'search', 'idProduct') | map('list'),
+                parent_attrs | map(attribute='stdout_lines') | map('select', 'search', 'serial') | map('list'),
+                parent_attrs | map(attribute='item')
+            )
+            | map('flatten')
+            | map('map', 'regex_search', '\"([^\"]+)\"')
+            | map('list')
+            | selectattr('0', 'defined') | selectattr('1', 'defined')
+            | map('unique')
+            | map('map', 'string')
+            | map('map', 'trim')
+            | map('map', 'default', '')
+            | map('map', 'string')
+            | map('map', 'regex_replace', '^$', 'null')
+            | map('map', 'string')
+            | map('map', 'regex_replace', 'null', '')
+            | map('list')
+            | map('regex_replace', '^(.*?)\\|(.*?)\\|(.*?)$', 'ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="\\1", ATTR{idProduct}=="\\2"%s, TEST=="power/control", ATTR{power/control}="on"' % (
+                ', ATTR{serial}=="\\3"' if '\\3' not in ['','xhci-hcd.0.auto'] else ''
+              ))
           }}
 
     - name: debug
