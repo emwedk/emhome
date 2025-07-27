@@ -20,7 +20,10 @@
 
     - { role: mosquitto,      tags: ['home', 'mosquitto'] }
     - { role: homeassistant,  tags: ['home', 'homeassistant'] }
-
+    - { role: musicassistant,  tags: ['home', 'musicassistant'] }
+    
+    - { role: wireshark,       tags: ['home', 'wireshark'] }
     - { role: esphome,        tags: ['home', 'esphome'] }
     - { role: node-red,       tags: ['home', 'node-red'] }
     
+    - { role: changedetection, tags: ['home', 'changedetection'] }
