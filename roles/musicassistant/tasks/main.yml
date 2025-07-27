@@ -1,7 +1,7 @@
 ---
 - name: "Remove directories for: {{ service.name }}"
   file:
-    path: "{{ item }}/"
+    path: "{{ item }}"
     state: "absent"
     force: true
   loop:
@@ -12,31 +12,43 @@
 - name: "Create directory for: {{ service.name }}"
   file:
     path: "{{ service.dir }}"
-    state: "directory"
+    state: directory
     owner: "{{ user.name }}"
     group: "{{ user.name }}"
-    mode: "0755"
+    mode: '0755'
+
+# - name: Deploy Home Assistant configuration file
+#   template:
+#     src: configuration.yaml.j2
+#     dest: "{{ service.dir }}/configuration.yaml"
+#     owner: "{{ user.name }}"
+#     group: "{{ user.name }}"
+#     mode: "0644"
+#     force: no
 
 - name: "Run container: {{ service.name }}"
   community.docker.docker_container:
     name: "{{ service.name }}"
+    hostname: "{{ service.name }}"
+    domainname : "{{ smarthome.domain }}"
     image: "{{ service.image }}:{{ service.version }}"
     pull: "{{ update }}"
     recreate: "{{ rebuild }}"
-    state: "started"
+    state: started
     restart: true
-    restart_policy: "unless-stopped"
-    networks:
-      - name: "{{ smarthome.network }}"
-        aliases:
-          - "{{ service.name }}"
-    # ports:
-    #   - "{{ service.port }}:80"
+    restart_policy: unless-stopped
+    network_mode: host
     volumes:
-      - "{{ service.dir }}:/config"
+      - /etc/localtime:/etc/localtime
+      - "{{ service.dir }}:/data"
+      - "{{ dir.music }}:/media"
     env:
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
-      SUBDOMAINS: "{{ secret.duckdns.domain | default('') }}"
-      TOKEN: "{{ secret.duckdns.token | default('') }}"
+    capabilities:
+      - SYS_ADMIN
+      - DAC_READ_SEARCH
+    security_opt:
+      - apparmor:unconfined
+

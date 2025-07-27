@@ -5,7 +5,10 @@ http:
       loadBalancer:
         servers:
           - url: "http://host.docker.internal:8123"
-        passhostheader: 'true'
+    musicassistant-srv:
+      loadBalancer:
+        servers:
+          - url: "http://host.docker.internal:8095"
   middlewares:
     sslheader:
       headers:
@@ -22,3 +25,11 @@ http:
         - sslheader
         - comp
       service: homeassistant-srv
+    musicassistant-rt:
+      rule: "Host(`musicassistant.{{ smarthome.domain }}`)"
+      entryPoints:
+        - websecure
+      middlewares:
+        - sslheader
+        - comp
+      service: musicassistant-srv

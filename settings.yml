@@ -2,7 +2,6 @@
 app:
   homeassistant:
     version: latest
-    subdomain: home
   mosquitto:
     version: latest
   zigbee:
@@ -19,12 +18,19 @@ app:
     version: latest
   duckdns:
     version: latest
+  changedetection:
+    version: latest
+  wireshark:
+    version: latest
+  hass-config:
+    version: latest
 
 tz: Europe/Copenhagen
 dir:
   data: /opt
   log: /var/log
   certs: /opt/certs
+  music: /mnt/music
 user:
   name: emhome
   pass: smarthome

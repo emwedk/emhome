@@ -38,7 +38,7 @@
     hostname: "{{ service.name }}"
     domainname : "{{ smarthome.domain }}"
     image: "{{ service.image }}:{{ service.version }}"
-    pull: yes
+    pull: "{{ update }}"
     recreate: "{{ rebuild }}"
     state: "started"
     restart: true
@@ -47,7 +47,7 @@
       - name: "{{ smarthome.network }}"
         aliases:
           - "{{ service.name }}"
-    ports:
+    exposed_ports:
       - "{{ service.port }}:6052"
     volumes:
       - "{{ service.dir }}:/config"

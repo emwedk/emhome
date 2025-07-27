@@ -1,0 +1,9 @@
+---
+service:
+  name: "{{ role_name }}"
+  dir: "{{ dir.data }}/{{ role_name }}"
+  logdir: "{{ dir.log }}/{{ role_name }}"
+  image: causticlab/hass-configurator-docker
+  version: "{{ app[role_name].version }}"
+  port: 3218
+  domain: "{{ app[role_name].subdomain | default(role_name) }}.{{ smarthome.domain }}"

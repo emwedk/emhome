@@ -37,7 +37,7 @@
     hostname: "{{ service.name }}"
     domainname : "{{ smarthome.domain }}"
     image: "{{ service.image }}:{{ service.version }}"
-    pull: yes
+    pull: "{{ update }}"
     recreate: "{{ rebuild }}"
     state: started
     restart: true
@@ -48,7 +48,7 @@
       - name: "{{ smarthome.network }}"
         aliases:
           - "{{ service.name }}"
-    ports:
+    exposed_ports:
       - "{{ service.port }}:3000"
     volumes:
       - "{{ service.dir }}:/var/lib/grafana"

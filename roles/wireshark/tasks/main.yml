@@ -17,23 +17,6 @@
     group: "{{ user.name }}"
     mode: "0755"
 
-- name: Deploy Zigbee2MQTT secret file
-  template:
-    src: secret.yaml.j2
-    dest: "{{ service.dir }}/secret.yaml"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: "0644"
-
-- name: Deploy Zigbee2MQTT configuration file
-  template:
-    src: configuration.yaml.j2
-    dest: "{{ service.dir }}/configuration.yaml"
-    owner: "{{ user.name }}"
-    group: "{{ user.name }}"
-    mode: "0644"
-    force: no
-
 - name: Build dynamic labels dictionary
   set_fact:
     dynamic_labels: >-
@@ -44,9 +27,12 @@
           ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.domain ~ '`)',
           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
-          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port
+          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.serverstransport'): 'ignorecert@file',
+          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.scheme'): 'https',
+          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port,
         }
       }}
+
 
 - name: "Run container: {{ service.name }}"
   community.docker.docker_container:
@@ -59,23 +45,17 @@
     state: "started"
     restart: true
     restart_policy: "unless-stopped"
-    groups:
-      - "dialout"
-    networks:
-      - name: "{{ smarthome.network }}"
-        aliases:
-          - "{{ service.name }}"
+    cap_add:
+      - NET_ADMIN
+    network_mode: host
+    # networks:
+    #   - name: "{{ smarthome.network }}"
+    #     aliases:
+    #       - "{{ service.name }}"
     exposed_ports:
-      - "{{ service.port }}"
-    # ports:
-    #   - "{{ service.port }}:8080"
+      - "{{ service.port }}:3000"
     volumes:
-      - "{{ service.dir }}:/app/data"
-      - "{{ service.logdir }}/:/app/data/log"
-      - "{{ dir.certs }}:/app/certs"
-      - /run/udev:/run/udev:ro
-    devices:
-      - "{{ smarthome.zigbee_adapter }}"
+      - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"

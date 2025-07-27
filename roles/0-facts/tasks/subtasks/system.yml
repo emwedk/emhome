@@ -1,8 +1,21 @@
 ---
-- name: Set Rebuild Fact
+- name: Initialize Rebuild Fact
+  set_fact:
+    rebuild: false
+
+- name: Set Rebuild Fact by tags
   set_fact:
     rebuild: true
   tags: ["rebuild", "never"]
+
+- name: Initialize Update Fact
+  set_fact:
+    update: "always"
+
+- name: Set Update Fact by tags
+  set_fact:
+    update: "missing"
+  tags: ["install-missing", "never"]
 
 - name: Read /etc/os-release
   ansible.builtin.slurp:
@@ -12,3 +25,11 @@
 - name: Set custom_os_name fact from /etc/os-release
   set_fact:
     system_os: "{{ (system_os_file['content'] | b64decode).split('\n') | select('match', '^ID=') | list | first | regex_replace('^ID=\"?([^\"]+)\"?$', '\\1') }}"
+
+- name: "Create directory for: {{ dir.music }}"
+  file:
+    path: "{{ dir.music }}"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0755'

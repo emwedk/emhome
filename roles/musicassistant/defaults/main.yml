@@ -1,0 +1,10 @@
+---
+service:
+  name: "{{ role_name }}"
+  dir: "{{ dir.data }}/{{ role_name }}"
+  logdir: "{{ dir.log }}/{{ role_name }}"
+  # image: ghcr.io/home-assistant/home-assistant
+  image: ghcr.io/music-assistant/server
+  version: "{{ app[role_name].version }}"
+  port: 8097
+  domain: "{{ app[role_name].subdomain | default(role_name) }}.{{ smarthome.domain }}"

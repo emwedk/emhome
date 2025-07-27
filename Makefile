@@ -13,7 +13,20 @@ em:##..................
 	docker network prune -f
 	git pull
 	sudo ansible-playbook -i inventory playbook.yml --tags "home,rebuild"
-# 	sh install.sh
+
+.PHONY: emhome
+emhome:##..................Update and Fix Emhome
+	sudo -s touch Makefile
+	@echo "Updating and Fixing Emhome..."
+	git pull
+	sudo ansible-playbook -i inventory playbook.yml --tags "home"
+
+.PHONY: missing
+missing:##..................Install Missing Containers - Doesn't update
+	sudo -s touch Makefile
+	@echo "Installing Missing Containers..."
+	git pull
+	sudo ansible-playbook -i inventory playbook.yml --tags "home,missing"
 
 .PHONY: traefik
 traefik:##..................Install Traefik

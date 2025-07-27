@@ -95,7 +95,7 @@
     hostname: "{{ service.name }}"
     domainname : "{{ smarthome.domain }}"
     image: "{{ service.image }}:{{ service.version }}"
-    pull: yes
+    pull: "{{ update }}"
     recreate: "{{ rebuild }}"
     state: started
     restart: true
@@ -115,11 +115,11 @@
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
       DOCKER_MODS: "linuxserver/mods:homeassistant-hacs"
-    # capabilities:
-    #   - NET_ADMIN
-    #   - NET_RAW
-    #   - NET_BIND_SERVICE
-    #   - SYS_ADMIN
+    capabilities:
+      - NET_ADMIN
+      - NET_RAW
+      - NET_BIND_SERVICE
+      - SYS_ADMIN
 
     # devices:
     #   - "{{ smarthome.zigbee_adapter }}"
@@ -138,3 +138,7 @@
       # traefik.http.routers.homeassistant.service: "homeassistant"
       # traefik.http.routers.homeassistant.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
       # traefik.http.services.homeassistant.loadbalancer.server.port: "{{ homeassistant.port }}"
+      
+- name: "add homeassistant directory to fact"
+  set_fact:
+    app.homeassistant: "{{ app.homeassistant | combine({ 'dir': service.dir }) }}"

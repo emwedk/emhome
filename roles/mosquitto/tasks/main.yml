@@ -59,9 +59,9 @@
           ('traefik.http.routers.' ~ service.name ~ '.rule'): 'Host(`' ~ service.domain ~ '`)',
           ('traefik.http.routers.' ~ service.name ~ '.entrypoints'): 'websecure',
           ('traefik.http.routers.' ~ service.name ~ '.service'): service.name,
-          ('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port,
         }
       }}
+#('traefik.http.services.' ~ service.name ~ '.loadbalancer.server.port'): service.port,
 
 - name: Wait until at least one file exists in /opt/certs
   shell: 'ls -1 {{ dir.certs }} | grep .'
@@ -76,7 +76,7 @@
     hostname: "{{ service.name }}"
     domainname : "{{ smarthome.domain }}"
     image: "{{ service.image }}:{{ service.version }}"
-    pull: yes
+    pull: "{{ update }}"
     recreate: "{{ rebuild }}"
     state: started
     restart: true
@@ -85,13 +85,17 @@
       - name: "{{ smarthome.network }}"
         aliases:
           - "{{ service.name }}"
-    # exposed_ports:
-    #   - "{{ service.port }}"
-
     ports:
-      - "{{ service.port }}:1883"
-      
-      - "9001:9001"
+      - "127.0.0.1:{{ service.port }}:1883"
+      - "127.0.0.1:{{ service.port }}:1884"
+      - "127.0.0.1:{{ service.port }}:8883"
+      - "127.0.0.1:{{ service.port }}:8884"
+      - "127.0.0.1:{{ service.port }}:8885"
+      - "127.0.0.1:{{ service.port }}:8080"
+      - "127.0.0.1:{{ service.port }}:8090"
+      - "127.0.0.1:{{ service.port }}:8081"
+      - "127.0.0.1:{{ service.port }}:8091"
+      - "127.0.0.1:{{ service.port }}:8888"
     volumes:
       - "{{ service.dir }}/config:/mosquitto/config"
       - "{{ service.dir }}/data:/mosquitto/data"
@@ -102,12 +106,6 @@
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
     labels: "{{ dynamic_labels }}"
-      # traefik.enable: "true"
-      # traefik.docker.network: "{{ smarthome.network }}"
-      # "traefik.http.routers.{{ service.name }}.entrypoints": "web"
-      # "traefik.http.routers.{{ service.name }}.service": "{{ service.name }}"
-      # "traefik.http.routers.{{ service.name }}.rule": "Host(`{{ service.name }}.local`)"
-      # "traefik.http.services.{{ service.name }}.loadbalancer.server.port": "{{ service.port }}"
 
 - name: Wait for Mosquitto container to be running
   community.docker.docker_container_info:
