@@ -49,6 +49,6 @@
     capabilities:
       - SYS_ADMIN
       - DAC_READ_SEARCH
-    security_opt:
-      - apparmor:unconfined
+    security_opts:
+      - apparmor=unconfined
 

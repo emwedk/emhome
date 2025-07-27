@@ -43,7 +43,7 @@
   tags: rebuild
   when: system_os == "postmarketos"
 
-- name: Replace :wheel with :{{ user.name }} in user's doas conf
+- name: Replace :wheel with {{ user.name }} in user's doas conf
   replace:
     path: "/etc/doas.d/{{ user.name }}.conf"
     regexp: ":wheel"
