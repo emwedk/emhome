@@ -24,6 +24,8 @@ app:
     version: latest
   hass-config:
     version: latest
+  musicassistant:
+    version: latest
 
 tz: Europe/Copenhagen
 dir:

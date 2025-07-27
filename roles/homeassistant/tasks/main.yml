@@ -139,6 +139,6 @@
       # traefik.http.routers.homeassistant.rule: "Host(`192.168.0.180`) && PathPrefix(`/`)"
       # traefik.http.services.homeassistant.loadbalancer.server.port: "{{ homeassistant.port }}"
       
-- name: "add homeassistant directory to fact"
+- name: "add homeassistant directory to fact (recursive)"
   set_fact:
-    app.homeassistant: "{{ app.homeassistant | combine({ 'dir': service.dir }) }}"
+    app: "{{ app | default({}) | combine({'homeassistant': {'dir': service.dir}}, recursive=True) }}"
