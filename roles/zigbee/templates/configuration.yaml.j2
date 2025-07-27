@@ -1,1 +1,49 @@
-{{ zigbee2mqtt.config | to_nice_yaml }}
+homeassistant:
+    enabled: true
+frontend: 
+    enabled: true
+    port: 8080
+    package: zigbee2mqtt-windfront
+    # ssl_key: /config/etc/letsencrypt/live/mydomain.com/privkey.pem # private key file path for exposing HTTPS
+    # ssl_cert: /config/etc/letsencrypt/live/mydomain.com/fullchain.pem # certificate file path for exposing HTTPS
+    # notification_filter: # list of regular expressions to hide notifications, the example below hides notifications for failed device pings
+    #   - 'z2m: Failed to ping.*'
+mqtt:
+    base_topic: zigbee2mqtt
+    # ca: certs/{{ smarthome.domain }}.pem # path to SSL/TLS certificate
+    # cert: certs/{{ smarthome.domain }}.crt # path to SSL/TLS certificate
+    # key: certs/{{ smarthome.domain }}.key # path to SSL/TLS key
+    server: !secret.yaml server
+    user: !secret.yaml user
+    password: !secret.yaml password
+    client_id: !secret.yaml client_id
+    reject_unauthorized: false
+    include_device_information: true
+    keepalive: 60
+    version: 4
+    force_disable_retain: false
+    maximum_packet_size: 1048576
+advanced:
+    channel: 15
+    homeassistant_legacy_entity_attributes: false
+    homeassistant_legacy_triggers: false
+    legacy_api: false
+    legacy_availability_payload: false
+    log_level: info
+    log_namespaced_levels:
+    z2m:mqtt: warning
+    log_directory: data/log/%TIMESTAMP%
+    log_file: zigbee2mqtt_%TIMESTAMP%.log
+    log_symlink_current: true
+    # log_output:
+    #   - console
+    #   - file
+ota:
+    update_check_interval: 10000
+    disable_automatic_update_check: true
+serial:
+    adapter: ember
+    port: {{ smarthome.zigbee_adapter }}
+    rtscts: true
+device_options:
+    legacy: false
