@@ -126,7 +126,6 @@
       - "--metrics.prometheus=true"
       - "--api.dashboard=true"
       - "--api.insecure=false"
-      - "--serversTransport.ignorecert="
       - "--serversTransport.insecureSkipVerify=true"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
