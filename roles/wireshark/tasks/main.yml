@@ -60,6 +60,8 @@
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
+      DOCKER_MODS: linuxserver/mods:universal-package-install
+      INSTALL_PACKAGES: libfuse2|git|gdb
     labels: "{{ dynamic_labels }}"
       # traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"

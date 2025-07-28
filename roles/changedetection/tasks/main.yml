@@ -43,6 +43,8 @@
     state: "started"
     restart: true
     restart_policy: "unless-stopped"
+    dns_servers:
+      - "8.8.4.4"
     networks:
       - name: "{{ smarthome.network }}"
         aliases:
