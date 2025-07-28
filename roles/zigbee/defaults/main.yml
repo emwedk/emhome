@@ -5,5 +5,5 @@ service:
   logdir: "{{ dir.log }}/{{ role_name }}"
   image: ghcr.io/koenkk/zigbee2mqtt
   version: "{{ app[role_name].version }}"
-  port: 8283
+  port: 8080
   domain: "{{ app[role_name].subdomain | default(role_name) }}.{{ smarthome.domain }}"
