@@ -1,5 +1,8 @@
 ---
 http:
+  serversTransports:
+    ignorecert:
+      insecureSkipVerify: true
   services:
     homeassistant-srv:
       loadBalancer:
