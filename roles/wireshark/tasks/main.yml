@@ -52,16 +52,14 @@
     #   - name: "{{ smarthome.network }}"
     #     aliases:
     #       - "{{ service.name }}"
-    exposed_ports:
-      - "{{ service.port }}:3000"
+    ports:
+      - "127.0.0.1:{{ service.port }}:3000"
     volumes:
       - "{{ service.dir }}:/config"
     env:
       TZ: "{{ tz }}"
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
-      DOCKER_MODS: linuxserver/mods:universal-package-install
-      INSTALL_PACKAGES: libfuse2|git|gdb
     labels: "{{ dynamic_labels }}"
       # traefik.enable: "true"
       # traefik.docker.network: "{{ smarthome.network }}"

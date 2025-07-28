@@ -45,12 +45,13 @@
     restart_policy: "unless-stopped"
     dns_servers:
       - "8.8.4.4"
+      - "8.8.8.8"
     networks:
       - name: "{{ smarthome.network }}"
         aliases:
           - "{{ service.name }}"
-    exposed_ports:
-      - "{{ service.port }}:5000"
+    ports:
+      - "127.0.0.1:{{ service.port }}:5000"
     volumes:
       - "{{ service.dir }}:/config"
     env:

@@ -56,8 +56,8 @@
       - name: "{{ smarthome.network }}"
         aliases:
           - "{{ service.name }}"
-    exposed_ports:
-      - "{{ service.port }}:3218"
+    ports:
+      - "127.0.0.1:{{ service.port }}:3218"
     volumes:
       - "{{ service.dir }}:/config"
       - "{{ app.homeassistant.dir }}:/hass-config"
