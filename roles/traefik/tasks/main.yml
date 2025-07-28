@@ -97,12 +97,12 @@
         aliases:
           - "{{ service.name }}"
       - name: bridge
-    # exposed_ports:
-    #   - "{{ service.port }}"
+    exposed_ports:
+      - "{{ service.port }}"
     ports:
       - "80:80"
       - "443:443"
-      - "127.0.0.1:{{ service.port }}:8080"
+      # - "127.0.0.1:{{ service.port }}:8080"
     etc_hosts:
       host.docker.internal: host-gateway
     volumes:
