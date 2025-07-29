@@ -1,4 +1,15 @@
 ---
+# - name: Enable Experimental mode for Bluetooth (enables battery monitoring of devices)
+#   lineinfile:
+#     dest: /etc/bluetooth/main.conf
+#     regexp: '^#(Experimental = )(false|true)'
+#     line: '\1true'
+#     backrefs: yes
+#     state: present
+
+# DEBUG: create a task to restart bluetooth in case of errors?
+
+
 - name: Get list of Bluetooth device names
   shell: |
     hciconfig | grep -o '^hci[0-9]\+'
@@ -11,4 +22,11 @@
   loop: "{{ bluetooth_devices.stdout_lines }}"
   when: bluetooth_devices.stdout_lines | length > 0
   changed_when: false
-  
+  ignore_errors: yes
+
+# - name: Comment out pipeline archive in fstab
+#   replace:
+#     dest: /etc/bluetooth/main.conf
+#     regexp: '^#Experimental = false'
+#     replace: 'Experimental = true'
+

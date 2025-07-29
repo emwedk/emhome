@@ -104,8 +104,8 @@
     network_mode: host
     volumes:
       - /etc/localtime:/etc/localtime
-      - /var/run/dbus:/var/run/dbus
-      # - /run/dbus/:/run/dbus/
+      # - /var/run/dbus:/var/run/dbus
+      - /run/dbus/:/run/dbus/
       # - /etc/bluetooth:/etc/bluetooth
       # - /dev:/dev
       # - /usr/share/dbus-1/system.d:/usr/share/dbus-1/system.d
@@ -115,11 +115,11 @@
       PUID: "{{ user.puid }}"
       PGID: "{{ user.pgid }}"
       DOCKER_MODS: "linuxserver/mods:homeassistant-hacs"
-    capabilities:
-      - NET_ADMIN
-      - NET_RAW
-      - NET_BIND_SERVICE
-      - SYS_ADMIN
+    # capabilities:
+    #   - NET_ADMIN
+    #   - NET_RAW
+    #   - NET_BIND_SERVICE
+    #   - SYS_ADMIN
 
     # devices:
     #   - "{{ smarthome.zigbee_adapter }}"
