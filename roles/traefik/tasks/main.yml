@@ -93,11 +93,10 @@
       - no-new-privileges=true
     # dns_servers:
     #   - "8.8.4.4"
-    # networks:
-    #   - name: web
-    #   - name: "{{ smarthome.network }}"
-    #     aliases:
-    #       - "{{ service.name }}"
+    networks:
+      - name: "{{ smarthome.network }}"
+        aliases:
+          - "{{ service.name }}"
     exposed_ports:
       - "{{ service.port }}"
     ports:
