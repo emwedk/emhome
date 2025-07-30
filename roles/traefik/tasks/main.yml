@@ -88,11 +88,11 @@
     state: started
     restart: true
     restart_policy: unless-stopped
-    privileged: true
+    # privileged: true
     # security_opts:
     #   - no-new-privileges=true
-    dns_servers:
-      - "192.168.0.1"
+    # dns_servers:
+    #   - "192.168.0.1"
     networks:
       - name: web
       - name: "{{ smarthome.network }}"
