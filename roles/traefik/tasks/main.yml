@@ -123,8 +123,8 @@
       DUCKDNS_DOMAIN: "{{ secret.duckdns.domain }}"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
       # DNS: "127.0.0.1"
-      DNS1: "127.0.0.1"
-      DNS2: "8.8.4.4"
+      DNS1: "8.8.4.4"
+      DNS2: "8.8.8.8"
     labels: "{{ dynamic_labels }}"
     command:
       - "--log.level=DEBUG"
