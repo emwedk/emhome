@@ -119,7 +119,6 @@
       DUCKDNS_TOKEN: "{{ secret.duckdns.token }}"
       DUCKDNS_DOMAIN: "{{ secret.duckdns.domain }}"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
-      DNS: "8.8.4.4"
     labels: "{{ dynamic_labels }}"
     command:
       - "--log.level=DEBUG"

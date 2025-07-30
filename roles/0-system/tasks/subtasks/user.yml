@@ -25,6 +25,9 @@
     groups: "{{ user.name }},docker,dialout,tty,bluetooth"
     append: yes
 
+- name: Reset SSH connection so the Docker user can run Docker commands
+  meta: reset_connection
+
 - name: "Ensure directory for container installations exists with proper permissions"
   file:
     path: "{{ dir.data }}"
