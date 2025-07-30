@@ -13,7 +13,7 @@
 
 - name: "Ensure network exists: web"
   community.docker.docker_network:
-    name: "{{ smarthome.network }}"
+    name: web
     internal: no
     state: "present"
   register: network_web
