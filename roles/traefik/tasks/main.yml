@@ -91,7 +91,7 @@
     # security_opts:
     #   - no-new-privileges=true
     dns_servers:
-      - "172.17.0.1"
+      - 172.17.0.1
     networks:
       - name: bridge
       - name: "{{ smarthome.network }}"
@@ -122,7 +122,7 @@
       DUCKDNS_TOKEN: "{{ secret.duckdns.token }}"
       DUCKDNS_DOMAIN: "{{ secret.duckdns.domain }}"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
-      # DNS: "8.8.4.4"
+      DNS: "172.17.0.1"
     labels: "{{ dynamic_labels }}"
     command:
       - "--log.level=DEBUG"
