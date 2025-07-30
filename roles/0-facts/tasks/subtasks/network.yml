@@ -15,7 +15,6 @@
   community.docker.docker_network:
     name: "{{ smarthome.network }}"
     internal: no
-    external: yes
     driver: "overlay"
     state: "present"
   register: network_web
