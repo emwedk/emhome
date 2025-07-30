@@ -1,4 +1,8 @@
 ---
+- name: Package Installs
+  import_tasks: "subtasks/package.yml"
+  # ignore_errors: yes
+
 - name: Gather System Info
   import_tasks: "subtasks/system.yml"
   # ignore_errors: yes

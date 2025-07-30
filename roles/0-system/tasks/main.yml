@@ -7,10 +7,6 @@
   import_tasks: "subtasks/user.yml"
   # ignore_errors: yes
 
-- name: Package Installs
-  import_tasks: "subtasks/package.yml"
-  # ignore_errors: yes
-
 - name: Network Tasks
   import_tasks: "subtasks/network.yml"
   # ignore_errors: yes
