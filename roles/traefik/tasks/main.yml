@@ -91,8 +91,8 @@
     # privileged: true
     # security_opts:
     #   - no-new-privileges=true
-    dns_servers:
-      - "127.0.0.11"
+    # dns_servers:
+    #   - "127.0.0.11"
     networks:
       - name: web
       - name: "{{ smarthome.network }}"
