@@ -91,8 +91,9 @@
     # privileged: true
     security_opts:
       - no-new-privileges=true
-    # dns_servers:
-    #   - "172.16.0.1"
+    dns_servers:
+      - "8.8.8.8"
+      - "8.8.4.4"
     networks:
       - name: "{{ smarthome.network }}"
         aliases:
@@ -122,7 +123,7 @@
       DUCKDNS_TOKEN: "{{ secret.duckdns.token }}"
       DUCKDNS_DOMAIN: "{{ secret.duckdns.domain }}"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
-      # DNS: "8.8.8.8,8.8.4.4"
+      DNS: "8.8.8.8,8.8.4.4"
       DNS1: "8.8.8.8"
       DNS2: "8.8.4.4"
     labels: "{{ dynamic_labels }}"
