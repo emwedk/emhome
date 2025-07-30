@@ -62,7 +62,6 @@ cull:##..................Remove all containers
 
 .PHONY: install-ansible
 install-ansible:##..................Install Ansible if not already installed
-	shift
 	@if ! ansible --version >/dev/null 2>&1; then \
 		echo "Installing Ansible"; \
 		sudo apk add --no-interactive --no-cache ansible; \
