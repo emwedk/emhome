@@ -91,10 +91,10 @@
     # privileged: true
     # security_opts:
     #   - no-new-privileges=true
-    # dns_servers:
-    #   - "192.168.0.1"
+    dns_servers:
+      - "192.168.0.1"
     networks:
-      - name: host
+      - name: web
       - name: "{{ smarthome.network }}"
         aliases:
           - "{{ service.name }}"
