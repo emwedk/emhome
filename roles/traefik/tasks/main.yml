@@ -92,6 +92,7 @@
     #   - no-new-privileges=true
     dns_servers:
       - "8.8.4.4"
+      - "8.8.8.8"
     networks:
       - name: bridge
       - name: "{{ smarthome.network }}"
