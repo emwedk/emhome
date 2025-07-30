@@ -1,12 +1,11 @@
 ---
-- name: Allow current user to escalate with doas without password
-  copy:
-    dest: "/etc/doas.d/20-{{ user.name }}.conf"
-    content: "permit nopass {{ user.name }} as root\n"
-    owner: root
-    group: root
-    mode: '0755'
-
+# - name: Allow current user to escalate with doas without password
+#   copy:
+#     dest: "/etc/doas.d/20-{{ user.name }}.conf"
+#     content: "permit nopass {{ user.name }} as root\n"
+#     owner: root
+#     group: root
+#     mode: '0755'
 
 - name: Create common groups
   group:
