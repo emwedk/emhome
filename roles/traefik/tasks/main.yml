@@ -92,13 +92,12 @@
     security_opts:
       - no-new-privileges=true
     dns_servers:
-      - "8.8.8.8"
       - "8.8.4.4"
-    # networks:
-    #   - name: "bridge"
-    #   - name: "{{ smarthome.network }}"
-    #     aliases:
-    #       - "{{ service.name }}"
+    networks:
+      - name: "bridge"
+      - name: "{{ smarthome.network }}"
+        aliases:
+          - "{{ service.name }}"
     exposed_ports:
       - "{{ service.port }}"
     ports:
@@ -126,8 +125,9 @@
       DUCKDNS_DOMAIN: "{{ secret.duckdns.domain }}"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
       # DNS: "8.8.8.8,8.8.4.4"
-      DNS1: "8.8.8.8"
-      DNS2: "8.8.4.4"
+      # DNS1: "8.8.8.8"
+      DNS1: "8.8.4.4"
+      # DNS2: "8.8.4.4"
     labels: "{{ dynamic_labels }}"
     command:
       - "--log.level=DEBUG"
