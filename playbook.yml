@@ -16,7 +16,7 @@
     - { role: traefik,        tags: ['core', 'home', 'traefik',] }
     - { role: duckdns,        tags: ['home', 'duckdns'] }
 
-    - { role: portainer,      tags: ['home', 'traefik'] }
+    - { role: portainer,      tags: ['home', 'portainer'] }
     # - { role: grafana,        tags: ['home', 'grafana'] }
 
     - { role: mosquitto,      tags: ['home', 'mosquitto'] }
