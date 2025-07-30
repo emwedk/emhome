@@ -7,6 +7,7 @@
 - name: "Ensure network exists: {{ smarthome.network }}"
   community.docker.docker_network:
     name: "{{ smarthome.network }}"
+    internal: no
     state: "present"
   register: network_proxy
 
