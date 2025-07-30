@@ -91,7 +91,7 @@
     # security_opts:
     #   - no-new-privileges=true
     dns_servers:
-      - "8.8.4.4"
+      - "172.17.0.1"
     networks:
       - name: bridge
       - name: "{{ smarthome.network }}"
