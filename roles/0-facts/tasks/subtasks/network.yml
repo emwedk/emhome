@@ -11,6 +11,15 @@
     state: "present"
   register: network_proxy
 
+- name: "Ensure network exists: web"
+  community.docker.docker_network:
+    name: "{{ smarthome.network }}"
+    internal: no
+    external: yes
+    driver: "overlay"
+    state: "present"
+  register: network_web
+
 - name: Add trusted networks to smarthome dictionary
   set_fact:
     smarthome: >-
