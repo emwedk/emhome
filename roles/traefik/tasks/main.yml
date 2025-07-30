@@ -90,8 +90,8 @@
     restart_policy: unless-stopped
     # security_opts:
     #   - no-new-privileges=true
-    # dns_servers:
-    #   - "127.0.0.1"
+    dns_servers:
+      - "127.0.0.1"
     networks:
       - name: bridge
       - name: "{{ smarthome.network }}"
