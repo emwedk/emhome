@@ -113,6 +113,7 @@
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/resolv.conf:/etc/resolv.conf:ro
       - "{{ service.dir }}/traefik_dynamic.yml:/etc/traefik/traefik_dynamic.yml"
       - "{{ service.dir }}/letsencrypt:/etc/traefik/letsencrypt"
       - "{{ service.logdir }}:/var/log"
