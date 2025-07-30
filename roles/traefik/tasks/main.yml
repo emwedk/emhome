@@ -139,7 +139,7 @@
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       - "--entrypoints.websecure.address=:443"
-      # - "--entrypoints.websecure.asDefault=true"
+      - "--entrypoints.websecure.asDefault=true"
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
       - "--entrypoints.websecure.http.tls.domains[0].main={{ smarthome.domain }}"
