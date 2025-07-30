@@ -90,8 +90,8 @@
     restart_policy: unless-stopped
     # security_opts:
     #   - no-new-privileges=true
-    dns_servers:
-      - "127.0.0.1"
+    # dns_servers:
+    #   - "127.0.0.1"
     networks:
       - name: bridge
       - name: "{{ smarthome.network }}"
@@ -105,9 +105,9 @@
       # - "127.0.0.1:{{ service.port }}:8080"
     etc_hosts:
       host.docker.internal: host-gateway
-    capabilities:
-      - NET_ADMIN
-      - NET_RAW
+    # capabilities:
+    #   - NET_ADMIN
+    #   - NET_RAW
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -146,7 +146,7 @@
       - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/letsencrypt/acme.json"
       - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-v02.api.letsencrypt.org/directory"
       # - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory" # letsencrypt staging server
-      - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=127.0.0.1:53"
+      # - "--certificatesresolvers.letsencrypt.acme.dnschallenge.resolvers=127.0.0.1:53"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
