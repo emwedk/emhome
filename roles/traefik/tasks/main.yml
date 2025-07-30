@@ -88,6 +88,7 @@
     state: started
     restart: true
     restart_policy: unless-stopped
+    privileged: true
     # security_opts:
     #   - no-new-privileges=true
     # dns_servers:
@@ -123,8 +124,8 @@
       DUCKDNS_DOMAIN: "{{ secret.duckdns.domain }}"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
       # DNS: "127.0.0.1"
-      DNS1: "8.8.4.4"
-      DNS2: "8.8.8.8"
+      # DNS1: "8.8.4.4"
+      # DNS2: "8.8.8.8"
     labels: "{{ dynamic_labels }}"
     command:
       - "--log.level=DEBUG"
