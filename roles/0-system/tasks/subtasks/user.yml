@@ -33,23 +33,25 @@
     group: "{{ user.name }}"
     mode: '0755'
 
-- name: Copy sxmo doas conf for user
-  copy:
-    src: /etc/doas.d/sxmo.conf
-    dest: "/etc/doas.d/{{ user.name }}.conf"
-    owner: "root"
-    group: "root"
-    mode: '0755'
-  tags: rebuild
-  when: system_os == "postmarketos"
 
-- name: Replace :wheel with {{ user.name }} in user's doas conf
-  replace:
-    path: "/etc/doas.d/{{ user.name }}.conf"
-    regexp: ":wheel"
-    replace: "{{ user.name }}"
-  tags: rebuild
-  when: system_os == "postmarketos"
+# # FOR SXMO INTERFACE
+# - name: Copy sxmo doas conf for user
+#   copy:
+#     src: /etc/doas.d/sxmo.conf
+#     dest: "/etc/doas.d/{{ user.name }}.conf"
+#     owner: "root"
+#     group: "root"
+#     mode: '0755'
+#   tags: rebuild
+#   when: system_os == "postmarketos"
+
+# - name: Replace :wheel with {{ user.name }} in user's doas conf
+#   replace:
+#     path: "/etc/doas.d/{{ user.name }}.conf"
+#     regexp: ":wheel"
+#     replace: "{{ user.name }}"
+#   tags: rebuild
+#   when: system_os == "postmarketos"
 
 # - name: Ensure doas.conf allows passwordless chown for Bluetooth devices
 #   ansible.builtin.lineinfile:
