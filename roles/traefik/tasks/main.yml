@@ -101,6 +101,7 @@
     exposed_ports:
       - "{{ service.port }}"
     ports:
+      - "53:53"
       - "80:80"
       - "443:443"
       # - "127.0.0.1:{{ service.port }}:8080"
