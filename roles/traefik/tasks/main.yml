@@ -95,6 +95,7 @@
       - "8.8.8.8"
       - "8.8.4.4"
     networks:
+      - name: "bridge"
       - name: "{{ smarthome.network }}"
         aliases:
           - "{{ service.name }}"
