@@ -165,8 +165,8 @@
   shell: |
     set -e
     # Run nslookup for debugging
-    echo "$(docker exec -t {{ service.name }} sh -c 'nslookup -type=TXT _acme-challenge.{{ smarthome.domain }} 8.8.4.4')"
-    echo "$(nslookup -type=TXT _acme-challenge.{{ smarthome.domain }} 8.8.4.4)"
+    docker exec -t {{ service.name }} sh -c 'nslookup -type=TXT _acme-challenge.{{ smarthome.domain }} 8.8.4.4'
+    nslookup -type=TXT _acme-challenge.{{ smarthome.domain }} 8.8.4.4
     # Check if acme.json exists and is not empty
     if [ ! -s "{{ service.dir }}/letsencrypt/acme.json" ]; then
       echo "acme.json does not exist or is empty"
