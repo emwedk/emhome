@@ -8,7 +8,7 @@
   tasks:
     - name: Read acme.json content
       slurp:
-        src: "{{ acme_json_path }}"
+        src: "/opt/traefik/letsencrypt/acme.json"
       register: acme_json_content
 
     - name: DEBUG
