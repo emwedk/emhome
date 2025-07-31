@@ -163,26 +163,8 @@
 - name: Wait until acme.json is not empty and Certificates is not null
   vars:
     acme_json_path: "{{ service.dir }}/letsencrypt/acme.json"
-    acme_challenge_domain: "_acme-challenge.{{ secret.duckdns.domain }}"
-  block:
-    - name: Run nslookup for ACME challenge (for debugging)
-      shell: |
-        docker exec -t {{ service.name }} sh -c 'nslookup -type=TXT {{ acme_challenge_domain }}'
-      register: nslookup_result
-      ignore_errors: true
-      changed_when: false
-
-    - name: Read acme.json content
-      slurp:
-        src: "{{ acme_json_path }}"
-      register: acme_json_content
-
-    - name: Parse acme.json and check Certificates
-      set_fact:
-        acme_json_data: "{{ acme_json_content['content'] | b64decode | from_json }}"
-        certificates_value: "{{ (acme_json_content['content'] | b64decode | from_json).letsencrypt.Certificates | default(None) }}"
-
-  register: acme_json_check
+    acme_challenge_domain: "_acme-challenge.{{ smarthome.domain }}"
+  include_tasks: wait_for_acme_certificates.yml
   until: >
     acme_json_data | length > 0 and
     (acme_json_data.letsencrypt.Certificates | default(None)) is not none
