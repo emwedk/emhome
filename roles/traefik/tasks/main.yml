@@ -106,9 +106,9 @@
       # - "127.0.0.1:{{ service.port }}:8080"
     etc_hosts:
       host.docker.internal: host-gateway
-    capabilities:
-      - NET_ADMIN
-      - NET_RAW
+    # capabilities:
+    #   - NET_ADMIN
+    #   - NET_RAW
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
