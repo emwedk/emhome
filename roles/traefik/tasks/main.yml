@@ -180,7 +180,7 @@
   register: acme_check_result
   until: acme_check_result.rc == 0
   retries: 120
-  delay: 3
+  delay: 1
   changed_when: false
 
 - name: Install traefik-certs-dumper
