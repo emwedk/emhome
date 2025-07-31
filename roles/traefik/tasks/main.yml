@@ -160,5 +160,34 @@
       - "--providers.file.filename=/etc/traefik/traefik_dynamic.yml"
       - "--providers.file.watch=true"
 
+- name: Wait until acme.json is not empty and Certificates is not null
+  vars:
+    acme_json_path: "{{ service.dir }}/letsencrypt/acme.json"
+    acme_challenge_domain: "_acme-challenge.{{ secret.duckdns.domain }}"
+  block:
+    - name: Run nslookup for ACME challenge (for debugging)
+      shell: |
+        docker exec -t {{ service.name }} sh -c 'nslookup -type=TXT {{ acme_challenge_domain }}'
+      register: nslookup_result
+      ignore_errors: true
+      changed_when: false
+
+    - name: Read acme.json content
+      slurp:
+        src: "{{ acme_json_path }}"
+      register: acme_json_content
+
+    - name: Parse acme.json and check Certificates
+      set_fact:
+        acme_json_data: "{{ acme_json_content['content'] | b64decode | from_json }}"
+        certificates_value: "{{ (acme_json_content['content'] | b64decode | from_json).Certificates | default(None) }}"
+
+  register: acme_json_check
+  until: >
+    acme_json_content['content'] | b64decode | length > 0 and
+    (acme_json_content['content'] | b64decode | from_json).Certificates is not none
+  retries: 60
+  delay: 5
+
 - name: Install traefik-certs-dumper
   import_tasks: "subtasks/cert_dumper.yml"
