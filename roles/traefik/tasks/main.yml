@@ -124,6 +124,7 @@
       DUCKDNS_TOKEN: "{{ secret.duckdns.token }}"
       DUCKDNS_DOMAIN: "{{ secret.duckdns.domain }}"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
+      DUCKDNS_POLLING_INTERVAL: "8"
       # DNS: "8.8.8.8,8.8.4.4"
       # DNS1: "8.8.8.8"
       DNS1: "8.8.4.4"
@@ -164,8 +165,6 @@
   shell: |
     set -e
     # Run nslookup for debugging
-    echo $(docker exec -t {{ service.name }} sh -c 'nslookup -type=TXT _acme-challenge.{{ smarthome.domain }}')
-    echo $(nslookup -type=TXT _acme-challenge.{{ smarthome.domain }})
     echo $(docker exec -t {{ service.name }} sh -c 'nslookup -type=TXT _acme-challenge.{{ smarthome.domain }} 8.8.4.4')
     echo $(nslookup -type=TXT _acme-challenge.{{ smarthome.domain }} 8.8.4.4)
     # Check if acme.json exists and is not empty
@@ -181,7 +180,7 @@
   register: acme_check_result
   until: acme_check_result.rc == 0
   retries: 120
-  delay: 5
+  delay: 3
   changed_when: false
 
 - name: Install traefik-certs-dumper
