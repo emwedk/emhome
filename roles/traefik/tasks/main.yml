@@ -180,12 +180,12 @@
     - name: Parse acme.json and check Certificates
       set_fact:
         acme_json_data: "{{ acme_json_content['content'] | b64decode | from_json }}"
-        certificates_value: "{{ (acme_json_content['content'] | b64decode | from_json).Certificates | default(None) }}"
+        certificates_value: "{{ (acme_json_content['content'] | b64decode | from_json).letsencrypt.Certificates | default(None) }}"
 
   register: acme_json_check
   until: >
-    acme_json_content['content'] | b64decode | length > 0 and
-    (acme_json_content['content'] | b64decode | from_json).Certificates is not none
+    acme_json_data | length > 0 and
+    certificates_value.Certificates is not none
   retries: 60
   delay: 5
 

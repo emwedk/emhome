@@ -25,6 +25,8 @@
       debug:
         var: certificates_value
 
+    
+
     # - name: Read /etc/os-release
     #   ansible.builtin.slurp:
     #     src: /etc/os-release
