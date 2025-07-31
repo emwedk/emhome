@@ -16,17 +16,11 @@
           echo "acme.json does not exist or is empty"
           exit 1
         fi
-        # Check if Certificates is not null using jq
-        if ! jq -e '.letsencrypt.Certificates != null' "/opt/traefik/letsencrypt/acme.json" >/dev/null 2>&1; then
-          echo "Certificates is null"
-          exit 1
-        fi
       register: acme_check_result
       until: acme_check_result.rc == 0
       retries: 60
       delay: 5
       changed_when: false
-      delegate_to: localhost
 
     
 
