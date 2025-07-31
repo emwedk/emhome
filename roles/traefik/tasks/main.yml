@@ -125,6 +125,7 @@
       DUCKDNS_DOMAIN: "{{ secret.duckdns.domain }}"
       DUCKDNS_SUBDOMAIN: "{{ secret.duckdns.domain }}"
       DUCKDNS_POLLING_INTERVAL: "8"
+      DUCKDNS_PROPAGATION_TIMEOUT: "120"
       # DNS: "8.8.8.8,8.8.4.4"
       # DNS1: "8.8.8.8"
       # DNS1: "8.8.4.4"
