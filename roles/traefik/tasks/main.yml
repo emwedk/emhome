@@ -164,14 +164,15 @@
   shell: |
     set -e
     # Run nslookup for debugging
-    docker exec -t traefik sh -c 'nslookup -type=TXT _acme-challenge.emwe.duckdns.org'
+    echo $(docker exec -t {{ service.name }} sh -c 'nslookup -type=TXT _acme-challenge.{{ smarthome.domain }}')
+    echo $(nslookup -type=TXT _acme-challenge.{{ smarthome.domain }})
     # Check if acme.json exists and is not empty
-    if [ ! -s "/opt/traefik/letsencrypt/acme.json" ]; then
+    if [ ! -s "{{ service.dir }}/letsencrypt/acme.json" ]; then
       echo "acme.json does not exist or is empty"
       exit 1
     fi
     # Check if Certificates is not null using jq
-    if grep -q '"Certificates": null' "/opt/traefik/letsencrypt/acme.json"; then
+    if grep -q '"Certificates": null' "{{ service.dir }}/letsencrypt/acme.json"; then
       echo "Certificates is null"
       exit 1
     fi
