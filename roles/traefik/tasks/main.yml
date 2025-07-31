@@ -185,7 +185,7 @@
   register: acme_json_check
   until: >
     acme_json_data | length > 0 and
-    certificates_value.Certificates is not none
+    (acme_json_data.letsencrypt.Certificates | default(None)) is not none
   retries: 60
   delay: 5
 
