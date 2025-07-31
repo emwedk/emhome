@@ -6,24 +6,27 @@
   gather_facts: true
 
   tasks:
-    - name: Read acme.json content
-      slurp:
-        src: "/opt/traefik/letsencrypt/acme.json"
-      register: acme_json_content
-
-    - name: Parse acme.json and check Certificates
-      set_fact:
-        acme_json_data: "{{ acme_json_content['content'] | b64decode | from_json }}"
-        certificates_value: "{{ (acme_json_content['content'] | b64decode | from_json).letsencrypt.Certificates | default(None) }}"
-
-
-    - name: DEBUG
-      debug:
-        var: acme_json_data
-
-    - name: DEBUG 2
-      debug:
-        var: certificates_value
+    - name: Wait for acme.json to have non-null Certificates and run nslookup on every retry
+      shell: |
+        set -e
+        # Run nslookup for debugging
+        docker exec -t traefik sh -c 'nslookup -type=TXT _acme-challenge.emwe.duckdns.org'
+        # Check if acme.json exists and is not empty
+        if [ ! -s "/opt/traefik/letsencrypt/acme.json" ]; then
+          echo "acme.json does not exist or is empty"
+          exit 1
+        fi
+        # Check if Certificates is not null using jq
+        if ! jq -e '.letsencrypt.Certificates != null' "/opt/traefik/letsencrypt/acme.json" >/dev/null 2>&1; then
+          echo "Certificates is null"
+          exit 1
+        fi
+      register: acme_check_result
+      until: acme_check_result.rc == 0
+      retries: 60
+      delay: 5
+      changed_when: false
+      delegate_to: localhost
 
     
 
