@@ -5,7 +5,7 @@
 
 - name: Set os_role_path Fact
   set_fact:
-    os_role_path: "{{ role_path }}/os/{{ system_os }}.yml"
+    os_role_path: "{{ role_path }}/tasks/os/{{ system_os }}.yml"
 
 - name: debug system_os
   debug:
