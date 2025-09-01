@@ -7,6 +7,14 @@
     sysctl_set: true
     state: present
     reload: yes
+- name: Ensure net.ipv4.ip_forward is enabled
+  copy:
+    dest: /etc/sysctl.d/90-enable-forward.conf
+    content: |
+      net.ipv4.ip_forward=1
+    owner: root
+    group: root
+    mode: '0644'
 
 # # --- Manage a dedicated block in /etc/hosts for smarthome domains ---
 # - name: "Ensure smarthome domains are mapped to 127.0.0.1 in /etc/hosts"
