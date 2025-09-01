@@ -5,12 +5,9 @@ default_config:
 frontend:
   themes: !include_dir_merge_named themes
 
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
-
 homeassistant:
   {{ homeassistant | combine(secret.homeassistant | default({}), recursive=true) | to_nice_yaml | indent(2) }}
+  customize: !include customize.yaml
 http:
   ip_ban_enabled: false
   login_attempts_threshold: 12
@@ -20,4 +17,10 @@ http:
   server_host: 0.0.0.0
 
 logger:
-  default: info
+  default: error
+
+group: !include_dir_merge_named groups
+automation: !include_dir_merge_list automations
+script: !include_dir_merge_list scripts
+scene: !include_dir_merge_list scenes
+shell_command: !include_dir_merge_named shell_commands

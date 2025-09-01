@@ -42,8 +42,12 @@
     group: "{{ user.name }}"
     mode: '0755'
   loop:
-    - automations
     - themes
+    - groups
+    - automations
+    - scripts
+    - scenes
+    - shell_commands
 
 - name: Ensure Home Assistant include files exist
   copy:
@@ -54,11 +58,11 @@
     mode: "0644"
     force: no
   loop:
-    - automations.yaml
+    # - automations.yaml
     - customize.yaml
-    - groups.yaml
-    - scripts.yaml
-    - scenes.yaml
+    # - groups.yaml
+    # - scripts.yaml
+    # - scenes.yaml
     - template.yaml
 
 # - name: Build dynamic labels dictionary
