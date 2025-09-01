@@ -1,6 +1,12 @@
 ---
-
-
+# allow ip forwarding in sysctl to allow docker containers to connect to the internet
+- name: Ensure net.ipv4.ip_forward is enabled
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: true
+    state: present
+    reload: yes
 
 # # --- Manage a dedicated block in /etc/hosts for smarthome domains ---
 # - name: "Ensure smarthome domains are mapped to 127.0.0.1 in /etc/hosts"
