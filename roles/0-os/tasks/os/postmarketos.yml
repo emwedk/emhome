@@ -5,19 +5,21 @@
     name: postmarketos-tweaks
     state: present
 
-# disable requiring unlock in Phosh
-- name: disable requiring unlock in Phosh
-  ansible.builtin.shell: |
-    gsettings set sm.puri.phosh.lockscreen require-unlock false
+# FOLLOWING DOESNT WORK - throws errors like: failed to commit changes to dconf
+# it could probably be added to postmarketos-tweaks settings in /usr/share/postmarketos-tweaks
+# # disable requiring unlock in Phosh
+# - name: disable requiring unlock in Phosh
+#   ansible.builtin.shell: |
+#     gsettings set sm.puri.phosh.lockscreen require-unlock false
 
-# disable lock on suspend in Gnome
-- name: disable lock on suspend in Phosh
-  ansible.builtin.shell: |
-    gsettings set org.gnome.desktop.screensaver lock-enabled false
+# # disable lock on suspend in Gnome
+# - name: disable lock on suspend in Phosh
+#   ansible.builtin.shell: |
+#     gsettings set org.gnome.desktop.screensaver lock-enabled false
 
-# disable lockscreen in Gnome
-- name: disable lockscreen in Phosh
-  ansible.builtin.shell: |
-    gsettings set org.gnome.desktop.lockdown disable-lock-screen true
+# # disable lockscreen in Gnome
+# - name: disable lockscreen in Phosh
+#   ansible.builtin.shell: |
+#     gsettings set org.gnome.desktop.lockdown disable-lock-screen true
 
 
