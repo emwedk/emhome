@@ -16,6 +16,10 @@
     path: "{{ os_role_path }}"
   register: os_tasks_file
 
+- name: debug system_os
+  debug:
+    var: os_tasks_file
+
 - name: Include OS specific Tasks
   include_tasks:
     file: "{{ os_role_path }}"
