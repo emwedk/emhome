@@ -1,4 +1,8 @@
 ---
+- name: debug system_os
+  debug:
+    var: system_os
+    
 - name: Set os_role_path Fact
   set_fact:
     os_role_path: "{{ role_path }}/os/{{ system_os }}.yml"
