@@ -1,24 +1,12 @@
 ---
-- name: debug system_os
-  debug:
-    var: system_os
-
 - name: Set os_role_path Fact
   set_fact:
     os_role_path: "{{ role_path }}/tasks/os/{{ system_os }}.yml"
 
-- name: debug system_os
-  debug:
-    var: os_role_path
-
 - name: Check if OS specific tasks file exists
-  ansible.builtin.stat:
+  stat:
     path: "{{ os_role_path }}"
   register: os_tasks_file
-
-- name: debug system_os
-  debug:
-    var: os_tasks_file
 
 - name: Include OS specific Tasks
   include_tasks:
