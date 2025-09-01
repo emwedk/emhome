@@ -1,6 +1,6 @@
 ---
 homeassistant:
-  name: Home
+  name: emHome
   time_zone: "{{ tz }}"
   external_url: "http://{{ smarthome.domain }}"
   internal_url: "http://localhost:8123"
