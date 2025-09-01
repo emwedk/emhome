@@ -5,5 +5,5 @@
   register: os_tasks_file
 
 - name: Include OS specific Tasks
-  include_tasks: "{{ role_path }}/os/{{ system_os }}.yml"
+  include_role: "{{ role_path }}/os/{{ system_os }}.yml"
   when: os_tasks_file.stat.exists
