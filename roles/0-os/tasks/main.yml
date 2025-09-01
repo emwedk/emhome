@@ -10,6 +10,6 @@
   register: os_tasks_file
 
 - name: Include OS specific Tasks
-  import_tasks:
+  include_tasks:
     file: "{{ os_role_path }}"
   when: os_tasks_file.stat.exists
