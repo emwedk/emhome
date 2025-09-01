@@ -1,3 +1,4 @@
+---
 - name: debug system_os
   debug:
     var: system_os
