@@ -12,7 +12,7 @@
     - { role: 0-pkgs,           tags: ['core', 'home', 'pkgs'] }
     - { role: docker,           tags: ['core', 'home', 'docker'] }
     - { role: 0-facts,          tags: ['core', 'home', 'facts', 'always'] }
-    - { role: 0-os,             tags: ['core', 'home', 'os'] }
+    - { role: 0-os,             tags: ['core', 'home', 'os', 'always'] }
     - { role: 0-system,         tags: ['core', 'home', 'system'] }
     - { role: traefik,          tags: ['core', 'home', 'traefik'] }
     - { role: duckdns,          tags: ['home', 'duckdns'] }
