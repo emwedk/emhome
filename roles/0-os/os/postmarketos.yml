@@ -4,3 +4,20 @@
   package:
     name: postmarketos-tweaks
     state: present
+
+# disable requiring unlock in Phosh
+- name: disable requiring unlock in Phosh
+  ansible.builtin.command: >
+    gsettings set sm.puri.phosh.lockscreen require-unlock false
+
+# disable lock on suspend in Gnome
+- name: disable lock on suspend in Phosh
+  ansible.builtin.command: >
+    gsettings set org.gnome.desktop.screensaver lock-enabled false
+
+# disable lockscreen in Gnome
+- name: disable lockscreen in Phosh
+  ansible.builtin.command: >
+    gsettings set org.gnome.desktop.lockdown disable-lock-screen true
+
+
