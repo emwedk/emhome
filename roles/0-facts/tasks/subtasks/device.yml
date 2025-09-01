@@ -9,6 +9,11 @@
 
 # DEBUG: create a task to restart bluetooth in case of errors?
 
+- name: Ensure Bluetooth service is started and enabled
+  service:
+    name: bluetooth
+    state: started
+    enabled: yes
 
 - name: Get list of Bluetooth device names
   shell: |
@@ -23,6 +28,8 @@
   when: bluetooth_devices.stdout_lines | length > 0
   changed_when: false
   ignore_errors: yes
+
+
 
 # - name: Comment out pipeline archive in fstab
 #   replace:
