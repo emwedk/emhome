@@ -9,6 +9,6 @@
   register: os_tasks_file
 
 - name: Include OS specific Tasks
-  ansible.builtin.include_tasks: 
+  import_tasks: 
     file: "{{ os_role_path }}"
   when: os_tasks_file.stat.exists
