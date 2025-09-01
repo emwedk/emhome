@@ -1,12 +1,12 @@
 ---
 # allow ip forwarding in sysctl to allow docker containers to connect to the internet
-- name: Ensure net.ipv4.ip_forward is enabled
-  sysctl:
-    name: net.ipv4.ip_forward
-    value: '1'
-    sysctl_set: true
-    state: present
-    reload: yes
+# - name: Ensure net.ipv4.ip_forward is enabled
+#   sysctl:
+#     name: net.ipv4.ip_forward
+#     value: '1'
+#     sysctl_set: true
+#     state: present
+#     reload: yes
 - name: Ensure net.ipv4.ip_forward is enabled
   copy:
     dest: /etc/sysctl.d/90-enable-forward.conf
